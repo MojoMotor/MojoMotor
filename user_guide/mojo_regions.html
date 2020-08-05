@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+
+<style type='text/css' media='all'>@import url('userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='userguide.css' />
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='MojoMotor user Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://mojomotor.com/">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+MojoMotor Regions
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>MojoMotor Regions</h1>
+
+<p>Simply put, a region is an editable area of your <a href="admin/admin_layouts.html">Layout</a>. They are identified by adding special CSS classes into
+your markup.</p>
+
+<h2>Page Regions</h2>
+
+<p>Page regions are areas of unique content on each page.</p>
+
+<h2>Global Regions</h2>
+
+<p>Global regions are repeating areas of content, that appear on multiple pages. Changing a Global region on any page will change it
+across <em>all</em> pages where it is found <em>that are based on the same layout</em>.</p>
+
+<p class="important">Global Regions are per layout, not per site. Page Regions are per page.</p>
+
+<p class="important">Both Page and Global regions are not intended to be nested inside other regions.</p>
+
+<p class="important">Mojo tags cannot be used inside of editable regions.</p>
+
+<h2>Super Global Regions</h2>
+
+<p>When a Global region is used in a layout that is <a href="mojo_tags.html#embed">embedded</a> in another layout, the Global region will work across all layouts that embed that layout.  The system will automatically identify these regions as 'Super Global' in the editor for clarity.  In all other respects, a Super Global works just like a Global region.</p>
+
+
+<h2>Creating regions as an Admin member</h2>
+
+<p>Because editable regions live in layouts, and only admin-members can access layouts, the editable regions must be created by admin users. To add one, simply
+wrap the content in any block element (for example, &lt;div&gt;, &lt;p&gt; or &lt;li&gt;). This element should then be given the special CSS class
+"mojo_page_region" (for pages that require different content on each page), or "mojo_global_region" (if you are creating global regions with the same content
+across multiple pages). You can assign that element an id attribute (for tracking), and if you don't assign one, MojoMotor will create one for you (adding your own
+id attributes is recommended).</p>
+
+<code>
+&lt;!-- example of unmarked code --&gt;<br />
+...<br />
+&lt;h1>Page Title&lt;/h1><br />
+&lt;h2>sub-title, common to every page&lt;/h2><br />
+&lt;p>We'll make this paragraph editable&lt;/p><br />
+</code>
+<p>becomes</p>
+
+<code>
+&lt;!-- example of marked-up code --&gt;<br />
+...<br />
+&lt;h1>Page Title&lt;/h1><br />
+&lt;h2>sub-title, common to every page&lt;/h2><br />
+&lt;div id="page_content" class="mojo_page_region"><br />
+&lt;p>We'll make this paragraph editable&lt;/p><br />
+&lt;/div>
+</code>
+
+<h2>Using Regions</h2>
+
+<p>If the MojoMotor toolbar is exposed, regions are highlighted for you. To edit the content of a region, simply click into it.
+MojoMotor will spawn the <a href="mojo_editor.html">Editor</a> for you.</p>
+
+<p>Example of regions visible to a logged in user.<br /><img src="images/region_preview.png" alt=""></p>
+
+<p>Example of the same region in WYSIWYG edit mode.<br /><img src="images/region_edit.png" alt=""></p>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+<p><a href="http://mojomotor.com">MojoMotor</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body>
+</html>

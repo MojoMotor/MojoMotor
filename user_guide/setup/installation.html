@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+
+
+<style type="text/css" media="all">@import url('../userguide.css');</style>
+<link rel="stylesheet" type="text/css" media="all" href="../userguide.css" />
+
+<meta http-equiv="expires" content="-1" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="robots" content="all" />
+<meta name="author" content="MojoMotor Development Team" />
+<meta name="description" content="MojoMotor user Guide" /></head><body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</tbody></table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td id="breadcrumb">
+<a href="../">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Setup</a> &nbsp;&#8250;&nbsp;
+Installation
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" type="hidden" />Search User Guide&nbsp; <input class="input" style="width: 200px;" name="q" id="q" size="31" maxlength="255" value="" type="text" />&nbsp;<input class="submit" name="sa" value="Go" type="submit" /></form></td>
+</tr>
+</tbody></table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Installing MojoMotor</h1>
+
+<h2>Installing MojoMotor</h2>
+<p>The installation process for MojoMotor is built to be as simple as possible. Before you get started, please read the <a href="requirements.html">MojoMotor requirements</a>.</p>
+
+<ol>
+	<li>Upload the "system", "import", and "mm_uploads" folders as well as the "index.php" file to your website.</li>
+	<li>Point your browser to http://example.com/index.php, and you'll be met with a greeting message.
+		<div class="important"><strong>Tip:</strong> If you don't see a MojoMotor page, check if you have an index.html page, and rename or delete it. On some servers, index.html will "overpower" dynamic systems like MojoMotor.</div>
+	</li>
+	<li>Have your database information handy. If you don't have a database, you'll need to create one at this stage, or speak to your webhost to acquire one.</li>
+	<li>To run the installer, you need to visit the following page in your browser (change "yoursite.com" to whatever your
+actual address is) <code>http://example.com/index.php/setup</code></li>
+	<li>After agreeing to the MojoMotor license, you will be presented
+with an installation wizard that will ask you a few simple questions about your site, and automatically handle the process from
+there.</li>
+</ol>
+
+<p>In order to install, MojoMotor needs a few files to be "writable" by PHP. It will try to take care of this for you, but if it
+cannot, the wizard will prompt you to change the permissions, or use the <a href="alternate_installation.html">alternate installation</a> instructions.</p>
+
+<h2><a name="wizard"></a>Installation Wizard</h2>
+
+<p><img src="../images/wizard.png" /></p>
+
+<h3>Site Settings</h3>
+<ul>
+	<li><strong>Email</strong> is used during your login along with a password, and can also be used to send you account reset information should you ever forget your password.</li>
+	<li><strong>Password</strong> : MojoMotor will choose a hard to guess password for you, but if you'd prefer to set your own now, enter it here.</li>
+	<li><strong>Site Title</strong> is simply the name you want to give to your site.</li>
+	<li><strong>Site Content</strong> allows you to install either a blank site, or the default site. You can also <a href="importer.html">import an existing site</a> (please see the docs on setting this up).</li>
+</ul>
+
+<h3>Database Settings</h3>
+
+<p>In order to install MojoMotor you will need to know 4 pieces of information.  If you do not know what they are, please contact your hosting provider and ask them.</p>
+
+<ul>
+	<li><strong>Database Host</strong> : This will likely be "localhost", or "http://something.yoursite.com"</li>
+	<li><strong>Database Name</strong> : If you have a specific database you want to use, list it here now. If the name you provide can't be found, MojoMotor will attempt to create it for you.</li>
+	<li><strong>Database User Name</strong> : As provided by your web host.</li>
+	<li><strong>Database Password</strong> : As provided by your web host.</li>
+</ul>
+
+<p class="important"><strong>Note</strong>: MojoMotor will attempt to create a database with the name you provided if it can't find it.</p>
+
+<h3>Advanced options</h3>
+<p></p>
+
+<ul>
+<!--	<li><strong>Database Type</strong> : MojoMotor supports MySQL or SQLite as your database source. By default, it will use MySQL, however if you'd prefer SQLite, simply select it. MySQL is recommended for site expecting significant traffic. <em>This option may not be visible if SQLite isn't available on your server.</em></li>-->
+	<li><strong>Persistent Connections</strong> : Allows you to set your database connections as persistent. You may want to contact your host for their preference for this setting if you get database errors.</li>
+	<li><strong>Table Prefix</strong> : Useful if you're sharing this database with other web applications.</li>
+</ul>
+
+<h2>You're Done!</h2>
+
+<p>Make note of the email you used, and the password MojoMotor created for you.</p>
+
+<p><img src="../images/all_done.png" /></p>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+<p><a href="http://mojomotor.com/">MojoMotor</a> &nbsp;&middot;&nbsp; <a href="http://mojomotor.com/user_guide/">User Guide Home</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body></html>

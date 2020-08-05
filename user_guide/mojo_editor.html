@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+
+<style type='text/css' media='all'>@import url('userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='userguide.css' />
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='MojoMotor user Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://mojomotor.com/">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+MojoMotor Editor
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>MojoMotor Editor</h1>
+
+<p>The MojoMotor Editor is the heart and soul of content editing within the system. Any <a href="mojo_regions.html">Region</a> can be
+simply edited. When the Mojo Toolbar is exposed, regions are clearly identified for you:<br />
+<img src="images/example_page_region.png" alt=""></p>
+
+<p>To put a region into edit-mode, simply click into it. <br /><img src="images/edit_mode.png" alt="" /></p>
+
+<h2>Enabling HTML source editing</h2>
+
+<p>There are 2 ways the editor can be set up to edit the raw HTML instead of using the default WYSIWYG toolset.</p>
+
+<ol>
+<li><em>To permanently edit in this mode</em>, use the "Account" link, and set your "Edit Mode" to "Plain Text". If at any time you wish to return to
+WYSIWYG, simply toggle back to "Graphical". Changes to your edit mode will be reflected the next time you go to edit a region.</li>
+<li><em>To enable temporary source code editing</em>, you can add the 'Source' option into the editor toolbar. See system/mojomotor/config/ckeditor.php for examples. This change affects all members.</li>
+</ol>
+
+<h2><a name="toolbar_config"></a>Configuring the toolbar</h2>
+
+<p>MojoMotor has attempted to put the most commonly used formatting options up by default. If you want to modify the buttons
+available, you can find them at system/mojomotor/config/ckeditor.php. Please note that changes to this file will only be reflected
+after a browser refresh. Here is the full list of options:</p>
+
+<ul>
+	<li>Source</li>
+	<li>Save</li>
+	<li>NewPage</li>
+	<li>Preview</li>
+	<li>Templates</li>
+	<li>Cut</li>
+	<li>Copy</li>
+	<li>Paste</li>
+	<li>PasteText</li>
+	<li>PasteFromWord</li>
+	<li>Print</li>
+	<li>SpellChecker</li>
+	<li>Undo</li>
+	<li>Redo</li>
+	<li>Find</li>
+	<li>Replace</li>
+	<li>SelectAll</li>
+	<li>RemoveFormat</li>
+	<li>Form</li>
+	<li>Checkbox</li>
+	<li>Radio</li>
+	<li>TextField</li>
+	<li>Textarea</li>
+	<li>Select</li>
+	<li>Button</li>
+	<li>ImageButton</li>
+	<li>HiddenField</li>
+	<li>Bold</li>
+	<li>Italic</li>
+	<li>Underline</li>
+	<li>Strike</li>
+	<li>Subscript</li>
+	<li>Superscript</li>
+	<li>NumberedList</li>
+	<li>BulletedList</li>
+	<li>Outdent</li>
+	<li>Indent</li>
+	<li>Blockquote</li>
+	<li>CreateDiv</li>
+	<li>JustifyLeft</li>
+	<li>JustifyCenter</li>
+	<li>JustifyRight</li>
+	<li>JustifyBlock</li>
+	<li>Link</li>
+	<li>Unlink</li>
+	<li>Anchor</li>
+	<li>Image</li>
+	<li>Flash</li>
+	<li>Table</li>
+	<li>HorizontalRule</li>
+	<li>Smiley</li>
+	<li>SpecialChar</li>
+	<li>PageBreak</li>
+	<li>Styles</li>
+	<li>Format</li>
+	<li>Font</li>
+	<li>FontSize</li>
+	<li>TextColor</li>
+	<li>BGColor</li>
+	<li>Maximize</li>
+	<li>ShowBlocks</li>
+	<li>About</li>
+</ul>
+
+<p>The underlying technology for the editor bar is CKEditor. Full docs available at <a href="http://docs.cksource.com/">http://docs.cksource.com/</a></p>
+
+</div>
+<!-- END CONTENT -->
+
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+<p><a href="http://mojomotor.com">MojoMotor</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body>
+</html>

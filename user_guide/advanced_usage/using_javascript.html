@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+
+
+<style type="text/css" media="all">@import url('../userguide.css');</style>
+<link rel="stylesheet" type="text/css" media="all" href="../userguide.css" />
+
+<meta http-equiv="expires" content="-1" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="robots" content="all" />
+<meta name="author" content="MojoMotor Development Team" />
+<meta name="description" content="MojoMotor user Guide" /></head><body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</tbody></table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td id="breadcrumb">
+<a href="../">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Advanced MojoMotor Tasks</a> &nbsp;&#8250;&nbsp;
+Using Javascript
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" type="hidden" />Search User Guide&nbsp; <input class="input" style="width: 200px;" name="q" id="q" size="31" maxlength="255" value="" type="text" />&nbsp;<input class="submit" name="sa" value="Go" type="submit" /></form></td>
+</tr>
+</tbody></table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Using Javascript</h1>
+
+<p>MojoMotor relies on Javascript for part of its power and flexibility. This means that its possible that MojoMotor's own Javascript can get in the way of a developer who wants to introduce script as part of their own solution. This document outlines how to prevent conflicts, and even leverage the existing resources MojoMotor makes available to you.</p>
+
+<h2>The nitty gritty</h2>
+
+<p>When a page is loaded, MojoMotor renders its content, and then injects <a href="http://jquery.com">jQuery</a>, <a href="http://jqueryui.com/">jQuery UI</a>, and its own system scripts directly before &lt;/body&gt;. This content is controlled centrally by MojoMotor, meaning simply adding your own scripts above &lt;/body&gt; in a layout will still result in MojoMotor loading its own script last.</p>
+
+<p>If you want to inject your own content after Mojo's resources (usually your own jQuery script), you can do so by putting it anywhere inside your layout template, inside {mojo:layout:append_content}{/mojo:layout:append_content} tags. Any content found between it will be rendered in the bottom of the page.</p>
+
+<h3>Example of append_content</h3>
+
+<p>In the following example, we don't need to load the jQuery library, as MojoMotor has already loaded it for its own use.</p>
+
+<code>
+{mojo:layout:append_content}<br />
+&lt;script type="text/javascript"&gt;<br />
+jQuery(document).ready(function() {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert("Waited for jQuery's ready() function before I did this.");<br />
+});<br />
+&lt;/script&gt;<br />
+{/mojo:layout:append_content}
+</code>
+
+<h2>Using a different version of jQuery</h2>
+
+<p>Some plugins are reliant on a specific version of jQuery, that may be different from the version used within MojoMotor. In these cases, you'll want to use <a href="http://api.jquery.com/jQuery.noConflict/">jQuery noConflict()</a> to load your resources.</p>
+
+<code>
+&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript"&gt;&lt;/script&gt;<br />
+&lt;script&gt;<br />
+jQuery.noConflict();<br />
+(function($) { <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$(document).ready(function() {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert("This is using an older version of jQuery, specifically "+$(&#41;.jquery&#41;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&#41;;<br />
+})(jQuery);<br />
+&lt;/script&gt;
+</code>
+
+</div>
+<!-- END CONTENT -->
+
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+
+<p><a href="http://mojomotor.com/">MojoMotor</a> &nbsp;&middot;&nbsp; <a href="http://mojomotor.com/user_guide/">User Guide Home</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body>
+</html>

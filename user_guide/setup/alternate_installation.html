@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+
+
+<style type="text/css" media="all">@import url('../userguide.css');</style>
+<link rel="stylesheet" type="text/css" media="all" href="../userguide.css" />
+
+<meta http-equiv="expires" content="-1" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="robots" content="all" />
+<meta name="author" content="MojoMotor Development Team" />
+<meta name="description" content="MojoMotor user Guide" /></head><body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</tbody></table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td id="breadcrumb">
+<a href="../">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Setup</a> &nbsp;&#8250;&nbsp;
+Alternate Installation
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" type="hidden" />Search User Guide&nbsp; <input class="input" style="width: 200px;" name="q" id="q" size="31" maxlength="255" value="" type="text" />&nbsp;<input class="submit" name="sa" value="Go" type="submit" /></form></td>
+</tr>
+</tbody></table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Alternate Installation</h1>
+
+<div class="important">
+<p>These are alternate instructions. Under most server environments and conditions, following the <a href="installation.html">standard installation instructions</a> will be easiest. These instructions are recommended for advanced users only.</p>
+</div>
+
+<p>If your server doesn't allow PHP to make files writable, or if you'd simply prefer to to manually set all your information, you can follow these alternate installation instructions.</p>
+
+<p>There are 3 files you'll need to manually change:</p>
+
+<h2>Configuration Information</h2>
+<p>Open up <dfn>system/mojomotor/config/config.php</dfn> and set your "base_url". The base_url is the address that you type into your browser to visit your site. Remember to include a trailing slash at the end.</p>
+
+<code>
+$config['base_url']	= "http://example.com/";
+</code>
+
+<h2>Database Information</h2>
+<p>Open the <dfn>system/mojomotor/config/database.php</dfn> file with a text editor and set your database settings.</p>
+
+
+<h2>Routes Information</h2>
+<p>Open up <dfn>system/mojomotor/config/routes.php</dfn>. Change the "default route" from "welcome" to "page".</p>
+<p><strong>Before</strong></p>
+<code>
+$route["default_controller"] = "welcome";
+</code>
+
+<p><strong>After</strong></p>
+<code>
+$route["default_controller"] = "page";
+</code>
+
+</div>
+<!-- END CONTENT -->
+
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+
+<p><a href="http://mojomotor.com/">MojoMotor</a> &nbsp;&middot;&nbsp; <a href="http://mojomotor.com/user_guide/">User Guide Home</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body></html>

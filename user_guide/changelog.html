@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+
+
+<style type="text/css" media="all">@import url('userguide.css');</style>
+<link rel="stylesheet" type="text/css" media="all" href="userguide.css" />
+
+<meta http-equiv="expires" content="-1" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="robots" content="all" />
+<meta name="author" content="MojoMotor Development Team" />
+<meta name="description" content="MojoMotor user Guide" /></head><body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="toc.html">Table of Contents Page</a></td>
+</tr>
+</tbody></table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td id="breadcrumb">
+<a href="http://mojomotor.com/">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Changelog
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" type="hidden" />Search User Guide&nbsp; <input class="input" style="width: 200px;" name="q" id="q" size="31" maxlength="255" value="" type="text" />&nbsp;<input class="submit" name="sa" value="Go" type="submit" /></form></td>
+</tr>
+</tbody></table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>MojoMotor Changelog</h1>
+
+<p>Welcome to MojoMotor! MojoMotor is a fast, light-weight publishing application.</p>
+
+<h2 id="ver121">Version 1.2.1</h2>
+<p>Released: June 12, 2012</p>
+<ul>
+	<li>Added
+		<ul>
+			<li>A new configuration variable <a href="advanced_usage/advanced_config_options.html">
+				<kbd>$config['require_cookie_consent']</kbd></a>, which prevents 
+				cookies being set without explicit user permission.</li>
+			<li><a href="mojo_tags.html#cookie_consent_tags">Cookie Consent tags</a> 
+				that allows granting and revoking permission to set cookies</li>
+		</ul>
+	</li>
+	<li>Developers
+		<ul>
+			<li>jQuery has been updated to version 1.7.2.</li>
+			<li>CKEditor has been updated to version 3.6.3.</li>
+		</ul>
+	</li>
+	<li>Bug Fixes
+		<ul>
+			<li>Fixed a bug (#17546) where a PHP error could occur if the cache folder wasn't readable.</li>
+			<li>Fixed bugs (#17517, #17536) where the mojo:site:page_list tag did not behave as documented in some cases.</li>
+			<li>Fixed a potential performance issue that could occur if a site had many pages.</li>
+			<li>Implemented a workaround for a bug where CKEditor failed to load in some specific environments.</li>
+			<li>The mojo:site:page_list tag no longer outputs an empty ul element if no pages were output.</li>
+		</ul>
+	</li>
+</ul>
+
+<h2 id="ver120">Version 1.2.0</h2>
+<p>Released: February 6, 2012</p>
+<ul>
+	<li>Important
+		<ul>
+			<li>The format for specifying your toolbar configuration has changed in new versions of CKEditor.
+				Please overwrite system/mojomotor/config/ckeditor.php with the latest version
+				from the MojoMotor download package and <a href="mojo_editor.html#toolbar_config">re-customize the toolbar</a> (if necessary).
+			</li>
+		</ul>
+	</li>
+	<li>Added
+		<ul>
+			<li>You can now designate any Page as your custom 404 Page in the <a href="admin/admin_site_settings.html">Settings tab</a>.</li>
+			<li>The <a href="mojo_tags.html#page_list">mojo:site:page_list</a> tag now supports a depth= parameter that determines how many levels of Pages to show.</li>
+			<li>The <a href="mojo_tags.html#page_list">mojo:site:page_list</a> tag can now output the child pages of the current page by using the page="CURRENT_PAGE" parameter.</li>
+			<li>The <a href="contact_form.html">mojo:contact:form</a> tag now supports optional Reply-to Name and Reply-to Email form fields.</li>
+			<li>The mojo:site:site_path tag has been renamed <a href="mojo_tags.html#asset_url">mojo:site:asset_url</a> and its value can now be configured via config.php. Your Layouts will automatically be updated with this new tag.</li>
+			<li>You can now <a href="advanced_usage/advanced_config_options.html">override the upload location preferences</a> (server path and URL) via config.php.</li>
+			<li>A "mojo_editor_active" class is now added to the body element of your pages when the editor is active.</li>
+		</ul>
+	</li>
+	<li>Developers
+		<ul>
+			<li>jQuery has been updated to version 1.7.1.</li>
+			<li>CKEditor has been updated to version 3.6.2.</li>
+		</ul>
+	</li>
+	<li>Bug Fixes
+		<ul>
+			<li>Fixed a bug (#15917) where the Target attribute could be incorrectly set in some cases when creating links.</li>
+			<li>Fixed a bug (#16192) where attempting to re-order Pages in IE9 did not work.</li>
+			<li>Fixed a bug (#15890) where links could not be added at the very beginning of editable regions. Please re-save any affected Layouts to resolve the issue.</li>
+			<li>Fixed a bug (#16374) where redirects could fail to work in some server configurations.</li>
+			<li>Fixed a bug (#16146) where changing a Page's Layout could result in unexpected data loss. A Page's Layout can no longer be changed after the Page has been created.</li>
+			<li>Fixed a bug (#16151) where there were several display issues in the File Browser.</li>
+			<li>Fixed a bug (#16647) where mojo:site:link output an extra slash when removing index.php from URLs.</li>
+			<li>Fixed a bug (#16624) where mojo:contact:form could allow a blank message to be sent.</li>
+			<li>Fixed a bug (#16150) where Maximize could not work properly in Firefox with some Layouts that contained multiple regions.</li>
+			<li>Fixed a bug (#16423) that prevented proper installation on SSL (HTTPS) environments.</li>
+			<li>Fixed a bug where the editor state could become inconsistent if the MojoBar was hidden while the editor was open.</li>
+			<li>Fixed a development documentation error (#16930) where the route to add-ons was missing the "admin" segment.</li>
+		</ul>
+	</li>
+</ul>
+
+<h2 id="ver112">Version 1.1.2</h2>
+<p>Released: June 29, 2011</p>
+<ul>
+	<li>Security Improvements
+		<ul>
+			<li>Added a minimum length of six characters to passwords for additional security (does not affect existing passwords).</li>
+			<li>Fixed a bug where it was possible for an admin to modify any user's password without knowing their existing password.</li>
+		</ul>
+	</li>
+	<li>Developers
+		<ul>
+			<li>The unused mojo_sessions table has been standardized to CodeIgniter's Session library and the 'content' column is deprecated.  New installs will include instead a 'user_data' column, and the 'content' column of existing installations will be removed in a future update. (Fixes bug #15944)</li>
+		</ul>
+	</li>
+	<li>Bug Fixes
+		<ul>
+			<li>Fixed a bug (#15779) where the editor immediately re-opened when Cancel was clicked while in plain text (source) mode.</li>
+			<li>Fixed a bug where an admin could create a new user with a password that was too long or too short.</li>
+			<li>Fixed a typo in the user guide (missing /h1 tag in sample code, #15675)</li>
+			<li>Fixed add-on file structure description per bug #16067</li>
+		</ul>
+	</li>
+</ul>
+
+
+<h2 id="ver111">Version 1.1.1</h2>
+<p>Released: April 6, 2011</p>
+<ul>
+	<li>Important
+		<ul>
+			<li>Improved XSS filtering of input data to prevent an XSS vulnerability.</li>
+		</ul>
+	</li>
+	<li>Developers
+		<ul>
+			<li>JQuery updated to the latest stable version (v1.5.2).</li>
+			<li>The security library has been moved to the CodeIgniter core. Loading it is deprecated and will result in PHP errors in future releases.</li>
+		</ul>
+	</li>
+	<li>Bug Fixes
+		<ul>
+			<li>Fixed a bug (#15259) where it was difficult to make a child page the first child. Any page dragged onto a parent now becomes the first child.</li>
+			<li>Fixed a bug (#15169) where mojo:site:page_list would output an invalid element id if the Page URL Title contained segments (slashes).</li>
+			<li>Fixed a bug (#15451) where re-ordering Pages or editing small regions resulted in display issues on Webkit-based browsers.</li>
+			<li>Fixed a bug (#15134) where installation would fail if the mysqli driver was not available.</li>
+			<li>Fixed a bug (#15142) where browsers could not offer to remember login credentials when using the form generated by {mojo:site:login}.</li>
+			<li>Fixed a bug where pagination in the Layouts section of the MojoBar did not function correctly.</li>
+			<li>Fixed a bug where editing a page region could result in duplicate helper comments appearing in the region.</li>
+			<li>Fixed a documentation bug (#15135) where a sample code snippet contained an extra bracket.</li>
+			<li>Improved display support throughout MojoMotor when using a non-English <a href="http://mojomotor.com/user_guide/languages.html">Language Pack</a>.</li>
+		</ul>
+	</li>
+</ul>
+
+
+<h2 id="ver110">Version 1.1.0</h2>
+<p>Released: January 20, 2011</p>
+<ul>
+	<li>Developers
+		<ul>
+			<li>JQuery updated to the latest stable version (v1.4.4).</li>
+			<li>Added a <samp>last_modified()</samp> method to Mojomotor_parser_page.</li>
+			<li>Removed deprecated functions (delete_dummy_page_regions() and _add_page_to_structure() in models/page_model.php; update_site_structure() in controllers/admin/pages.php).</li>
+			<li>CodeIgniter system folder set to <a href="https://bitbucket.org/ellislab/codeigniter/changeset/b84189dcdfe3">Rev b84189dcdfe3</a>.</li>
+		</ul>
+	</li>
+	<li>Changes
+		<ul>
+			<li>Altered the update procedures to insure needed configuration updates occur.  Please review the new <a href="setup/updating.html">Update documentation</a> before proceeding with an update.</li>
+			<li>Added a new layout type, <a href="admin/admin_layouts.html#layout_type">Embed Content</a> layouts.</li>
+			<li>Added a new tag, <a href="mojo_tags.html#embed">{mojo:layout:embed layout="layout_name"}</a>, which allows you to include Embed Content type layouts in other layouts.</li>
+			<li>Removed the <kbd>/page</kbd> segment from front-end URLs; they can now use any path. Moved all backend functionality to <kbd>/admin</kbd>.</li>
+			<li>Added a warning that deleting a layout will delete associated pages.</li>
+		</ul>
+	</li>
+	<li>Bug Fixes
+		<ul>
+			<li>Fixed a bug in the Exporter where data were missing.</li>
+			<li>Fixed a bug (#15002) where page layout regions would appear to save, but did not.</li> 
+			<li>Fixed a bug (#14311) where spaces between CSS classes were removed in the mojo:page_list tag.</li>
+			<li>Fixed a bug (#14379) where an orphaned unordered list would be rendered on the site_pages tag when one child page was marked as hidden.</li>
+			<li>Fixed a bug (#13731) where the MojoBar opened when the browser window was resized.</li>
+		</ul>
+	</li>
+</ul>
+
+<h2 id="ver107">Version 1.0.7</h2>
+<p>Released: October 18, 2010</p>
+<ul>
+	<li>Changes
+		<ul>
+			<li>Fixed a security issue that could lead to directory traversal in certain cases.</li>
+			<li>Caching is now fully supported (enabled via a <a href="advanced_usage/manual_config_options.html">Manual Configuration</a> change).</li>
+		</ul>
+	</li>
+	<li>Bug Fixes
+		<ul>
+			<li>Fixed a bug (#14064) where the {mojo:site:page_list} documentation was not clear about the 'page' parameter.</li>
+			<li>Fixed a bug (#13971) where you had to log out and back in to switch MojoMotor admin bar themes.</li>
+			<li>Fixed a bug where a selected invalid MojoMotor theme would not fall back on the default theme.</li>
+			<li>Fixed wording of a file permissions error for config files.</li>
+			<li>Fixed a bug in the Asset controller which caused the MojoBar images to not displaying correctly on some servers.</li>
+			<li>Fixed a bug that, in some cases, caused the image browser not to function properly.</li>
+			<li>Fixed an issue where deleting the last page using a layout prevented you from saving new pages using the same layout.</li>
+		</ul>
+	</li>
+</ul>
+
+
+<h2 id="ver106">Version 1.0.6</h2>
+<p>Released: September 9, 2010</p>
+<ul>
+	<li>Changes
+		<ul>
+			<li>Pages in the Pages Mojo Bar now have a link directly to the page available on hover.</li>
+			<li>Added a Server Wizard (available from the <a href="setup/requirements.html">Requirements</a> page).</li>
+		</ul>
+	</li>
+	<li>Bug Fixes
+		<ul>
+			<li>Fixed a bug where member group could be incorrectly set when an existing member edited their own account (#13824).</li>
+			<li>Fixed a bug where editable regions weren't registering for layouts without pages.</li>
+			<li>Fixed a bug where some servers were setting uploaded files to non-readable after upload (#13743).</li>
+			<li>Fixed an example error (#13825).</li>
+			<li>Fixed a bug where servers with low memory available to PHP could cause the file browser to error (#13790).</li>
+			<li>Fixed a bug where page dragging for re-ordering wasn't working in some situations (#13828).</li>
+		</ul>
+	</li>
+</ul>
+
+
+<h2 id="ver105">Version 1.0.5</h2>
+<p>Released: August 26, 2010</p>
+<ul>
+	<li>Changes
+		<ul>
+			<li>Added {mojo:page:url_title} to <a href="mojo_tags.html">Mojo Tags</a>.</li>
+			<li>Addons can now use URL passed segment parameters. See the <a href="development/index.html">Development documentation</a> for more details.</li>
+		</ul>
+	</li>
+	<li>Bug Fixes
+		<ul>
+			<li>Fixed a bug where the contact form wasn't adding a "page/" segment in front of the return parameter value.</li>
+			<li>Fixed an opacity bug in IE8 for editable regions.</li>
+			<li>Fixed a bug in the parser that added a stray colon to the template key.</li>
+		</ul>
+	</li>
+</ul>
+
+
+<h2 id="ver104">Version 1.0.4</h2>
+<p>Released: August 19, 2010</p>
+<ul>
+	<li>Changes
+		<ul>
+			<li>Update process no longer requires visiting the updater url manually. See <a href="setup/updating.html">the update instructions</a> for full details.</li>
+			<li>Internal change: MojoMotor now tracks the last modified time of a layout and page with a timestamp.</li>
+			<li>Pages that are hidden from listing in {mojo:site:page_list} now have a distinct visual appearance.</li>
+			<li>Editable region headers now display the region name (ie: "The Side Bar") instead of the region id (ie: "the_side_bar").</li>
+			<li>An optional "from" parameter was added to the <a href="contact_form.html">Contact Form</a>.</li>
+			<li>Added a section to <a href="advanced_usage/using_javascript.html">Using Javascript</a> dealing with using different versions of jQuery in a MojoMotor website.</li>
+			<li>The <a href="development/index.html">Development documentation</a> has been expanded.</li>
+		</ul>
+	</li>
+	<li>Bug Fixes
+		<ul>
+			<li>Fixed a bug where {mojo:setting:version} outputted nothing. (fixes #13594)</li>
+		</ul>
+	</li>
+</ul>
+
+
+<h2 id="ver103">Version 1.0.3</h2>
+<p>Released: August 12, 2010</p>
+<ul>
+	<li>Changes
+		<ul>
+			<li>If a page already exists, MojoMotor will not assign it a new url_title if you change the page title.</li>
+			<li>Added a minimum height to the editor area, ensuring that blank regions display cleaner.</li>
+			<li>Small change to the default editor tools to include "Numbered List", and "Unlink", and remove "Blockquote".</li>
+			<li>An example for Global regions has been clarified in the default layout.</li>
+			<li>Added a <a href="advanced_usage/manual_config_options.html">Manual Configuration Option</a> for additional CSS.</li>
+		</ul>
+	</li>
+	<li>Bug Fixes
+		<ul>
+			<li>Fixed a bug where "$" couldn't be used in the database password.</li>
+			<li>Fixed a bug where a logged out user would have a mojomotor style applied to a CSS class of ".button".</li>
+			<li>Fixed a bug where images couldn't be deleted with CSRF enabled.</li>
+			<li>Fixed a doc example for {mojo:setting:version} (fixes #13553).</li>
+			<li>Fixed a bug where {mojo:page:page_list} would output a number if the page parameter was used with no child pages (fixes #13509).</li>
+			<li>Fixed a bug where entries in the table page_regions are left after deleting pages (fixes #13505).</li>
+		</ul>
+	</li>
+</ul>
+
+
+<h2 id="ver102">Version 1.0.2</h2>
+<p>Released: August 11, 2010</p>
+<ul>
+	<li>Changes
+		<ul>
+			<li>Page url_title field length increased to 75 characters.</li>
+			<li>A greater variety of characters are now allowed in Page and Site titles.</li>
+			<li>Added some additional CSS styles to prevent site styles from colliding with MojoMotor.</li>
+			<li>Added instructions to backup third_party folder during updates.</li>
+			<li>If folder permissions prevent upload, MojoMotor identifies the folder in the error message.</li>
+			<li>Added {mojo:layout:append_content} to allow content injection into the bottom of a page.</li>
+			<li>Added an <a href="advanced_usage/index.html">Advanced MojoMotor Tasks</a> section to the User Guide, including <a href="advanced_usage/manual_config_options.html">Manual Configuration Options</a>, <a href="advanced_usage/using_javascript.html">Using Javascript</a>, and <a href="advanced_usage/customizing_404_error_pages.html">Customizing 404 Error Pages</a></li>
+			<li>MojoMotor will now show the same 404 page regardless of why a page isn't found.</li>
+			<li>Removed "spellcheck as you type" as an option of the editor.</li>
+			<li>Removed jQuery noConflict() mode, to enable sites to use jQuery plugins authored with $.foo() vs jQuery.foo().</li>
+		</ul>
+	</li>
+	<li>Bug Fixes
+		<ul>
+			<li>Fixed a bug where the cursor would incorrectly skip to the end of a field when entering layout and page names. Thanks to <a href="http://dhorrigan.com/">Dan Horrigan</a> for his efforts and solution.</li>
+			<li>Fixed an bug where plaintext wouldn't paste correctly in the editor in some browsers.</li>
+			<li>Altered code to ensure that double slashes aren't used when logging out after removing the index.php page.</li>
+			<li>Fixed incorrect use of {mojo:page:keywords} and {mojo:page:description} in the User Guide page for "Pages".</li>
+			<li>Fixed a bug where it was possible to edit a page and give it the same url_title as a page already in use.</li>
+			<li>Fixed a bug where parameters of the <a href="contact_form.html">Contact Form</a> were ignored, and multiple recipients had the recipient hash incorrectly validated.</li>
+		</ul>
+	</li>
+</ul>
+
+<h2 id="ver101">Version 1.0.1</h2>
+<p>Released: July 31, 2010</p>
+<ul>
+	<li>Changes
+		<ul>
+			<li>None.</li>
+		</ul>
+	</li>
+	<li>Bug Fixes
+		<ul>
+			<li>Fixed a bug where modal login wasn't respected when using compressed javascript.</li>
+			<li>Fixed a bug where the editor might load the wrong language files, resulting in an error.</li>
+			<li>Fixed a bug where the server returns an object id and not text, preventing editor.</li>
+			<li>Fixed a bug where the database wasn't loaded, causing the editor to not appear.</li>
+			<li>Fixed a bug where "jpe" or "jpeg" files weren't permitted to upload.</li>
+			<li>Various guide typos.</li>
+		</ul>
+	</li>
+</ul>
+
+
+<h2 id="ver100">Version 1.0.0</h2>
+<p>Released: July 29, 2010</p>
+<ul>
+	<li>Added a new version check and PHPInfo pages into utilities.</li>
+	<li>Added a {mojo:setting:version} tag.</li>
+	<li>Added a config variable (disable_third_party_addons) to prevent the loading of third party addons.</li>
+	<li>Added trailing (and leading) comma stripping from page keywords</li>
+	<li>Docs now located at <a href="http://mojomotor.com/user_guide">http://mojomotor.com/user_guide</a>.</li>
+	<li>Pages now has visual connections for nested pages.</li>
+	<li>Added some better validation to non-existent mojo tags. Behavioural change: if a tag doesn't exist the data provided is returned instead of an empty string.</li>
+	<li>Visual indicator for loading tabs.</li>
+	<li>Addons has been moved to "third_party", and now uses CodeIgniter packages, allowing third party developers to use libraries, helpers, models and language files.</li>
+	<li>The editor's image dialog box has undergone some strong visual changes. Many options removed, and a new config option <kbd>$config['show_expanded_image_options']</kbd> to re-enable them all.</li>
+	<li>Full update system has been integrated for moves between versions.</li>
+	<li>The Mojo bar now pushes content out of the way so the entire page is always editable.</li>
+	<li>The Mojobar menu now uses different hover and "active" states for greater UI clarity.</li>
+	<li>Editable region "flags" now display the region id for easier differentiation.</li>
+	<li>Assorted UI changes to bring the app closer in line visually, and make it more consistent.</li>
+	<li>Pagination for layouts/members, and some CI core pagination updates.</li>
+	<li>Added {!-- comments --} into the parser.</li>
+	<li>Added {mojo:site:site_url}.</li>
+	<li>Added an optional "text" attribute to {mojo:site:login} that can be used to specify the text of the login link.</li>
+	<li>New parser system allows for third party addons (to be documented).</li>
+	<li>Contact form addon.</li>
+	<li>Case study for site import in docs.</li>
+	<li>Doc link and typo fixes.</li>
+	<li>Elements inserted without an id attribute, but with a class of either "mojo_editable_region" or "mojo_global_region" will have an id assigned.</li>
+	<li>For links to the default page generated by {mojo:site:page_list}, the link will exclude the "/page/url_title" portion of the link for cleaner URLs.</li>
+	<li>Added a new configuration example for editor config enabling HTML source editing to config/ckeditor.php</li>
+	<li>Docs have a "Top of page" option in the footer.</li>
+	<li>CodeIgniter log files are now saved in system/mojomotor/logs/</li>
+	<li>A min-width was added to the Mojobar to prevent tiny windows from wrapping unexpectedly.</li>
+	<li>{mojo:site:page_list} now generates the class "mojo_active" on the current page for styling purposes.</li>
+	<li>In page login now defaults to "y", so if {mojo:site:login} is in an imported page, it will immediately work.</li>
+	<li>During import, pages preceded with an underscore will not be visible in the pagelist.</li>
+	<li>Passwords now allow a wider variety of characters.</li>
+	<li>After a layout change, the admin has the option of refreshing the page.</li>
+	<li>If install lock is detected setup and welcome controllers throw a 404</li>
+	<li>Support for renaming the system folder</li>
+</ul>
+
+
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+<p><a href="http://mojomotor.com/">MojoMotor</a> &nbsp;&middot;&nbsp; <a href="http://mojomotor.com/user_guide/">User Guide Home</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body></html>

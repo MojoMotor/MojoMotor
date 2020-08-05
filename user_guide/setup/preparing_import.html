@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+
+
+<style type="text/css" media="all">@import url('../userguide.css');</style>
+<link rel="stylesheet" type="text/css" media="all" href="../userguide.css" />
+
+<meta http-equiv="expires" content="-1" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="robots" content="all" />
+<meta name="author" content="MojoMotor Development Team" />
+<meta name="description" content="MojoMotor user Guide" /></head><body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</tbody></table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td id="breadcrumb">
+<a href="../">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Setup</a> &nbsp;&#8250;&nbsp;
+Importer
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" type="hidden" />Search User Guide&nbsp; <input class="input" style="width: 200px;" name="q" id="q" size="31" maxlength="255" value="" type="text" />&nbsp;<input class="submit" name="sa" value="Go" type="submit" /></form></td>
+</tr>
+</tbody></table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Preparing your site for import</h1>
+
+<h2>What types of sites can be imported into MojoMotor?</h2>
+
+<p><em>Also see the <a href="import_case_study.html">MojoMotor site import case study</a></em>, for a specific, step-by-step example of how a site was imported into MojoMotor.</p>
+
+<p>MojoMotor will work with you to get your existing site into the system with minimal work on your part.</p>
+
+<p>The sites that are most easily imported into MojoMotor have pages that are nearly identical site-wide, except for content.</p>
+
+
+<div class="important">
+<p>Before you start, its highly recommended that you read about MojoMotor's <a href="../mojo_regions.html">Regions</a> functionality, and familiarize yourself with <a href="../mojo_tags.html">Mojo Tags</a>.</p>
+</div>
+
+<h2><a name="preparing_import"></a>Preparing your site for Import</h2>
+
+<p>There are a number of steps you can take to ensure your existing site can be successfully imported into MojoMotor.</p>
+
+<ol>
+	<li>Your webpages must be HTML. MojoMotor cannot read PHP files. Ensure your webpages use the file extension ".html" or ".htm" to ensure compatibility.</li>
+	<li>Malformed HTML (for example unclosed, or incorrectly closed elements) can cause the parser to behave inconsistently. If the imported results doesn't look like your static HTML, consider <a href="http://validator.w3.org">validating</a> it first.</li>
+	<li>MojoMotor expects to find all your webpages in the same folder. If your pages are in subfolders, you'll want to move them into the same folder before install.</li>
+	<li>MojoMotor requires your CSS image links to be relative, as opposed to absolute.
+<code>
+/* This works */<br />
+#header {background: url(images/background.jpg)};<br />
+<br />
+/* This does not work */<br />
+#header {background: url(/images/background.jpg)};
+</code>
+	</li>
+	<li>After the import, your original files will be untouched - and remain available on the server in the "import" directory. All asset references (images, css, pdfs, etc) will continue to reference this folder.</li>
+	<li>All imported files must be in the <kbd>import</kbd> directory.</li>
+</ol>
+
+<h3>The Default Page</h3>
+
+<p>MojoMotor looks for the following pages, in this order - and uses one it finds as both the default page for your site, and also as the main layout for your site. The pages are:</p>
+<ol>
+	<li>index.html</li>
+	<li>index.htm</li>
+	<li>default.html</li>
+	<li>default.htm</li>
+	<li>home.html</li>
+	<li>home.htm</li>
+</ol>
+
+<h3>Including your page in {mojo:site:page_list}</h3>
+
+<p>One of the most commonly used tags in a MojoMotor website is <a href="../mojo_tags.html#page_list">{mojo:site:page_list}</a>. All
+imported pages will be included in this list. If you wish to exclude a page (common for privacy policies, or other "specialized"
+pages) from the page_list, you can rename the file so it begins with an underscore.</p>
+
+<p>For example, a file named <kbd>privacy.html</kbd> will show in the page_list, however <kbd>_privacy.html</kbd> will not.</p>
+
+<h3>Adding regions</h3>
+
+<p>Regions are added by providing magic classnames in your markup. If you want to add a global region, you'll add in the class "mojo_global_region" to
+the code. For page regions, you'll specify "mojo_page_region". <strong>NOTE: both regions types must have an id attribute as well</strong>.</p>
+
+<p>For example, to have the footer on your site repeat globally, you will alter mojo_layout.html as follows:</p>
+
+<code>
+&lt;div id="footer"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is my fancy footer!<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p><br />
+&lt;/div>
+</code>
+<p>becomes</p>
+<code>
+&lt;div id="footer" class="mojo_global_region"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is my fancy footer!<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p><br />
+&lt;/div>
+</code>
+
+<p>Page regions work exactly the same way, and are much more common then global regions. To have a div within your site editable by from MojoMotor, you'll add the class "mojo_page_region" into the markup (remember to include an "id" attribute also).</p>
+
+<code>
+&lt;div id="page_content"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p>A paragraph of content.&lt;/p><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p>A second paragraph of content&lt;/p><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p>A third paragraph, containing &lt;img /&gt; tags and other markup.&lt;/p><br />
+&lt;/div>
+</code>
+<p>becomes</p>
+<code>
+&lt;div id="page_content" class="mojo_page_region"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p>A paragraph of content.&lt;/p><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p>A second paragraph of content&lt;/p><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p>A third paragraph, containing &lt;img /&gt; tags and other markup.&lt;/p><br />
+&lt;/div>
+</code>
+
+<p>This area of the page is now editable from within MojoMotor. If you want to pre-populate it with content from your current pages, ensure the same markup in the page has the same id and class markup.</p>
+
+<h3>Handling Links and Assets</h3>
+<p>MojoMotor will take great efforts to ensure your links, CSS and other resources such as images remain available after the import, however in some cases (such as assets called via javascript) there is simply no way to ensure this. Generally any links that were not matched correctly can be fixed by using MojoMotor itself, if you want to ensure they will work before the import begins, you can use <a href="../mojo_tags.html">Mojo tags</a>.</p>
+
+<p>Here's an example using the popular <a href="http://code.google.com/p/swfobject/">SWFobject</a> script.</p>
+
+<p>This link is fine, and will be converted as a standard asset by MojoMotor. No need to do anything to it</p>
+<code>
+&lt;script type="text/javascript" src="swfobject.js">&lt;/script>
+</code>
+
+<p>The file reference here "myContent.swf" poses a problem to MojoMotor, since there is no way for us to know that it is a path and not something else.</p>
+<code>
+&lt;script type="text/javascript">
+swfobject.embedSWF("myContent.swf", "myContent", "300", "120", "9.0.0");
+&lt;/script>
+</code>
+
+<p>We can prepare it by using the <a href="../mojo_tags.html#site_tags">{mojo:site:asset_url}</a> tag.</p>
+<code>
+&lt;script type="text/javascript">
+swfobject.embedSWF("{mojo:site:asset_url}myContent.swf", "myContent", "300", "120", "9.0.0");
+&lt;/script>
+</code>
+
+</div>
+<!-- END CONTENT -->
+
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+
+<p><a href="http://mojomotor.com/">MojoMotor</a> &nbsp;&middot;&nbsp; <a href="http://mojomotor.com/user_guide/">User Guide Home</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body></html>

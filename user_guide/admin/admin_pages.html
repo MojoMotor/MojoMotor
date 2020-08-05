@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html
+xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <title>MojoMotor User Guide</title>
+
+<style type="text/css" media="all">@import url('../userguide.css');</style> <link rel="stylesheet" type="text/css" media="all"
+href="../userguide.css" />
+
+<meta http-equiv="expires" content="-1" /> <meta http-equiv="pragma" content="no-cache" /> <meta name="robots" content="all" /> <meta name="author"
+content="MojoMotor Development Team" /> <meta name="description" content="MojoMotor user Guide" /></head><body>
+
+<!-- START NAVIGATION --> <div id="masthead"> <table style="width: 100%;" border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td><h1>MojoMotor
+User Guide Version 1.1.0</h1></td> <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td> </tr> </tbody></table> </div>
+<!-- END NAVIGATION -->
+
+<!-- START BREADCRUMB --> <table style="width: 100%;" border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td id="breadcrumb"> <a
+href="../">MojoMotor Home</a> &nbsp;&#8250;&nbsp; <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp; <a href="index.html">Admin Toolbar</a>
+&nbsp;&#8250;&nbsp; Pages </td> <td id="searchbox"><form method="get" action="http://www.google.com/search"><input name="as_sitesearch" id="as_sitesearch"
+value="mojomotor.com/user_guide/" type="hidden" />Search User Guide&nbsp; <input class="input" style="width: 200px;" name="q" id="q" size="31"
+maxlength="255" value="" type="text" />&nbsp;<input class="submit" name="sa" value="Go" type="submit" /></form></td> </tr> </tbody></table> <!-- END
+BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+<!-- START CONTENT --> <div id="content">
+
+<h1>Pages</h1>
+
+<p>In MojoMotor, a <dfn>page</dfn> represents an HTML page on your site, although unlike a traditional HTML page, there isn't an actual file on your
+server.&nbsp; Instead, MojoMotor takes care of turning your pages into web pages when someone visits your site.</p>
+
+<p>The benefit of this approach is that information can be presented <em>dynamically</em> by using special <kbd><a
+href="../mojo_tags.html">Tags</a></kbd> within your pages.&nbsp; The secondary benefit of this approach is that your pages can be managed from within
+the MojoMotor Control Panel using your web browser, so you no longer need to use FTP to upload files to your server whenever a page changes.</p>
+
+<p>Your MojoMotor powered site will consist of, at minimum, one page, representing your site's "index" or "home" page. Most sites have more than one
+page, of course, but even the most basic site must have at least one page.</p>
+
+<p>Every page must be based on a <a href="admin_layouts.html">Layout</a> which controls everything about the page except the content (words, images,
+etc) of the page which is editable via <a href="../mojo_regions.html">regions</a> once logged in.</p>
+
+<p>MojoMotor pages are managed from within your Toolbar. Pages are organized into a hierarchical list which you can be dragged and nested into any
+order you want. This page order will be respected when calling the <a href="../mojo_tags.html#page_list">{mojo:site:page_list}</a> tag.</p>
+
+<p class="important"><strong>Important concept:</strong>&nbsp; A <kbd>page</kbd> in MojoMotor can be thought of as a web page.&nbsp; Each page is
+based off a <a href="admin_layouts.html">Layout</a>.</p>
+
+<h2>Adding and Removing Pages</h2>
+
+<p>Pages can be added via the "ADD PAGE" button. Pages added in such a way will be added to the main "level" of the site hierarchy, that is to say
+they will not be sub pages. If you wish to create a page as a sub page of another, you can also add a page via the "+" beside the page you wish to be
+the parent.</p>
+
+<p>To delete an existing page, simply select the "delete" link ("X") beside the page you wish to delete. You will be prompted to confirm your deletion
+to prevent accidental layout removal.</p>
+
+<p class="important">Deleting pages that have child pages will result in the deletion of the child pages as well. If you do not want the child pages
+to be removed, you should re-organize your page structure first.</p>
+
+<h2>Organizing Pages</h2>
+
+<p>Your site pages can be organized (sorted and nested) via the main pages tab of your toolbar. One of the major advantages of organizing your site in
+this way is the use of the <a href="../mojo_tags.html#page_list">{mojo:site:page_list}</a> tag, which can be used to create menus for your website, or
+otherwise organize your content.</p>
+
+<p>To move a page on the same level, simply drag it to where you want it to be. Targets will become highlighted as you move your mouse over the
+area.<br><br><img src="../images/highlight_page_drop.png"></p>
+
+<p>To make a page become a child of another page, simply drag it on top of the page you want to be parent. Again, the target will highlight as you
+move your mouse over the area.<br><br><img src="../images/sub_drop.png"></p>
+
+<h2>Anatomy of a Page</h2>
+
+<p><img src="../images/page_anatomy.png" alt=""></p>
+
+<h3>Page Title</h3>
+
+<p>In addition to helping identify the page in the page list, the page title is used when rendering <a href="../mojo_tags.html#page_list">{mojo:site:page_list}</a>, and can be called via <a href="../mojo_tags.html#page_title">{mojo:page:page_title}</a>.</p>
+
+<h3>URL Title</h3>
+
+<p>Here you can define a "human readable" URL title for your page. URL titles may only contain alpha-numeric characters and no spaces. The purpose of
+a URL Title is to enable your pages to be accessed using a URL such as:</p>
+
+<code><kbd>http://example.com/index.php/</kbd><dfn>url_title/</dfn></code>
+
+<p>A URL title will be automatically generated for you based on the title you give to the page. URL Titles must be unique.</p>
+
+<h3>Include in Page List?</h3>
+
+<p>If this option is checked, this page and its children will be shown when <a href="../mojo_tags.html#page_list">{mojo:site:page_list}</a> is used.
+Pages (and their children) can be excluded from the page list by unchecking this option.</p>
+
+<h3>Layout</h3>
+
+<p>Every page is based on a <a href="admin_layouts.html">Layout</a>. This drop down provides a choice of layouts that can be used by this page.</p>
+
+<h3>Keywords</h3>
+
+<p>Simple page meta-data. It is most commonly used to generate HTML &lt;meta name="keywords" /&gt; tags. It can be called via <a href="../mojo_tags.html#keywords">{mojo:page:keywords}</a></p>
+
+<h3>Description</h3>
+
+<p>Simple page meta-data. It is most commonly used to generate HTML &lt;meta name="description" /&gt; tags. It can be called via <a href="../mojo_tags.html#description">{mojo:page:description}</a></p>
+
+
+</div> <!-- END CONTENT -->
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+
+<p><a href="http://mojomotor.com/">MojoMotor</a> &nbsp;&middot;&nbsp; <a href="http://mojomotor.com/user_guide/">User Guide Home</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+</body></html>

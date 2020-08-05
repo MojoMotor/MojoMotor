@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+<style type="text/css" media="all">@import url('userguide.css');</style>
+<link rel="stylesheet" type="text/css" media="all" href="userguide.css" />
+
+<meta http-equiv="expires" content="-1" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="robots" content="all" />
+<meta name="author" content="MojoMotor Development Team" />
+<meta name="description" content="MojoMotor user Guide" /></head><body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="toc.html">Table of Contents Page</a></td>
+</tr>
+</tbody></table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td id="breadcrumb">
+<a href="http://mojomotor.com/">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Overview
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" type="hidden" />Search User Guide&nbsp; <input class="input" style="width: 200px;" name="q" id="q" size="31" maxlength="255" value="" type="text" />&nbsp;<input class="submit" name="sa" value="Go" type="submit" /></form></td>
+</tr>
+</tbody></table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>MojoMotor Overview</h1>
+
+<h2>Typical MojoMotor uses</h2>
+
+<p>MojoMotor excels in small-medium sized sites, where a highly technically skilled web designer/developer has built it, and
+subsequently wants to empower their clients to manage their own content. Classic "brochure" (static) sites fit this bill, as
+well as small, simple dynamic sites.</p>
+
+<p>MojoMotor does not strive to be a full-powered, high-end Content Management System such as <a
+href="http://expressionengine.com">ExpressionEngine</a>. It does not have categories, dynamic entries, conditionals. It does not have
+search, date-based input or logic. MojoMotor is simple, clean, and straightforward. <em>It is not ExpressionEngine lite, it is
+ExpressionEngine junior</em>.</p>
+
+<h2>Layouts, Regions, and Pages (oh my!)</h2>
+
+<p><img src="images/layouts_pages.png" alt="" /></p>
+
+<p>Most websites are structured such that nearly all the pages are visually the same, with different content (text and images, or
+"copy") on each page. Without a tool like MojoMotor, as a developer, to build a simple 5-page site like this, a typical approach would
+be to build a single "master" page with "lorem ipsum" content, then copy and paste or re-save that page 5 times, changing the copy in
+each page as you go. In MojoMotor, this "master" page, or the over-arching formatting of each page (the HTML/CSS if you will, or
+"non-copy") is called a "Layout". The Layout itself if not displayed, but rather is used as the basis upon which your actual "Pages"
+will be based. In PowerPoint, it would be a "Slide Master".</p>
+
+<p>The actual pages to be displayed, are all based upon Layouts. Areas of the Layout that will be different from each other, or the
+"copy" areas of the page, are called "Regions". While your pages will be largely identical to each other, they will have different text
+and images in these Regions.</p>
+
+<p>Pages represent the actual webpages on your site, that are viewed by your site visitors. For example, the classic "home" or "about"
+pages. These pages tend to be the same as one another, only with different text. In other words, they are different "Pages" all based
+on the same "Layout", with unique text in the Layout's "Regions".</p>
+
+<h2>Example MojoMotor workflow</h2>
+
+<p>You are building a simple 5 page website for your client. They value your design expertise, but want to be able to update their
+site's content. This sounds like an ideal job for MojoMotor!</p>
+
+<ol>
+	<li>Fire up your graphics editor, build a killer look for the site and get client approval.</li>
+	<li>Slice and dice that page into stunning semantic standards-compliant HTML.</li>
+	<li>That Lorem Ipsum text? Wrap it in a &lt;div&gt; and add a CSS class of <kbd>mojo_page_region</kbd> to it. That alone will identify it as an area of the page that your client will be able to edit using MojoMotor's simple WYSIWYG <a href="mojo_editor.html">Editor</a>.</li>
+	<li><a href="setup/index.html">Install MojoMotor</a> on your client's site, set up yourself as an "admin", and them as an "editor" (see more about admins and editors below.
+Note that at this point we could have "<a href="setup/importer.html">imported</a>" our design, but for the sake of illustration, we'll
+continue manually.)</li>
+	<li>Click on the "Layout" tab, and create a single Layout, using the code you created in step 2.</li>
+	<li>Click on the "Pages" tab, and create your 5 pages based off the layout you created.</li>
+	<li>Have your client visit the site and add their own content through easy and familiar tools, or add it for them.</li>
+	<li>Invoice them, twitter about how easy MojoMotor made your job! :)</li>
+</ol>
+
+<h2>Admins and Editors</h2>
+
+<p>There are 2 types of members available to you, Admins and Editors. Admin members have full access to all of your MojoMotor site,
+and are not restricted in any way. Editors are members who need to be able to access and change <a
+href="mojo_regions.html">editable and global regions</a>, and add <a href="admin/admin_pages.html">Pages</a>, however they have no access
+to the other functions of your site, such as Layouts, or Member management. <em>Editors are content custodians</em>.</p>
+
+<p class="important"><strong>Important concept:</strong> <kbd>Admin members</kbd> have full access to all features of MojoMotor. <kbd>Editors</kbd>
+can access the <a href="mojo_editor.html">MojoMotor Editor</a> on each page, and edit pages, but do not have access to the other features of MojoMotor.</p>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+
+<p><a href="http://mojomotor.com/">MojoMotor</a> &nbsp;&middot;&nbsp; <a href="http://mojomotor.com/user_guide/">User Guide Home</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body></html>

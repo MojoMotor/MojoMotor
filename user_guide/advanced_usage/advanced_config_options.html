@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+
+
+<style type="text/css" media="all">@import url('../userguide.css');</style>
+<link rel="stylesheet" type="text/css" media="all" href="../userguide.css" />
+
+<meta http-equiv="expires" content="-1" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="robots" content="all" />
+<meta name="author" content="MojoMotor Development Team" />
+<meta name="description" content="MojoMotor user Guide" /></head><body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</tbody></table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td id="breadcrumb">
+<a href="../">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Advanced Configuration Options</a> &nbsp;&#8250;&nbsp;
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" type="hidden" />Search User Guide&nbsp; <input class="input" style="width: 200px;" name="q" id="q" size="31" maxlength="255" value="" type="text" />&nbsp;<input class="submit" name="sa" value="Go" type="submit" /></form></td>
+</tr>
+</tbody></table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Advanced Configuration Options</h1>
+
+<p>Some options within MojoMotor are not available through the web interface,
+but can still be controlled by editing <kbd>system/mojomotor/config/config.php</kbd>.</p>
+
+<h2>File Upload Preferences</h2>
+<p><pre>$config['upload_preferences'] = array(
+	1 => array(								// ID of upload destination
+		'name'		=> 'mm_uploads',				// Display name
+		'server_path'	=> '/home/user/example.com/mm_uploads/', 	// Server path to upload directory
+		'url'		=> 'http://example.com/mm_uploads/'		// URL of upload directory
+	)
+);
+</pre></p>
+
+<p>You can optionally override upload destination paths, URLs and titles via this
+configuration array.</p>
+
+<h2>Caching</h2>
+
+<p><code>$config['time_to_cache'] = '';</code></p>
+
+<p>Time to cache controls how many minutes a page will remain in cache before it refreshes
+If it is set to blank, then caching will not be used.</p>
+<p class="note">To use caching, the folder <kbd>system/mojomotor/cache</kbd> must be writable.</p>
+
+<h2>URL separator</h2>
+
+<p><code>$config['url_separator'] = '-';</code></p>
+
+<p>The 'url_separator' is the character that will be used to make url_title's for pages. For example "page one" becomes "page-one". The default is a dash. Another common value is "_".</p>
+
+<h2>Show Profiler</h2>
+
+<p><code>$config['show_profiler'] = FALSE;</code></p>
+
+<p>Setting 'show_profiler' to TRUE will cause profiler information to automatically load on the bottom of appropriate pages.</p>
+
+<h2>Show Expanded Image Options</h2>
+
+<p><code>$config['show_expanded_image_options'] = FALSE;</code></p>
+
+<p>Setting 'show_expanded_image_options' to TRUE will reveal further options on the editor's image dialog. Border, HSpace, Vspace, Align and a visual Image Preview with Lorem Ipsum text.</p>
+
+
+<h2>Disable Third Party Addons</h2>
+
+<p><code>$config['disable_third_party_addons'] = FALSE;</code></p>
+
+<p>Setting 'disable_third_party_addons' to TRUE prevent the loading of third party addons.</p>
+
+
+<h2>Additional CSS</h2>
+
+<p><code>$config['additional_css'] = '';</code></p>
+
+<p>When a user is logged in, after MojoMotor is loaded, a call for a jQuery UI stylesheet is made. If these styles collide with your own, you can specify an additional CSS file to load <em>after</em> MojoMotor has finished loading its own. This will allow you to over-ride styles with your own stylesheet. For example:</p>
+<p><code>$config['additional_css'] = 'http://example.com/your_jquery_ui_styles.css.';</code></p>
+
+<h2>Require Consent for Cookies</h2>
+
+<p><code>$config['require_cookie_consent'] = 'y';</code></p>
+
+<p>Prevents setting cookies using core MojoMotor functions unless prior consent is indicated
+	 by the presence of a <kbd>'cookies_allowed'</kbd> cookie.  Note that forms will not work
+	 for users who have not granted permission for cookies to be set and that access to login 
+	forms will be prohibited until consent is granted.  For users who are currently logged in,
+	a permission cookie will be set automatically to ensure seamless functionality.</p> 
+
+
+</div>
+<!-- END CONTENT -->
+
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+
+<p><a href="http://mojomotor.com/">MojoMotor</a> &nbsp;&middot;&nbsp; <a href="http://mojomotor.com/user_guide/">User Guide Home</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body>
+</html>

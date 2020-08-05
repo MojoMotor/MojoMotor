@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+
+<style type='text/css' media='all'>@import url('userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='userguide.css' />
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='MojoMotor user Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://mojomotor.com/">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Languages
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Languages</h1>
+
+<p>Language Packs allow you to run MojoMotor in a different language.</p>
+
+<h2><a name="install"></a>Installing a Language Pack</h2>
+<ol>
+	<li>Visit the <a href="http://mojomotor.com/language">MojoMotor Languages page</a> and download the appropriate pack. The version of the pack <strong>must</strong> match the version of MojoMotor you have installed (you can check this by clicking Help in the Mojobar)</li>
+	<li>Extract and upload the folder (it should be the name of a language) to <kbd>system/mojomotor/language</kbd>.</li>
+	<li>The language will be available for Admin users to choose on the Settings tab of the Mojobar.</li>
+</ol>
+
+<div class="important">
+	<p><strong>Note:</strong> Some third party addons may not work if you change your language from the default (English). Contact your addon developer to verify language pack compatibility.</p>
+</div>
+
+<h2><a name="create"></a>Creating a Language Pack</h2>
+<ol>
+	<li>Duplicate the <kbd>system/mojomotor/language/english</kbd> folder.</li>
+	<li>Change the name of the duplicated folder to your desired language (e.g. "french" or "spanish").</li>
+	<li>Open each of the files in your text editor and you'll see a series of key => value pairs:</li>
+	<code>'key' => 'value: This is the English term to be translated',</code>
+	<li>Replace the English value with that of your language. Be sure to remember the comma at the end of the line!</li>
+</ol>
+
+<p>The following files are from CodeIgniter, and you may be able to find already translated versions on the <a href="http://codeigniter.com/wiki/Language_Translation/">CodeIgniter Language Translation</a> page:</p>
+<ul>
+	<li>calendar_lang.php</li>
+	<li>date_lang.php</li>
+	<li>db_lang.php</li>
+	<li>email_lang.php</li>
+	<li>form_validation_lang.php</li>
+	<li>ftp_lang.php</li>
+	<li>imglib_lang.php</li>
+	<li>number_lang.php</li>
+	<li>profiler_lang.php</li>
+	<li>unit_test_lang.php</li>
+
+	<li>upload_lang.php</li>
+</ul>
+
+<div class="important">
+	<p><strong>Please do not translate license_lang.php.</strong> We are currently only able to offer our license in English, so you should include the file unmodified.</p>
+</div>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+<p><a href="http://mojomotor.com">MojoMotor</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body>
+</html>

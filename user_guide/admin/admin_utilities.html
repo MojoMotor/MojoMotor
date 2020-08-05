@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+
+
+<style type="text/css" media="all">@import url('../userguide.css');</style>
+<link rel="stylesheet" type="text/css" media="all" href="../userguide.css" />
+
+<meta http-equiv="expires" content="-1" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="robots" content="all" />
+<meta name="author" content="MojoMotor Development Team" />
+<meta name="description" content="MojoMotor user Guide" /></head><body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</tbody></table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td id="breadcrumb">
+<a href="../">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Admin Toolbar</a> &nbsp;&#8250;&nbsp;
+Utilities
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" type="hidden" />Search User Guide&nbsp; <input class="input" style="width: 200px;" name="q" id="q" size="31" maxlength="255" value="" type="text" />&nbsp;<input class="submit" name="sa" value="Go" type="submit" /></form></td>
+</tr>
+</tbody></table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Utilities</h1>
+
+<p><img src="../images/utilities.png" alt="" /></p>
+
+<h2>Export to ExpressionEngine</h2>
+
+<p>The ExpressionEngine exporter creates a file that can be used to quickly import your data into ExpressionEngine.</p>
+
+<p class="important">MojoMotor data is intended to be imported into a <em>new</em> ExpressionEngine installation. Existing ExpressionEngine sites may have trouble importing
+data. Always back up your data before attempting imports.</p>
+
+<p class="important">The MojoMotor contact form will need to be manually converted after the export has been completed.  Note that the <a href="http://expressionengine.com/user_guide/modules/email/contact_form.html">ExpressionEngine Contact Form</a> requires a "from" field which will not be present in your MojoMotor form.</p>
+
+<h3>Exporting from MojoMotor to ExpressionEngine</h3>
+
+<ol>
+	<li>Click <kbd>Export to ExpressionEngine</kbd> and save the resulting file</li>
+	<li>Prepare your ExpressionEngine Install
+		<ul>
+		<li>Fully read the ExpressionEngine <a href="http://expressionengine.com/user_guide/installation/installation.html">Installation Documentation</a></li>
+		<li>If you have renamed your system folder for MojoMotor?  Rename your ExpressionEngine system folder to match.</li>
+		<li>If you have renamed your index.php file for MojoMotor?  Rename your ExpressionEngine system folder to match.</li>
+		</ul>
+	</li>
+	<li>Run the ExpressionEngine Installation Wizard
+		<ul>
+		<li>Select 'None- Empty Installation' as your default template design.</li>
+		<li>In 'Optional Modules', check the Pages module and the Member module (at a minimum) as they will be needed by the importer.</li>
+		<li>When creating your ExpressionEngine Administrator, if you use an email address that matches the username of a MojoMotor member, that MojoMotor member will be skipped in the import.</li>
+		</ul>
+	</li>
+	<li>Install the MojoMotor importer module
+		<ul>
+		<li>Unzip the <a href="http://mojomotor.com/resources/mojomotor_import.zip">MojoMotor Importer</a> and place the mojomotor_import folder in /system/expressionengine/third_party/</li>
+		</ul>
+	</li>
+	<li>Login to ExpressionEngine and visit Add-Ons > Modules. Click the <kbd>Install</kbd> link for the MojoMotor Importer and then click on <kbd>MojoMotor Importer</kbd> to open the module's control panel.</li>
+	<li>Upload the file you saved in step 1.</li>
+</ol>
+
+<h3>Understanding How MojoMotor Data Maps to ExpressionEngine</h3>
+
+<ul>
+	<li>Each MojoMotor Layout of the type Webpage or Embed Content will have an ExpressionEngine <a href="http://expressionengine.com/user_guide/cp/admin/content_admin/channel_management.html">Channel</a> created to hold associated page data.  The Channel will have the same name as the layout.  In addition, a <a href="http://expressionengine.com/user_guide/cp/admin/content_admin/custom_channel_fields.html">Custom Field Group</a> of the same name will be created.</li>
+	<li>Each Page Region will have the data associated with it imported as a new channel entry assigned to the Channel named for the Page Region's Layout.  The author of each entry will be the logged in user who runs the import.</li>
+	<li>Each Global Region will have it's data imported as a <a href="http://expressionengine.com/user_guide/templates/globals/snippets.html">Snippet</a>.</li>
+	
+	<li>Each MojoMotor Layout will be converted to an ExpressionEngine <a href="http://expressionengine.com/user_guide/overview/templates.html">template</a>.
+		<ul>
+		<li>For Webpage type layouts, a template group will be created with the same name as the layout and the layout content will be in that group's index template.</li>
+		<li>For Stylesheet, Javascript and Embed Content layouts, a template group named 'EE_globals' will be created and each of these layouts will be converted to a template with the same name, housed in the EE_globals template group.</li>
+		</ul>
+	</li>
+	<li>MojoMotor Tags will be converted to ExpressionEngine tags as follows:
+		<ul>
+		<li>{mojo:site:site_name} -> {site_name}</li>
+		<li>{mojo:site:page_list} tags do not have an ExpressionEngine counterpart so each tag's output is turned into a snippet with the snippet name prefixed by page_list_</li>
+		<li>{mojo:page:tag} tags will be converted to their corresponding <a href="http://expressionengine.com/user_guide/cp/admin/content_admin/custom_channel_fields.html">Custom Field</a> and wrapped in a properly constructed <a href="http://expressionengine.com/user_guide/modules/channel/channel_entries.html">Channel Entries Tag</a></li>
+		<li>{mojo:site:site_url} -> {site_url}</li>
+		<li>{mojo:site:asset_url} -> {asset_url} snippet</li>
+		<li>{mojo:site:link}about -> {path='about'}</li>
+		<li>{mojo:site:login} -> {path='member/login'}</li>
+		<li>{mojo:layout:stylesheet stylesheet="styles"} -> {stylesheet="styles"}</li>
+		<li>{mojo:layout:javascript script="myscript"} -> {path='myscript'}</li>
+		<li>{mojo:layout:append_content} -> {append_content_layout_name} snippet</li>
+		<li>{mojo:layout:embed layout="header"} -> {embed="header"}</li>
+		<li>{mojo:setting:version} -> {app_version}</li>
+		<li>Comment tags work the same in ExpressionEngine, thus no conversion is needed</li>
+		</ul>
+	</li>			
+	<li>Members are imported into ExpressionEngine, with 'Members' assigned to the Member group and 'Admins' assigned to the Superadmin group.  By default, only the Superadmin group has access to the Control Panel.
+		<ul>
+		<li>The username and screen name in ExpressionEngine will be the email address from MojoMotor.</li>
+		<li>If an identical member email already exists in ExpressionEngine, it will skip that MojoMotor member during the import process.</li>
+		</ul>
+	</li>
+</ul>
+
+</div>
+<!-- END CONTENT -->
+
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+
+<p><a href="http://mojomotor.com/">MojoMotor</a> &nbsp;&middot;&nbsp; <a href="http://mojomotor.com/user_guide/">User Guide Home</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body></html>

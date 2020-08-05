@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+
+
+<style type="text/css" media="all">@import url('../userguide.css');</style>
+<link rel="stylesheet" type="text/css" media="all" href="../userguide.css" />
+
+<meta http-equiv="expires" content="-1" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="robots" content="all" />
+<meta name="author" content="MojoMotor Development Team" />
+<meta name="description" content="MojoMotor user Guide" /></head><body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</tbody></table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td id="breadcrumb">
+<a href="../">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Development
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" type="hidden" />Search User Guide&nbsp; <input class="input" style="width: 200px;" name="q" id="q" size="31" maxlength="255" value="" type="text" />&nbsp;<input class="submit" name="sa" value="Go" type="submit" /></form></td>
+</tr>
+</tbody></table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Development</h1>
+
+<p>MojoMotor allows for developers to expand its capabilities by programmatically adding new Mojo tags into the system. Addons are implemented as <a href="http://codeigniter.com">CodeIgniter</a> Packages. As such, they can have their own libraries, helpers, models and language files.</p>
+
+<p>Addons are automatically loaded when they are called,. They must follow a specific naming convention.</p>
+
+<h2>Building an addon</h2>
+<p>MojoMotor addons involve the creation of your own syntax for mojo tags. Mojo tags can be either empty, or container elements. Consider the following Mojo tags:</p>
+
+<code>
+{mojo:addon:function}<br />
+<br />
+// or alternatively<br />
+<br />
+{mojo:addon:function}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;additional info<br />
+{/mojo:addon:function}
+</code>
+
+<p>All tags follow the pattern:</p>
+
+<ol>
+	<li><kbd>mojo</kbd> : First segment is always "mojo". This identifies it within MojoMotor as a Mojo tag.</li>
+	<li><kbd>addon name</kbd> : Second segment is the name of the addon you are building. This name must follow specific conventions (see below).</li>
+	<li><kbd>function</kbd> : Third segment is the specific function within your addon that should be called.</li>
+</ol>
+
+<h3>File structure</h3>
+
+<p>Your addon will be placed in system/mojomotor/third_party/, and must have this file structure:</p>
+
+<ul>
+	<li>third_party/
+		<ul>
+			<li>addon_name/
+				<ul>
+					<li>index.html</li>
+					<li>libraries/
+						<ul>
+							<li>addon_name.php</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+</ul>
+
+<p><img src="../images/addon_folder_structure.png" width="278" height="116" alt="addon folder structure" /></p>
+
+<p>Libraries are required. If you choose to use models, helpers or language files, they would also go as directories underneath your main addon folder.</p>
+
+<h3>The Library File</h3>
+
+<p>The library file is the most important file of your addon. It should have a class named identically to your addon folder, with an uppercase first letter. If our addon was in a "robots" folder, we'd expect the library to have this pattern:</p>
+
+<code>
+&lt;?php if (!defined('BASEPATH')) exit('No direct script access allowed');<br />
+<br />
+/**<br />
+ * Robot example Addon<br />
+ *<br />
+ */<br />
+class Robots<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function addon_function()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// code here<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}<br />
+</code>
+
+<p>This example would be called in a layout via:</p>
+
+<code>{mojo:robots:addon_function}</code>
+
+<p>For more detailed examples, see the "robots" addon available in /system/mojomotor/third_party/robots</p>
+
+
+<h2>Programming assets</h2>
+
+<p>Your addon has full access to every CodeIgniter library, helper and other asset (for example, the database layer). To leverage these tools, you must reference the CodeIgniter super object with get_instance()</p>
+
+<code>
+$addon =& get_instance();
+</code>
+
+<p>Once you've assigned the object to a variable, you'll use that variable:</p>
+
+<code>
+$addon =& get_instance();<br />
+$addon->load->helper('url');
+</code>
+
+<h2>Links and function routing within Addons</h2>
+
+<p>MojoMotor will automatically re-route any requests made to <kbd>index.php/admin/addons/{name}/{function}/{optional_parameters}</kbd> to an addon:</p>
+
+<ol>
+	<li>{name} is the name of the addon.</li>
+	<li>{function} is the specific function within that addon.</li>
+	<li>{optional_parameters} are any additional segments, and represent any variables that will be passed to the addon function as function parameters.</li>
+</ol>
+
+<p>For example, the <a href="../contact_form.html">contact form</a> is implemented in the style of an addon. It uses the <a href="http://codeigniter.com/user_guide/helpers/form_helper.html">CodeIgniter form helper</a> to generate a link to the send() function like this:</p>
+
+<code>
+// This line gives us access to "form_open()" and other form helper functions<br />
+$addon->load->helper('form');<br />
+<br />
+// This simplified example will create<br />
+// &lt;form action="http://example.com/index.php/addons/contact/send"&gt;<br />
+// That will run the send() function within the contact addon when it is submitted<br />
+return form_open('addons/contact/send');
+</code>
+
+</div>
+<!-- END CONTENT -->
+
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+
+<p><a href="http://mojomotor.com/">MojoMotor</a> &nbsp;&middot;&nbsp; <a href="http://mojomotor.com/user_guide/">User Guide Home</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body></html>

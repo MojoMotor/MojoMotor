@@ -1,0 +1,363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+
+<style type='text/css' media='all'>@import url('userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='userguide.css' />
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='MojoMotor user Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://mojomotor.com/">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+MojoMotor Tags
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>MojoMotor Tags</h1>
+
+<ul>
+	<li><a href="#overview">Overview</a></li>
+	<li><a href="#site_tags">Site Tags</a>
+	<ul>
+		<li><a href="#site_name">{mojo:site:site_name}</a></li>
+		<li><a href="#site_url">{mojo:site:site_url}</a></li>
+		<li><a href="#asset_url">{mojo:site:asset_url}</a></li>
+		<li><a href="#link">{mojo:site:link}</a></li>
+		<li><a href="#login">{mojo:site:login}</a></li>
+		<li><a href="#page_list">{mojo:site:page_list}</a></li>
+	</ul>
+	</li>
+	<li><a href="#page_tags">Page Tags</a>
+	<ul>
+		<li><a href="#page_title">{mojo:page:page_title}</a></li>
+		<li><a href="#url_title">{mojo:page:url_title}</a></li>
+		<li><a href="#keywords">{mojo:page:keywords}</a></li>
+		<li><a href="#description">{mojo:page:description}</a></li>
+	</ul>
+	</li>
+	<li><a href="#layout_tags">Layout Tags</a>
+	<ul>
+		<li><a href="#stylesheet">{mojo:layout:stylesheet}</a></li>
+		<li><a href="#javascript">{mojo:layout:javascript}</a></li>
+		<li><a href="#append_content">{mojo:layout:append_content}</a></li>
+		<li><a href="#embed">{mojo:layout:embed}</a></li>
+	</ul>
+	</li>
+	<li><a href="#setting_tags">Setting Tags</a>
+	<ul>
+		<li><a href="#version">{mojo:setting:version}</a></li>
+	</ul>
+	</li>
+	<li><a href="#comments">Comments</a></li>
+	<li><a href="#cookie_consent_tags">Cookie Consent Tags</a>
+	<ul>
+		<li><a href="#allow_cookies_link">{mojo:cookie_consent:allow_cookies_link}</a></li>
+		<li><a href="#disallow_cookies_link">{mojo:cookie_consent:disallow_cookies_link}</a></li>
+	</ul>
+	</li>
+	
+</ul>
+
+<h2><a name="overview"></a>Overview</h2>
+
+<p>MojoMotor uses a very simple tagging language to facilitate some tasks throughout the system. MojoMotor tags are surrounded in curly braces "{" and "}" and are always prefaced with "mojo". Arguments are separated by colons. There are 3 types of tags; page, site and setting. This is much easier to understand by example.</p>
+
+<code>
+{mojo:site:site_name}
+</code>
+
+In the above snippet, notice the entire tag is wrapped in curly braces. It is prefaced with "mojo". The tag type comes next, in this case "site" and finally the information we are looking for is referenced last, in this case the name of the site.</p>
+
+<p class="important">Mojo tags cannot be used inside of editable regions.</p>
+
+<h2><a name="site_tags"></a>Site Tags {mojo:site:tag}</h2>
+<p>These are tags that pertain to information about the site as a whole.</p>
+
+<h3><a name="site_name"></a>{mojo:site:site_name}</h3>
+<p>The name of the site provided during installation, and found in <a href="admin/admin_site_settings.html">Site Settings</a>.</p>
+
+<code>
+&lt;title><kbd>{mojo:site:site_name}</kbd>&lt;/title><br /><br />
+// Produces something similar to<br /><br />
+&lt;title><kbd>League of Heroes</kbd>&lt;/title>
+</code>
+
+<h3><a name="site_url"></a>{mojo:site:site_url}</h3>
+<p>Returns your site base URL. For example, "http://example.com/". This can easily be changed
+	in <kbd>system/mojomotor/config/config.php</kbd>.</p>
+
+<h3><a name="asset_url"></a>{mojo:site:asset_url}</h3>
+<p>This tag produces a URL that you can use to build links to site resources such as stylesheets, scripts or images.
+	By default it is usually something similar to "http://example.com/import/default" but can easily be changed
+	in <kbd>system/mojomotor/config/config.php</kbd>.</p>
+
+<code>
+&lt;link rel='stylesheet' type='text/css' media='all' href='<kbd>{mojo:site:asset_url}</kbd>css/userguide.css' /><br /><br />
+// Produces something similar to<br /><br />
+&lt;link rel='stylesheet' type='text/css' media='all' href='<kbd>http://example.com/import/default/</kbd>css/userguide.css' />
+</code>
+
+<code>
+&lt;img src="<kbd>{mojo:site:asset_url}</kbd>images/header_back.png"><br /><br />
+// Produces something similar to<br /><br />
+&lt;img src="<kbd>http://example.com/import/default/</kbd>images/header_back.jpg">
+</code>
+
+<h3><a name="link"></a>{mojo:site:link}</h3>
+<p>Used to create links between pages on your site. Links should always point to the page's "url_title".</p>
+
+<code>
+&lt;a href='<kbd>{mojo:site:link}</kbd>about'>About Us&lt;/a><br /><br />
+// Produces something similar to<br /><br />
+&lt;a href='<kbd>http://example.com/index.php/page/</kbd>about'>About Us&lt;/a>
+</code>
+
+An optional "page" attribute, allows you to specify the exact page you want linked to.
+<code>
+&lt;a href='<kbd>{mojo:site:link page="aboutus"}</kbd>'>About Us&lt;/a><br /><br />
+// Produces<br /><br />
+&lt;a href='<kbd>http://example.com/index.php/page/aboutus/</kbd>'>About Us&lt;/a>
+</code>
+
+
+
+<h3><a name="login"></a>{mojo:site:login}</h3>
+<p>If you have "in page login" site in <a href="admin/admin_site_settings.html">Site Settings</a>, this tag produces an automated login link. If "in page login" is not turned on, it will simply be ignored.</p>
+
+<p>Typically, this tag would be included in a page footer, or similar out of the way page location.</p>
+
+<p>The link will simply be the text "login" (localized to your language file), but the optional "text" attribute, allows you to
+specify the exact text used by the login link.</p>
+
+<code>
+{mojo:site:login text="Login to our site now"}
+</code>
+
+<p>If the optional <a href="advanced_usage/advanced_config_options.html"><kbd>require_cookie_consent</kbd></a> configuration setting is set to <kbd>y</kbd>, login is not allowed for users who have not accepted cookies.  In this case, the tag will produce a link to allow cookies (localized to your language file).
+
+
+<h3><a name="page_list"></a>{mojo:site:page_list}</h3>
+<p>Generates a "menu" based on your page settings. The output is an unordered list, nested as per your <a href="admin/admin_pages.html">pages</a> organization. Pages which have "Include in Page List?" unchecked in the page options will not be listed (nor will its children).</p>
+<h4>{mojo:site:page_list} Parameters</h4>
+<ul>
+	<li>class - will apply the CSS class to every &lt;ul&gt; in the page list (including nested lists for sub-pages).</li>
+	<li>id - will apply an ID attribute <em>to the top level list only</em> of your page list.</li>
+	<li>page - optionally allows you to specify the URL Title of the page to list children from. You can also specify
+		page="CURRENT_PAGE" to generate a list of the child pages based on the current page.
+	</li>
+	<li>depth - optionally allows you to specify how many levels of Pages to display. For example, depth="1" will show only
+		topmost pages (no children).
+	</li>
+</ul>
+
+<p>The markup produced by page_list is a nested, unordered list, with each list item holding an id of "mojo_page_list_urltitle", where url_title is the URL
+title specified in the page settings. <em>The page you are currently on will have a class of "mojo_active" on it</em>, which can be used for styling or
+identification purposes. Additionally links pointing to your site's default page will exclude the url_title identification. For example, if we were on the "contact" page, then <kbd>{mojo:site:page_list id="nav" class="menu"}</kbd> will generate:</p>
+
+<code>
+	&lt;ul id="nav" class="menu"&gt;<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li id="mojo_page_list_about"&gt;&lt;a href="http://example.com/index.php/page/about"&gt;About&lt;/a&gt;<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li id="mojo_page_list_subpage"&gt;&lt;a href="http://example.com/index.php/page/subpage"&gt;subpage&lt;/a&gt;&lt;/li&gt;<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li id="mojo_page_list_contact" class="mojo_active"&gt;&lt;a href="http://example.com/index.php/page/contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li id="mojo_page_list_index"&gt;&lt;a href="http://example.com/index.php"&gt;Home&lt;/a&gt;&lt;/li&gt;<br />
+	&lt;/ul&gt;
+</code>
+
+<p>Pages with "Include in Page List?" unchecked will not show in the list, however if such a page is explicitly called via the page parameter, its children <em>will</em> be visible.</p>
+
+<h2><a name="page_tags"></a>Page Tags {mojo:page:tag}</h2>
+<p>These are tags that pertain to specific pages.</p>
+
+<h3><a name="page_title"></a>{mojo:page:page_title}</h3>
+<p>The page title, as provided in page settings.</p>
+
+<h3><a name="url_title"></a>{mojo:page:url_title}</h3>
+<p>The page url title, as provided in page settings.</p>
+
+<h3><a name="keywords"></a>{mojo:page:keywords}</h3>
+<p>The page keywords, as provided in page settings.</p>
+
+<h3><a name="description"></a>{mojo:page:description}</h3>
+<p>The page description, as provided in page settings.</p>
+
+
+<h2><a name="layout_tags"></a>Layout Tags {mojo:layout:tag}</h2>
+<p>These are tags that relate with MojoMotor layouts.</p>
+
+
+<h3><a name="stylesheet"></a>{mojo:layout:stylesheet stylesheet="layout_name"}</h3>
+<p>Used to link stylesheet layouts into your site.</p>
+<code>
+	&lt;head><br />
+	&lt;title>Document Title&lt;/title><br />
+	&lt;style type="text/css">{mojo:layout:stylesheet stylesheet="styles"}&lt;/style><br />
+	&lt;/head>
+</code>
+
+produces
+
+<code>
+	&lt;head><br />
+	&lt;title>Document Title&lt;/title><br />
+	&lt;style type="text/css"><br />
+	/* The layout content. In this case, a single style rule for paragraph */<br />
+	p {font-size: 100%;}<br />
+	&lt;/style><br />
+	&lt;/head>
+</code>
+
+<h3><a name="javascript"></a>{mojo:layout:javascript script="layout_name"}</h3>
+<p>Used to include javascript templates into your page.</p>
+<code>
+	&lt;head><br />
+	&lt;title>Document Title&lt;/title><br />
+	&lt;script type="text/javascript">{mojo:layout:javascript script="myscript"}&lt;/script><br />
+	&lt;/head>
+</code>
+
+produces
+
+<code>
+	&lt;head><br />
+	&lt;title>Document Title&lt;/title><br />
+	&lt;script type="text/javascript"><br />
+	/* The layout content. In this case, a single alert command */<br />
+	alert('Javascript is running');<br />
+	&lt;/script><br />
+	&lt;/head>
+</code>
+
+
+<h3><a name="append_content"></a>{mojo:layout:append_content}</h3>
+<p>Allows for content to be appended to the very bottom of the document, immediately before &lt;/body&gt;, but after MojoMotor has finished its output. Useful for adding your own javascript to the document, or an analytics package. This tag can be called from anywhere in a layout, and can be used as often as is needed.</p>
+<code>
+{mojo:layout:append_content}<br />
+&lt;script type="text/javascript"&gt;<br />
+jQuery(document).ready(function() {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert('Waited for jQuery's ready() function before I did this.');<br />
+});<br />
+&lt;/script&gt;<br />
+{/mojo:layout:append_content}
+</code>
+
+<p>More information on using javascript with MojoMotor is available in the <a href="advanced_usage/using_javascript.html">Using Javascript</a> section of the User Guide.</p>
+
+<h3><a name="embed"></a>{mojo:layout:embed layout="header"}</h3>
+<p>Used to include an <a href="admin/admin_layouts.html#layout_type">Embed Content Layout</a> in another layout.  For example, you may have a block of code you use at the top of every page, across multiple layouts.  Instead of writing the same code in each layout, you can put it in a single Embed layout and include that layout in all of the others, thus allowing you to edit it in only one layout and affect all of them.
+
+<p>Embed Content Layout named 'header':</p>
+<code>
+&lt;h1>Welcome to our site!&lt;/h1&gt;<br>
+&lt;div class="mojo_global_region" id="latest_news"><br>
+Link to the featured product goes here!<br>
+&lt;/div>
+</code>
+
+<p>Main Content Layout:
+<code>
+html header, etc.....<br>
+{mojo:layout:embed layout="header"}
+</code>	
+
+<h2><a name="setting_tags"></a>Setting Tags {mojo:setting:tag}</h2>
+<p>These are tags that pertain to <a href="admin/admin_site_settings.html">Site Settings</a>.</p>
+
+<h3><a name="version"></a>{mojo:setting:version}</h3>
+<p>Outputs the currently installed version of MojoMotor.</p>
+
+<h2><a name="comments"></a>Commenting Layout Code</h2>
+
+<p>MojoMotor allows developers to comment their layouts in an easy syntax so that the comments will be available to them when editing
+their layouts but the comments will never be displayed when that layout is rendered. This allows developers to jot down notes about
+their usage of tags, variables, etc, for future reference while keeping users from ever seeing those notes.</p>
+
+<p>The syntax for commenting your layout code is fairly similar to HTML comments, just instead of the greater than and lesser than
+symbols, you use the opening and closing curly quote brackets, like with other MojoMotor Tags:</p>
+
+<code>
+
+&#123;!-- <br /><br />
+Your comments will go in here.<br />
+You can even span it across multiple lines.<br /><br />
+--&#125;</code>
+
+<p>Any MojoMotor code that you put in these comments will NOT be rendered, so you can comment out old code or perhaps reference tags
+for later.</p>
+
+
+<h2><a name="cookie_consent_tags"></a>Cookie Consent Tags {mojo:cookie_consent:tag}</h2>
+<p>These tags produce links that will allow and disallow the setting of cookies.  
+	Note that the <a href="advanced_usage/advanced_config_options.html">
+	<kbd>$config['require_cookie_consent']</kbd></a> configuration variable must be 
+	set to <kbd>'y'</kbd> for these tags to output content.</p>
+
+<h3><a name="allow_cookies_link"></a>{mojo:cookie_consent:allow_cookies_link}</h3>
+<p>This tag produces a URL that, when clicked, sets a <kbd>cookies_allowed</kbd> 
+	cookie, which indicates to MojoMotor that permission has been granted to set site cookies.</p>
+
+<p>By default, the tag is replaced by a URL.  The optional text attribute allows you to
+specify the exact text used to create a link.  If link text is specified, you may also specify an optional class for the link.</p>
+
+<code>
+{mojo:cookie_consent:allow_cookies_link text="Allow cookies to proceed to login" class="cookie_style}
+</code>
+
+<h3><a name="disallow_cookies_link"></a>{mojo:cookie_consent:disallow_cookies_link}</h3>
+<p>This tag works exactly like the allow_cookies_link, except it produces a 
+	URL/link that will disallow cookies.  Clicking the link will remove all 
+	site cookies with the MojoMotor cookie prefix and prevent the setting of new ones.</p>
+
+
+
+</div>
+<!-- END CONTENT -->
+
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+<p><a href="http://mojomotor.com">MojoMotor</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body>
+</html>

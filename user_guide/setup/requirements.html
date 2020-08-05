@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+
+
+<style type="text/css" media="all">@import url('../userguide.css');</style>
+<link rel="stylesheet" type="text/css" media="all" href="../userguide.css" />
+
+<meta http-equiv="expires" content="-1" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="robots" content="all" />
+<meta name="author" content="MojoMotor Development Team" />
+<meta name="description" content="MojoMotor user Guide" /></head><body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</tbody></table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td id="breadcrumb">
+<a href="../">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Setup</a> &nbsp;&#8250;&nbsp;
+Requirements
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" type="hidden" />Search User Guide&nbsp; <input class="input" style="width: 200px;" name="q" id="q" size="31" maxlength="255" value="" type="text" />&nbsp;<input class="submit" name="sa" value="Go" type="submit" /></form></td>
+</tr>
+</tbody></table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Installing MojoMotor</h1>
+
+<h2>Requirements Checklist</h2>
+
+<div class="important">
+	<p>We have created a <a href="http://mojomotor.com/resources/mm_server_wizard.zip">Server Wizard</a> that will verify whether your server is compatible with MojoMotor. To use the Wizard:</p>
+		<ul>
+			<li><a href="http://mojomotor.com/resources/mm_server_wizard.zip">Download</a> and unzip the archive.</li>
+			<li>Upload the folder to your server.</li>
+			<li>Point your web browser to the folder.&nbsp; Example: http://example.com/mm_server_wizard/</li>
+		</ul>
+</div>
+
+<ul>
+	<li>PHP 5.1.6 or higher is required by MojoMotor</li>
+	<li>MojoMotor requires a MySQL database
+		<ul>
+<!--			<li>MojoMotor and can run on either a MySQL or SQLite3 databases.</li>
+			<li>MySQL is recommended for sites that anticipate large volumes of traffic.</li> -->
+			<li>MojoMotor will attempt to create a database for you if it cannot find the one you specify, however some servers disallow this, and you will need to create it before you install.</li>
+		</ul>
+	</li>
+	<li>MojoMotor will need to make some files such as config, database and routes in system/mojomotor/config writable. If your server doesn't allow PHP to change files to "writable" (also known as "chmod") you'll need to follow the <a href="alternate_installation.html">alternate Installation</a> instructions.</li>
+</ul>
+
+<h2>Supported Browsers</h2>
+
+<p>The sites you build in MojoMotor are purely your own HTML, CSS, Javascript, and other assets. They will work in any browser you target. In other words,
+what your site visitors see, and what your end site will support is totally in your hands. The MojoMotor features however, such as the <a
+href="../admin/index.html">Admin Toolbar</a> or the <a href="../mojo_editor.html">MojoMotor Editor</a> use technology that requires modern browsers. If you or
+your client needs to use MojoMotor, a modern browser with Javascript and CSS enabled is required with at least a 1024 pixel viewport. The following browsers
+are known to work:</p>
+
+<ul>
+	<li>Firefox 3+</li>
+	<li>Safari 4+</li>
+	<li>Chrome</li>
+	<li>Internet Explorer 8+</li>
+</ul>
+
+</div>
+<!-- END CONTENT -->
+
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+
+<p><a href="http://mojomotor.com/">MojoMotor</a> &nbsp;&middot;&nbsp; <a href="http://mojomotor.com/user_guide/">User Guide Home</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body></html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MojoMotor User Guide</title>
+
+
+<style type="text/css" media="all">@import url('../userguide.css');</style>
+<link rel="stylesheet" type="text/css" media="all" href="../userguide.css" />
+
+<meta http-equiv="expires" content="-1" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="robots" content="all" />
+<meta name="author" content="MojoMotor Development Team" />
+<meta name="description" content="MojoMotor user Guide" /></head><body>
+
+<!-- START NAVIGATION -->
+<div id="masthead">
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td><h1>MojoMotor User Guide Version 1.2.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</tbody></table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td id="breadcrumb">
+<a href="../">MojoMotor Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Setup</a> &nbsp;&#8250;&nbsp;
+Importer
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input name="as_sitesearch" id="as_sitesearch" value="mojomotor.com/user_guide/" type="hidden" />Search User Guide&nbsp; <input class="input" style="width: 200px;" name="q" id="q" size="31" maxlength="255" value="" type="text" />&nbsp;<input class="submit" name="sa" value="Go" type="submit" /></form></td>
+</tr>
+</tbody></table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Website import case study</h1>
+
+<p>This tutorial will start with a single HTML page, and show you how you can convert and prepare it for MojoMotor.</p>
+
+<h2>Original site</h2>
+
+<p>The original site can be <a href="http://mojomotor.com/resources/honeycomb_original.zip">downloaded</a> for your review. The <a
+href="http://mojomotor.com/resources/honeycomb_import.zip">final results</a> are also available.</p>
+
+<p>The template used in this case study is courtesy of <a href="http://www.tonygeer.com/">Tony Geer</a>.</p>
+
+<p>While the original site to import was only a single page, we can see from the menu that 5 pages are ultimately planned; 3 within the "main" site menu (Home, About and Services) and 2 outside the menu, at the top of the page (Privacy Policy and Contact).</p>
+
+<p>As a plan of attack, we'll begin by altering the single included page, and then using that as the basis upon which to build all 4 other pages.</p>
+
+<p>Here's how the plain HTML/CSS site can be prepared for <a href="importer.html">import into MojoMotor</a>.</p>
+
+<h3>Site and Page naming</h3>
+
+<p><a href="../mojo_tags.html#site_name">{mojo:site:site_name}</a> can be used as a short-hand to reference the site, and <a
+href="../mojo_tags.html#page_title">{mojo:page:page_title}</a> can be used for the page title. In this case we made these adjustments:</p>
+
+<code>
+&lt;h1>&lt;a href="#">Honeycomb Industries&lt;/a>&lt;/h1>
+</code>
+
+<p>into</p>
+
+<code>
+&lt;h1>&lt;a href="#">{mojo:site:site_name}&lt;/a>&lt;/h1>
+</code>
+
+<p>Each page also uses a heading two to identify itself. We change</p>
+
+<code>
+&lt;h2>Welcome to our Website&lt;/h2>
+</code>
+
+<p>into</p>
+
+<code>
+&lt;h2>{mojo:page:page_title}&lt;/h2>
+</code>
+
+<h3>Site Navigation</h3>
+
+<p>Navigation is most commonly handled via <a href="../mojo_tags.html#page_list">{mojo:site:page_list}</a>.</p>
+
+<code>
+&lt;nav&nbsp;id="nav_main"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li>&lt;a&nbsp;href="#"&nbsp;class="current">Home&lt;/a>&lt;/li><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li>&lt;a&nbsp;href="#">About&nbsp;Us&lt;/a>&lt;/li><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li>&lt;a&nbsp;href="#">Services&lt;/a>&lt;/li><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul><br />
+&lt;/nav>
+</code>
+
+<p>becomes</p>
+
+<code>
+&lt;nav&nbsp;id="nav_main"&nbsp;role="navigation"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;{mojo:site:page_list}<br />
+&lt;/nav>
+</code>
+
+<p><strong>NOTE</strong>: In MojoMotor the "current" class is called "mojo_active", so we need to adjust our CSS styling for the "current page" accordingly.</p>
+
+<p>Recall that there are 2 pages outside of the main navigation at the top of the page. We will need these to link to their respective
+pages outside of the site menu. Adjust them as follows.</p>
+
+<code>
+&lt;li>&lt;a href="#">Privacy Policy&lt;/a>&lt;/li><br />
+&lt;li>&lt;a href="#">Contact Us&lt;/a>&lt;/li>
+</code>
+
+<p>becomes</p>
+
+<code>
+&lt;li>&lt;a href='{mojo:site:link page="privacy"}'>Privacy Policy&lt;/a>&lt;/li><br />
+&lt;li>&lt;a href='{mojo:site:link page="contact"}'>Contact Us&lt;/a>&lt;/li>
+</code>
+
+
+<h3>Editable Regions</h3>
+
+<p>We want our users to be able to use MojoMotor to edit the content inside of &lt;div id="primary"&gt;. Since content inside this area
+will be different on each page, we opt for a <a href="../mojo_regions.html">Page Region</a>. Inside the primary div we add:</p>
+
+<code>
+&lt;div id="primary_content" class="mojo_page_region"&gt;
+</code>
+
+<p>Similarly for &lt;div id="secondary"&gt;. We add &lt;div id="secondary_content" class="mojo_global_region"&gt;.</p>
+
+<h3>Login</h3>
+
+<p>The <a href="../mojo_tags.html#login">{mojo:site:login}</a> mojotag will take care of setting up the correct link to a modal login, or if the javascript
+cannot be loaded for any reason, taking the user to a standalone login page.</p>
+
+<code>
+&lt;a href="#">Log in to MojoMotor&lt;/a>
+</code>
+
+<p>becomes</p>
+
+<code>
+{mojo:site:login}
+</code>
+
+<h3>Adding the other site pages</h3>
+
+<p>In order to add the other site pages, we simply need html files to represent them. We can add about.html and services.html by copying index.html. Since
+we want them in the main menu created above, we don't need to change anything about them. For the contact and privacy pages, we want them created, but do
+not want them listed in the site menu, so we'll name them _contact.html and _privacy.html. The "_" preceding the
+filename will prevent it from being listed in the site menu, but MojoMotor will still create those pages.</p>
+
+<p>The <a href="http://mojomotor.com/resources/honeycomb_import.zip">completed site</a> is now ready to be imported into MojoMotor during installation.</p>
+
+</div>
+<!-- END CONTENT -->
+
+
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+
+<p><a href="http://mojomotor.com/">MojoMotor</a> &nbsp;&middot;&nbsp; <a href="http://mojomotor.com/user_guide/">User Guide Home</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body></html>

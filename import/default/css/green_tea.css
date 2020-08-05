@@ -1,0 +1,203 @@
+/*
+ * We're big fans of "The Kick Awesome" show put on by the immaculately bearded 
+ * gents of fortyseven media. In episode 3, they gave a shout out (some "dap"
+ * if you will) to MojoMotor, and it seemed only appropriate to return the favour.
+ *
+ * http://fortysevenmedia.com/blog/archives/tkas_episode_3/
+ */
+.kick-awesome-show-jonathan {
+	color: #B3B3B5; /* The perfect gray for chalk dust and robin feathers */
+}
+
+/* ARE YOU ISSUING ME A CHALLENGE! */
+
+.kick-awesome-show-nate {
+	color: #B3B3B3; /* The darker, sweatier, lumber-jackier of the grays */
+}
+
+
+#wrapper, #holder, #header_outer, #header, #menu, #content, #main_content, #sidebar, #footer {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: "Trebuchet MS", helvetica, arial, sans-serif; 
+	background: #EFF1F3;
+}
+
+#wrapper {
+	text-align: center; /* IE */
+}
+
+#holder {
+	/*
+		The site can easily be made "elastic" by changing this width
+		between absolute or percentage values. Ie: 951px or 80%
+	*/
+	width: 951px;
+
+	text-align: left; /* Fix for above */
+	background: #FFF url(../images/content_bottom.jpg) repeat-x bottom;
+	border: 6px solid #FFF;
+	margin: 75px auto;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 0px 0px 5px #DCDFE0; /* FF3.5+ */
+	-webkit-box-shadow: 0px 0px 5px #DCDFE0; /* Saf3.0+, Chrome */
+	box-shadow: 0px 0px 5px #DCDFE0; /* Opera 10.5, IE 9.0 */
+}
+
+#header_outer {
+	background: #9AB453 url(../images/header_outer.jpg) repeat-x top;
+}
+
+#header {
+	background: url(../images/header_back.jpg) no-repeat top left;
+	height: 205px;
+	border: 1px solid #B1CC53;
+}
+
+#header h1 {
+	text-align: center;
+	font-weight: normal;
+	color: #FFF;
+	line-height: 205px;
+}
+
+#menu {
+	background: #E8E9E5 url(../images/menu_back.png) repeat-x top;
+	border: 1px solid #E9E9E3;
+	border-top: 1px solid #FFF;
+	height: 34px;
+}
+
+#menu ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	line-height: 1;
+	z-index: 2;
+}
+
+#menu a {
+	display: block;
+	width: 100px;
+	line-height: 34px;
+
+	text-align: center;
+	text-decoration: none;
+	color: #474747;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+#menu li a:hover, #menu li.mojo_active a {
+	background: #FFF;
+}
+
+#menu li {
+	float: left;
+}
+
+
+#menu li ul {
+	position: absolute;
+	width: 100px;
+	left: -999em;
+	border-top: 1px solid #E9E9E3;
+}
+
+#menu ul li ul li {
+	border: 1px solid #E9E9E3;
+	border-top: 0;
+	background: #FFF;
+}
+
+#menu li:hover ul {
+	left: auto;
+}
+
+#menu li ul ul {
+	margin: -35px 0 0 100px;
+}
+
+#menu li:hover ul ul {
+	left: -999em;
+}
+
+#menu li:hover ul li:hover ul {
+	left: auto;
+}
+
+#content {
+	padding: 0 20px;
+	background: url(../images/content_top.jpg) repeat-x top;
+}
+
+#main_content {
+	float: left;
+	width: 74%; /* 1% as a nice margin between the content and sidebar */
+}
+
+#sidebar {
+	float: right;
+	width: 24%; /* 1% as a nice margin between the content and sidebar */
+}
+
+#content a, #footer a {
+	color: #B1CC53;
+}
+
+#content p, #content li, #content td, #content code {
+	font-size: 12px;
+	color: #4C4C4C;
+}
+
+#content p {
+	line-height: 133%;
+}
+
+#content blockquote, #content blockquote p {
+	font-size: 14px;
+}
+
+#content blockquote {
+	font-style: italic;
+	color: #4C4C4C;
+	background: url(../images/blockquote.png) no-repeat top left;
+	margin: 0;
+	padding: 0 40px;
+}
+
+
+#content h2, #content h3, #content h4, #content h5, #content h6 {
+	color: #474747;	
+}
+
+#content h2, #sidebar h3 {
+	font-size: 118%;
+}
+
+#content h3 {
+	font-size: 112%;
+}
+
+#content h4 {
+	font-size: 106%;
+}
+
+#content h5, #content h6 {
+	font-size: 100%;
+}
+
+#footer {
+	clear: both;
+	padding-top: 14px;
+}
+
+#footer p {
+	font-size: x-small;
+	color: #ACACAC;
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html
+xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <title>MojoMotor User Guide</title>
+
+<style type="text/css" media="all">@import url('../userguide.css');</style> <link rel="stylesheet" type="text/css" media="all"
+href="../userguide.css" />
+
+<meta http-equiv="expires" content="-1" /> <meta http-equiv="pragma" content="no-cache" /> <meta name="robots" content="all" /> <meta name="author"
+content="MojoMotor Development Team" /> <meta name="description" content="MojoMotor user Guide" /></head><body>
+
+<!-- START NAVIGATION --> <div id="masthead"> <table style="width: 100%;" border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td><h1>MojoMotor
+User Guide Version 1.1.0</h1></td> <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td> </tr> </tbody></table> </div>
+<!-- END NAVIGATION -->
+
+<!-- START BREADCRUMB --> <table style="width: 100%;" border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td id="breadcrumb"> <a
+href="../">MojoMotor Home</a> &nbsp;&#8250;&nbsp; <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp; <a href="index.html">Admin Toolbar</a>
+&nbsp;&#8250;&nbsp; Layouts </td> <td id="searchbox"><form method="get" action="http://www.google.com/search"><input name="as_sitesearch"
+id="as_sitesearch" value="mojomotor.com/user_guide/" type="hidden" />Search User Guide&nbsp; <input class="input" style="width: 200px;" name="q"
+id="q" size="31" maxlength="255" value="" type="text" />&nbsp;<input class="submit" name="sa" value="Go" type="submit" /></form></td> </tr>
+</tbody></table> <!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<a name="top"></a>
+
+<!-- START CONTENT --> <div id="content">
+
+<h1>Layouts</h1>
+
+<p> In MojoMotor, a <em>Layout</em> represents an outline that can later be used when building <a href="admin_pages.html">Pages</a>. The benefit of
+this approach is that information can be presented dynamically by using editable <a href="../mojo_regions.html">regions</a> and <a
+href="../mojo_tags.html">special Tags</a> within your layouts, and common layouts used across your site can be centrally controlled. </p>
+
+<p> Your MojoMotor powered site will consist of, at minimum, one layout, upon which at least a single page will be based. </p>
+
+<p class="important"> <strong>Important concept:</strong>&nbsp; A <kbd>layout</kbd> in MojoMotor is the building block of each <a
+href="admin_pages.html">page</a> on the site. It usually consists of one or more <a href="../mojo_regions.html">regions</a> which allow for editable
+content. </p>
+
+<h2> Viewing your current Layouts </h2>
+
+<p> All the layouts defined within MojoMotor are available simply by choosing the layout icon from the toolbar. </p>
+
+<h2> Layout Actions </h2>
+
+<h3> Adding a Layout </h3>
+
+<p> From the layout tab, simply select the "ADD LAYOUT" button. </p>
+
+<h3> Editing a Layout </h3>
+
+<p> To edit an existing layout, simply select the "edit" link (<img src="../images/pencil.png">) beside the layout you wish to edit. </p>
+
+<h3> Deleting a Layout </h3>
+
+<p> To delete an existing layout, simply select the "delete" link (<img src="../images/cross.png">) beside the layout you wish to delete. You will be
+prompted to confirm your deletion to prevent accidental layout removal. </p>
+
+<h2> Anatomy of a Layout </h2>
+
+<h3> Layout Title </h3>
+
+<p> The Layout Title is simply a title used within MojoMotor to identify the Layout when it is selected from within the <a
+href="admin_pages.html">Pages</a> tab. It should be a single word, letters, dashes and underscores. </p>
+
+<h3><a name="layout_type"></a> Layout Type </h3>
+
+<p> There are 4 types of layouts in MojoMotor. </p>
+
+<ul>
+	<li>Webpage - the most common type. Pages are almost always based on these types, and will be served as regular web pages to your visitors. </li>
+	<li>Stylesheet - this layout type is not usually needed, but can be used when you want to enable controlling of stylesheets by users who don't have
+access to other files. These layouts can be called using the <a href="../mojo_tags.html#stylesheet">{mojo:layout:stylesheet
+stylesheet="layout_name"}</a> tag, and will be served as Cascading Stylesheets by MojoMotor. </li>
+	<li>Javascript - similar to "Stylesheet" above, this layout type can be used to serve layouts as javascript. </li>
+	<li>Embed Contents- a 'partial' page that will not be available as a layout option when creating a new page.  An embed may be used inside any of the other layout types.  Global regions may be used in an embed, but page regions may not.  These layouts can be called using the <a href="../mojo_tags.html#embed">{mojo:layout:embed
+layout="layout_name"}</a> tag</li>
+</ul>
+
+<h3> Layout Content </h3>
+
+<p> Layouts are very similar to HTML pages. If you're comfortable, or even just familiar, with HTML, it should feel
+reasonably comfortable to you. Layout content is just regular HTML, with the addition of <a href="../mojo_tags.html">MojoTags</a>. For a good example
+of how a layout might be structured, install the sample site and view its coding. </p>
+
+</div> <!-- END CONTENT -->
+
+<div id="footer">
+<p><a href="#top">Top of page</a></p>
+
+<p><a href="http://mojomotor.com/">MojoMotor</a> &nbsp;&middot;&nbsp; <a href="http://mojomotor.com/user_guide/">User Guide Home</a> &nbsp;&middot;&nbsp; Copyright © 2010 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body></html>
