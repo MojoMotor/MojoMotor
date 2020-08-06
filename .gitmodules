@@ -1,0 +1,4 @@
+[submodule "system/codeigniter"]
+	path = system/codeigniter
+	url = git@github.com:bcit-ci/CodeIgniter.git
+	branch = 3.1-stable
