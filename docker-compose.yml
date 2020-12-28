@@ -1,0 +1,18 @@
+version: '3'
+
+services: 
+  mariadb:
+    image: 'bitnami/mariadb:latest'
+    environment: 
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=mojo_username
+      - MARIADB_PASSWORD=mojo_password
+      - MARIADB_DATABASE=mojomotor
+    volumes:
+      - .docker/mariadb:/bitnami/mariadb
+  mojomotor:
+    build: .
+    volumes: 
+      - .:/app
+    ports: 
+      - 8080:8080

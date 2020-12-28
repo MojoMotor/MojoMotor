@@ -94,6 +94,7 @@ class Setup extends CI_Controller {
 		// What port are we on? If it isn't 80, append it in.
 		$port = $this->input->server("SERVER_PORT");
 		$temp_server = ($port != '80') ? $this->input->server("SERVER_NAME").":$port" : $this->input->server("SERVER_NAME");
+		$temp_server = str_replace('0.0.0.0', 'localhost', $temp_server);
 		$protocol = ($this->input->server('HTTPS') != '' && strtolower($this->input->server('HTTPS')) != 'off') ? 'https://' : 'http://';
 
 		$this->base_url = trim($protocol.$temp_server.$temp_base_url, '/').'/';
