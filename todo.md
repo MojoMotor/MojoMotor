@@ -18,10 +18,15 @@
 
 ## Remaining tasks
 
-### 1) Runtime baseline and smoke checks (still needed)
+### 1) Runtime baseline and smoke checks (in progress)
 
 - **Goal:** Add runtime validation (beyond static lint) on supported PHP versions.
 - **Deliverable:** Repeatable smoke test commands for `/`, `/setup`, login, and a sample rendered page on PHP 8.1/8.2/8.3.
+- **Status:**
+  - ✅ Smoke harness implemented (`scripts/smoke-matrix.sh`, `scripts/smoke_check.php`, `scripts/render_smoke_report.php`).
+  - ✅ Report output implemented (`reports/smoke/report.md` + JSON results).
+  - ✅ Local fallback run completed in this environment (`result-local-php.json`, all 4 checks passed).
+  - ⏳ Pending: run full Docker matrix for `8.1/8.2/8.3` on a Docker-capable host and commit those versioned result files.
 - **Prompt:**
   - "Create a lightweight smoke-test harness (scripts or docker-compose) that exercises `/`, `/setup`, admin login, and one page render on PHP 8.1, 8.2, and 8.3. Emit a markdown report with pass/fail and first runtime error per version."
 
