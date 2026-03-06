@@ -28,6 +28,7 @@
  */
 class CI_URI {
 
+	var $config;
 	var $uri_string;
 
 	var	$keyval			= array();

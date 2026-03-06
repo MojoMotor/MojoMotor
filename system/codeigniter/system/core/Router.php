@@ -29,6 +29,7 @@
 class CI_Router {
 
 	var $config;
+	var $uri;
 	var $routes			= array();
 	var $class			= '';
 	var $method			= 'index';

@@ -24,6 +24,7 @@
  */
 class CI_Auth {
 
+	var $CI;
 	private $login = FALSE;
 	private $group = 1;
 	// 1 == guest

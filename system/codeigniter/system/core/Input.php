@@ -30,6 +30,8 @@ class CI_Input {
 
 	var $ip_address				= FALSE;
 	var $user_agent				= FALSE;
+	var $security				= FALSE;
+	var $uni					= FALSE;
 	var $_allow_get_array		= TRUE;
 	var $_standardize_newlines	= TRUE;
 	var $_enable_xss			= FALSE; // Set automatically based on config setting
