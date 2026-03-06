@@ -78,7 +78,7 @@ class CI_DB_driver {
 	 *
 	 * @param array
 	 */
-	function CI_DB_driver($params)
+	function __construct($params)
 	{
 		if (is_array($params))
 		{
@@ -1173,7 +1173,7 @@ class CI_DB_driver {
 		// the backtrace until the source file is no longer in the
 		// database folder.
 
-		$trace = debug_backtrace();
+		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
 		foreach($trace as $call)
 		{

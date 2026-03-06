@@ -66,13 +66,13 @@
  */
 	function is_really_writable($file)
 	{
-		// If we're on a Unix server with safe_mode off we call is_writable
-		if (DIRECTORY_SEPARATOR == '/' AND @ini_get("safe_mode") == FALSE)
+		// If we're on a Unix server we call is_writable
+		if (DIRECTORY_SEPARATOR == '/')
 		{
 			return is_writable($file);
 		}
 
-		// For windows servers and safe_mode "on" installations we'll actually
+		// For windows servers we'll actually
 		// write a file then read it.  Bah...
 		if (is_dir($file))
 		{

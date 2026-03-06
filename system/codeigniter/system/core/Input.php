@@ -570,8 +570,10 @@ class CI_Input {
 			{
 				if ( ! in_array($global, $protected))
 				{
-					global $$global;
-					$$global = NULL;
+					if (isset($GLOBALS[$global]))
+					{
+						unset($GLOBALS[$global]);
+					}
 				}
 			}
 			else
@@ -580,8 +582,10 @@ class CI_Input {
 				{
 					if ( ! in_array($key, $protected))
 					{
-						global $$key;
-						$$key = NULL;
+						if (isset($GLOBALS[$key]))
+						{
+							unset($GLOBALS[$key]);
+						}
 					}
 				}
 			}
@@ -667,11 +671,7 @@ class CI_Input {
 			return $new_array;
 		}
 
-		// We strip slashes if magic quotes is on to keep things consistent
-		if (get_magic_quotes_gpc())
-		{
-			$str = stripslashes($str);
-		}
+		// Magic quotes are removed in modern PHP, so no slash normalization is required.
 
 		// Clean UTF-8 if supported
 		if (UTF8_ENABLED === TRUE)

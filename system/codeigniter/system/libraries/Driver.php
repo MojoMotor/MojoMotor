@@ -178,7 +178,7 @@ class CI_Driver {
 			return call_user_func_array(array($this->parent, $method), $args);
 		}
 
-		$trace = debug_backtrace();
+		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		_exception_handler(E_ERROR, "No such method '{$method}'", $trace[1]['file'], $trace[1]['line']);
 		exit;
 	}

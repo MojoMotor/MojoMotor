@@ -1542,15 +1542,7 @@ class CI_Image_lib {
 	 */
 	function gd_loaded()
 	{
-		if ( ! extension_loaded('gd'))
-		{
-			if (! function_exists('dl') OR ! @dl('gd.so'))
-			{
-				return FALSE;
-			}
-		}
-
-		return TRUE;
+		return extension_loaded('gd');
 	}
 
 	// --------------------------------------------------------------------
