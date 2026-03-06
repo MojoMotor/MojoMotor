@@ -120,7 +120,7 @@ class Page extends Mojomotor_Controller {
 		$this->mojomotor_parser->layout_name = $page_info->layout_name;
 
 		// Parse the template
-		$page_content =& $this->mojomotor_parser->parse_template($page_content);
+		$page_content = $this->mojomotor_parser->parse_template($page_content);
 
 		if ($this->session->userdata('group_id') || $this->site_model->get_setting('in_page_login') == 'y')
 		{
