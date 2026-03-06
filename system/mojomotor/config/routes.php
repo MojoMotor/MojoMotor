@@ -36,6 +36,7 @@
 $route = array(
 	'default_controller'					=> 'page',
 	'admin/?'								=> 'admin/login/index',
+	'favicon\.ico'							=> 'admin/assets/favicon',
 	'(setup|admin|welcome)(?:(/.+))?'		=> '$1$2',
 	'(assets|javascript|login)(?:(/.+))?'	=> 'admin/$1$2',
 	'(.+)'									=> 'page/content/$1'

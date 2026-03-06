@@ -144,6 +144,38 @@ class Assets extends CI_Controller {
 
 		exit(file_get_contents($img_file));
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Favicon
+	 *
+	 * Serves the site favicon when present at web root, otherwise falls back
+	 * to the MojoMotor logo.
+	 *
+	 * @access	public
+	 * @return	void
+	 */
+	function favicon()
+	{
+		$favicon = FCPATH.'favicon.ico';
+
+		if (file_exists($favicon))
+		{
+			header('Content-type: image/x-icon');
+			exit(file_get_contents($favicon));
+		}
+
+		header('Content-type: image/jpeg');
+		$logo_file = APPPATH.'views/themes/'.$this->theme.'/images/mojomotor_logo_only.jpg';
+
+		if ( ! file_exists($logo_file))
+		{
+			$logo_file = APPPATH.'views/themes/default/images/mojomotor_logo_only.jpg';
+		}
+
+		exit(file_get_contents($logo_file));
+	}
 }
 
 /* End of file assets.php */
