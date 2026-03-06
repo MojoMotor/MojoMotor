@@ -32,6 +32,7 @@ class CI_Encrypt {
 	var $encryption_key	= '';
 	var $_hash_type	= 'sha1';
 	var $_mcrypt_exists = FALSE;
+	var $_openssl_exists = FALSE;
 	var $_mcrypt_cipher;
 	var $_mcrypt_mode;
 
@@ -45,6 +46,7 @@ class CI_Encrypt {
 	{
 		$this->CI =& get_instance();
 		$this->_mcrypt_exists = ( ! function_exists('mcrypt_encrypt')) ? FALSE : TRUE;
+		$this->_openssl_exists = (function_exists('openssl_encrypt') && function_exists('openssl_decrypt')) ? TRUE : FALSE;
 		log_message('debug', "Encrypt Class Initialized");
 	}
 
@@ -117,13 +119,22 @@ class CI_Encrypt {
 	{
 		$key = $this->get_key($key);
 
-		if ($this->_mcrypt_exists === TRUE)
+		if ($this->_openssl_exists === TRUE)
+		{
+			$enc = $this->_openssl_encode($string, $key);
+		}
+		elseif ($this->_mcrypt_exists === TRUE)
 		{
 			$enc = $this->mcrypt_encode($string, $key);
 		}
 		else
 		{
 			$enc = $this->_xor_encode($string, $key);
+		}
+
+		if ($enc === FALSE)
+		{
+			return FALSE;
 		}
 
 		return base64_encode($enc);
@@ -151,6 +162,16 @@ class CI_Encrypt {
 		}
 
 		$dec = base64_decode($string);
+
+		if ($this->_openssl_exists === TRUE)
+		{
+			$openssl_dec = $this->_openssl_decode($dec, $key);
+
+			if ($openssl_dec !== FALSE)
+			{
+				return $openssl_dec;
+			}
+		}
 
 		if ($this->_mcrypt_exists === TRUE)
 		{
@@ -185,12 +206,17 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	function encode_from_legacy($string, $legacy_mode = MCRYPT_MODE_ECB, $key = '')
+	function encode_from_legacy($string, $legacy_mode = '', $key = '')
 	{
 		if ($this->_mcrypt_exists === FALSE)
 		{
 			log_message('error', 'Encoding from legacy is available only when Mcrypt is in use.');
 			return FALSE;
+		}
+
+		if ($legacy_mode === '')
+		{
+			$legacy_mode = 'ecb';
 		}
 
 		// decode it first
@@ -316,9 +342,19 @@ class CI_Encrypt {
 	 */
 	function mcrypt_encode($data, $key)
 	{
-		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
-		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
-		return $this->_add_cipher_noise($init_vect.mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), $key);
+		if ($this->_mcrypt_exists === FALSE)
+		{
+			return $this->_openssl_encode($data, $key);
+		}
+
+		$get_iv_size = 'mcrypt_get_iv_size';
+		$create_iv = 'mcrypt_create_iv';
+		$encrypt = 'mcrypt_encrypt';
+
+		$init_size = $get_iv_size($this->_get_cipher(), $this->_get_mode());
+		$init_vect = $create_iv($init_size);
+
+		return $this->_add_cipher_noise($init_vect.$encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), $key);
 	}
 
 	// --------------------------------------------------------------------
@@ -333,8 +369,22 @@ class CI_Encrypt {
 	 */
 	function mcrypt_decode($data, $key)
 	{
+		if ($this->_mcrypt_exists === FALSE)
+		{
+			return $this->_openssl_decode($data, $key);
+		}
+
+		if ( ! is_string($data))
+		{
+			return FALSE;
+		}
+
+		$get_iv_size = 'mcrypt_get_iv_size';
+		$decrypt = 'mcrypt_decrypt';
+
 		$data = $this->_remove_cipher_noise($data, $key);
-		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
+		$data = (string) $data;
+		$init_size = $get_iv_size($this->_get_cipher(), $this->_get_mode());
 
 		if ($init_size > strlen($data))
 		{
@@ -343,7 +393,87 @@ class CI_Encrypt {
 
 		$init_vect = substr($data, 0, $init_size);
 		$data = substr($data, $init_size);
-		return rtrim(mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), "\0");
+		return rtrim($decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), "\0");
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Encrypt using OpenSSL
+	 *
+	 * @access	private
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
+	function _openssl_encode($data, $key)
+	{
+		if ($this->_openssl_exists === FALSE)
+		{
+			return FALSE;
+		}
+
+		$cipher = $this->_get_cipher();
+		$init_size = openssl_cipher_iv_length($cipher);
+
+		if ($init_size === FALSE)
+		{
+			return FALSE;
+		}
+
+		$init_vect = random_bytes($init_size);
+		$encrypted = openssl_encrypt($data, $cipher, hash('sha256', $key, TRUE), OPENSSL_RAW_DATA, $init_vect);
+
+		if ($encrypted === FALSE)
+		{
+			return FALSE;
+		}
+
+		return $this->_add_cipher_noise($init_vect.$encrypted, $key);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Decrypt using OpenSSL
+	 *
+	 * @access	private
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
+	function _openssl_decode($data, $key)
+	{
+		if ($this->_openssl_exists === FALSE)
+		{
+			return FALSE;
+		}
+
+		if ( ! is_string($data))
+		{
+			return FALSE;
+		}
+
+		$cipher = $this->_get_cipher();
+		$init_size = openssl_cipher_iv_length($cipher);
+
+		if ($init_size === FALSE)
+		{
+			return FALSE;
+		}
+
+		$data = $this->_remove_cipher_noise($data, $key);
+		$data = (string) $data;
+
+		if ($init_size > strlen($data))
+		{
+			return FALSE;
+		}
+
+		$init_vect = substr($data, 0, $init_size);
+		$data = substr($data, $init_size);
+
+		return openssl_decrypt($data, $cipher, hash('sha256', $key, TRUE), OPENSSL_RAW_DATA, $init_vect);
 	}
 
 	// --------------------------------------------------------------------
@@ -457,7 +587,7 @@ class CI_Encrypt {
 	{
 		if ($this->_mcrypt_cipher == '')
 		{
-			$this->_mcrypt_cipher = MCRYPT_RIJNDAEL_256;
+			$this->_mcrypt_cipher = 'AES-256-CBC';
 		}
 
 		return $this->_mcrypt_cipher;
@@ -475,7 +605,7 @@ class CI_Encrypt {
 	{
 		if ($this->_mcrypt_mode == '')
 		{
-			$this->_mcrypt_mode = MCRYPT_MODE_CBC;
+			$this->_mcrypt_mode = 'cbc';
 		}
 
 		return $this->_mcrypt_mode;

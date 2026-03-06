@@ -218,9 +218,9 @@ class CI_Security {
 		 */
 		if (is_array($str))
 		{
-			while (list($key) = each($str))
+			foreach ($str as $key => $value)
 			{
-				$str[$key] = $this->xss_clean($str[$key]);
+				$str[$key] = $this->xss_clean($value);
 			}
 
 			return $str;
@@ -475,13 +475,13 @@ class CI_Security {
 			(strtolower($charset) != 'utf-8'))
 		{
 			$str = html_entity_decode($str, ENT_COMPAT, $charset);
-			$str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str);
-			return preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str);
+			$str = preg_replace_callback('~&#x(0*[0-9a-f]{2,5})~i', array($this, '_decode_numeric_entity_hex'), $str);
+			return preg_replace_callback('~&#([0-9]{2,4})~', array($this, '_decode_numeric_entity_dec'), $str);
 		}
 
 		// Numeric Entities
-		$str = preg_replace('~&#x(0*[0-9a-f]{2,5});{0,1}~ei', 'chr(hexdec("\\1"))', $str);
-		$str = preg_replace('~&#([0-9]{2,4});{0,1}~e', 'chr(\\1)', $str);
+		$str = preg_replace_callback('~&#x(0*[0-9a-f]{2,5});{0,1}~i', array($this, '_decode_numeric_entity_hex'), $str);
+		$str = preg_replace_callback('~&#([0-9]{2,4});{0,1}~', array($this, '_decode_numeric_entity_dec'), $str);
 
 		// Literal Entities - Slightly slow so we do another check
 		if (stristr($str, '&') === FALSE)
@@ -490,6 +490,32 @@ class CI_Security {
 		}
 
 		return $str;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Numeric Entity Decode (Hex)
+	 *
+	 * @param	array
+	 * @return	string
+	 */
+	protected function _decode_numeric_entity_hex($matches)
+	{
+		return chr(hexdec($matches[1]) & 0xFF);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Numeric Entity Decode (Decimal)
+	 *
+	 * @param	array
+	 * @return	string
+	 */
+	protected function _decode_numeric_entity_dec($matches)
+	{
+		return chr(((int) $matches[1]) & 0xFF);
 	}
 
 	// --------------------------------------------------------------------

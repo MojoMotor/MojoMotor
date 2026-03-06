@@ -62,10 +62,7 @@
  */
 	set_error_handler('_exception_handler');
 
-	if ( ! is_php('5.3'))
-	{
-		@set_magic_quotes_runtime(0); // Kill magic quotes
-	}
+	// Magic quotes runtime handling removed for modern PHP compatibility.
 
 /*
  * ------------------------------------------------------
