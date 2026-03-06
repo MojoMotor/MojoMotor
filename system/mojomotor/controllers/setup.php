@@ -81,6 +81,11 @@ class Setup extends CI_Controller {
 		$this->load->helper('string');
 		$this->load->library('session');
 
+		if ($this->session->userdata('load_db_from_config') === NULL)
+		{
+			$this->session->set_userdata('load_db_from_config', FALSE);
+		}
+
 		// The base_url won't be available (unless its a validation error but the user has
 		// correctly set this value) so detect for that, and then work it out dynamically.
 		$script_name = (string) $this->input->server('SCRIPT_NAME');
@@ -246,7 +251,7 @@ class Setup extends CI_Controller {
 
 		// Earlier, we checked if the database.php info was correct. If so, we don't need
 		// some of the validation. Also, set 'db_file_connected' to TRUE if it works.
-		if ($this->session->userdata('load_db_from_config') === FALSE)
+		if ($this->session->userdata('load_db_from_config') !== TRUE)
 		{
 			$vars['db_file_connected'] = FALSE;
 
