@@ -57,6 +57,12 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
+		if ( ! function_exists('sqlite_open'))
+		{
+			log_message('error', 'The SQLite driver requires the legacy ext/sqlite extension, which is not available in this PHP runtime.');
+			return FALSE;
+		}
+
 		if ( ! $conn_id = @sqlite_open($this->database, FILE_WRITE_MODE, $error))
 		{
 			log_message('error', $error);
@@ -82,6 +88,11 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	function db_pconnect()
 	{
+		if ( ! function_exists('sqlite_popen'))
+		{
+			return $this->db_connect();
+		}
+
 		if ( ! $conn_id = @sqlite_popen($this->database, FILE_WRITE_MODE, $error))
 		{
 			log_message('error', $error);
@@ -152,6 +163,11 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	function _version()
 	{
+		if ( ! function_exists('sqlite_libversion'))
+		{
+			return 'SQLite extension unavailable';
+		}
+
 		return sqlite_libversion();
 	}
 
