@@ -1167,6 +1167,11 @@ class CI_DB_driver {
 		else
 		{
 			$message = ( ! is_array($error)) ? array(str_replace('%s', $swap, $LANG->line($error))) : $error;
+
+			if ($error === 'db_unable_to_connect')
+			{
+				$message = array_merge($message, $this->_db_connection_diagnostics($LANG));
+			}
 		}
 
 		// Find the most likely culprit of the error by going through
@@ -1190,6 +1195,199 @@ class CI_DB_driver {
 		$error =& load_class('Exceptions', 'core');
 		echo $error->show_error($heading, $message, 'error_db');
 		exit;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Build connection diagnostics for db_unable_to_connect failures.
+	 *
+	 * @access	private
+	 * @param	object
+	 * @return	array
+	 */
+	function _db_connection_diagnostics($LANG)
+	{
+		$host_parts = $this->_db_parse_host($this->hostname);
+		$details = array();
+
+		$details[] = $this->_db_diag_label($LANG, 'db_connection_details', 'Database connection diagnostics:');
+		$details[] = $this->_db_diag_label($LANG, 'db_error_stage', 'Stage').': connect';
+		$details[] = $this->_db_diag_label($LANG, 'db_error_driver', 'Driver').': '.$this->_db_escape_error_value($this->dbdriver);
+		$details[] = $this->_db_diag_label($LANG, 'db_error_host', 'Host').': '.$this->_db_escape_error_value($host_parts['host']);
+
+		$port = ($host_parts['port'] !== '') ? $host_parts['port'] : $this->port;
+		if ((string) $port !== '')
+		{
+			$details[] = $this->_db_diag_label($LANG, 'db_error_port', 'Port').': '.$this->_db_escape_error_value($port);
+		}
+
+		if ($host_parts['socket'] !== '')
+		{
+			$details[] = $this->_db_diag_label($LANG, 'db_error_socket', 'Socket').': '.$this->_db_escape_error_value($host_parts['socket']);
+		}
+
+		$details[] = $this->_db_diag_label($LANG, 'db_error_database', 'Database').': '.$this->_db_escape_error_value($this->database);
+		$details[] = $this->_db_diag_label($LANG, 'db_error_username', 'Username').': '.$this->_db_escape_error_value($this->username);
+
+		$extension_status = $this->_db_extension_status();
+		if ($extension_status !== '')
+		{
+			$details[] = $this->_db_diag_label($LANG, 'db_error_extension', 'PHP extension').': '.$this->_db_escape_error_value($extension_status);
+		}
+
+		$error_text = $this->_db_connection_error_text();
+		if ($error_text !== '')
+		{
+			$details[] = $this->_db_diag_label($LANG, 'db_error_message', 'Database error').': '.$this->_db_escape_error_value($error_text);
+		}
+
+		return $details;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Parse DB host into host/port/socket parts.
+	 *
+	 * @access	private
+	 * @param	string
+	 * @return	array
+	 */
+	function _db_parse_host($hostname)
+	{
+		$result = array('host' => (string) $hostname, 'port' => '', 'socket' => '');
+
+		if ((string) $hostname == '')
+		{
+			return $result;
+		}
+
+		if (strpos($hostname, ':') !== FALSE)
+		{
+			$parts = explode(':', $hostname, 2);
+			$result['host'] = $parts[0];
+
+			if (isset($parts[1]) && strpos($parts[1], '/') === 0)
+			{
+				$result['socket'] = $parts[1];
+			}
+			elseif (isset($parts[1]))
+			{
+				$result['port'] = $parts[1];
+			}
+		}
+
+		if ($result['host'] == '')
+		{
+			$result['host'] = 'localhost';
+		}
+
+		return $result;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get DB extension status text.
+	 *
+	 * @access	private
+	 * @return	string
+	 */
+	function _db_extension_status()
+	{
+		$extension_map = array(
+			'mysqli' => 'mysqli',
+			'mysql' => 'mysql',
+			'postgre' => 'pgsql',
+			'pdo' => 'pdo'
+		);
+
+		if ( ! isset($extension_map[$this->dbdriver]))
+		{
+			return '';
+		}
+
+		$extension = $extension_map[$this->dbdriver];
+
+		return $extension.' '.(extension_loaded($extension) ? 'loaded' : 'missing');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get DB connection error message text from the active driver.
+	 *
+	 * @access	private
+	 * @return	string
+	 */
+	function _db_connection_error_text()
+	{
+		$error_text = '';
+
+		if ($this->dbdriver == 'mysqli' && function_exists('mysqli_connect_error'))
+		{
+			$error_text = (string) @mysqli_connect_error();
+			$error_number = function_exists('mysqli_connect_errno') ? (int) @mysqli_connect_errno() : 0;
+
+			if ($error_text === '' && $error_number !== 0)
+			{
+				$error_text = 'Error code '.$error_number;
+			}
+			elseif ($error_text !== '' && $error_number !== 0)
+			{
+				$error_text .= ' ('.$error_number.')';
+			}
+		}
+
+		if ($error_text === '' && method_exists($this, '_error_message'))
+		{
+			$error_text = (string) @$this->_error_message();
+		}
+
+		if ($error_text === '' && method_exists($this, '_error_number'))
+		{
+			$error_number = (string) @$this->_error_number();
+
+			if ($error_number !== '' && $error_number !== '0')
+			{
+				$error_text = 'Error code '.$error_number;
+			}
+		}
+
+		return trim($error_text);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Resolve a diagnostic label from language files with fallback.
+	 *
+	 * @access	private
+	 * @param	object
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
+	function _db_diag_label($LANG, $line_key, $fallback)
+	{
+		$line = $LANG->line($line_key);
+
+		return ($line !== FALSE && $line !== '') ? $line : $fallback;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Escape a value for inclusion in DB error output.
+	 *
+	 * @access	private
+	 * @param	string
+	 * @return	string
+	 */
+	function _db_escape_error_value($value)
+	{
+		return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 	}
 
 	// --------------------------------------------------------------------

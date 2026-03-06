@@ -35,6 +35,7 @@ class Setup extends CI_Controller {
 	// Some database defaults and information that needs tracking throughout the process
 	var $db_driver = 'mysqli';
 	var $db_prefix = 'mojo_';
+	var $db_error_details = '';
 
 	// Figured out in the constructor and needed for the install process
 	var $base_url = '';
@@ -179,6 +180,11 @@ class Setup extends CI_Controller {
 			{
 				// Ensure the session isn't remembered from a previous test
 				$this->session->set_userdata('load_db_from_config', FALSE);
+
+				if ($db[$active_group]['dbdriver'] != 'sqlite3')
+				{
+					$vars['installation_warnings'][] = $this->lang->line('db_connection_details').$this->db_error_details;
+				}
 
 				// The connection information wasn't valid, so the database.php file needs to be changed.
 				// We'll try to make it writable so that MojoMotor can handle this internally, but even
@@ -1017,6 +1023,8 @@ class Setup extends CI_Controller {
 			return TRUE;
 		}
 
+		$this->form_validation->set_message('_db_verify', $this->lang->line('db_unable_to_connect').$this->db_error_details);
+
 		return FALSE;
 	}
 
@@ -1034,10 +1042,17 @@ class Setup extends CI_Controller {
 	 */
 	function _db_connection_test($db_config)
 	{
+		$this->db_error_details = '';
+
 		// If the extension is loaded, then SQLite3 is successful
 		if ($db_config['dbdriver'] == 'sqlite3' && extension_loaded('pdo_sqlite'))
 		{
 			return TRUE;
+		}
+		elseif ($db_config['dbdriver'] == 'sqlite3')
+		{
+			$this->db_error_details = $this->_format_db_error_details($db_config, 'connect', 'Required PHP extension pdo_sqlite is not loaded.');
+			return FALSE;
 		}
 
 		// Unset any existing DB information
@@ -1072,14 +1087,193 @@ class Setup extends CI_Controller {
 				}
 				else
 				{
+					$this->db_error_details = $this->_format_db_error_details($db_config, 'create_database');
 					return FALSE;
 				}
 			}
 		}
 		else
 		{
+			$this->db_error_details = $this->_format_db_error_details($db_config, 'connect');
 			return FALSE;
 		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Format DB Error Details
+	 *
+	 * @access	private
+	 * @param	array
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
+	function _format_db_error_details($db_config, $stage = 'connect', $explicit_message = '')
+	{
+		$host_parts = $this->_parse_db_host(isset($db_config['hostname']) ? $db_config['hostname'] : '');
+
+		$details = array();
+		$details[] = $this->lang->line('db_error_stage').': '.$this->_escape_db_error_value($stage);
+		$details[] = $this->lang->line('db_error_driver').': '.$this->_escape_db_error_value(isset($db_config['dbdriver']) ? $db_config['dbdriver'] : 'unknown');
+		$details[] = $this->lang->line('db_error_host').': '.$this->_escape_db_error_value($host_parts['host']);
+
+		if ($host_parts['port'] !== '')
+		{
+			$details[] = $this->lang->line('db_error_port').': '.$this->_escape_db_error_value($host_parts['port']);
+		}
+
+		if ($host_parts['socket'] !== '')
+		{
+			$details[] = $this->lang->line('db_error_socket').': '.$this->_escape_db_error_value($host_parts['socket']);
+		}
+
+		$details[] = $this->lang->line('db_error_database').': '.$this->_escape_db_error_value(isset($db_config['database']) ? $db_config['database'] : '');
+		$details[] = $this->lang->line('db_error_username').': '.$this->_escape_db_error_value(isset($db_config['username']) ? $db_config['username'] : '');
+
+		if (isset($db_config['dbdriver']) && $db_config['dbdriver'] == 'mysqli')
+		{
+			$details[] = $this->lang->line('db_error_extension').': mysqli '.($this->_mysqli_is_loaded() ? 'loaded' : 'missing');
+		}
+
+		if ($explicit_message !== '')
+		{
+			$details[] = $this->lang->line('db_error_message').': '.$this->_escape_db_error_value($explicit_message);
+		}
+		else
+		{
+			$error_text = $this->_collect_db_error_text();
+
+			if ($error_text !== '')
+			{
+				$details[] = $this->lang->line('db_error_message').': '.$this->_escape_db_error_value($error_text);
+			}
+		}
+
+		return '<br />'.implode('<br />', $details);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Parse DB Host
+	 *
+	 * @access	private
+	 * @param	string
+	 * @return	array
+	 */
+	function _parse_db_host($hostname)
+	{
+		$result = array('host' => (string) $hostname, 'port' => '', 'socket' => '');
+
+		if ((string) $hostname == '')
+		{
+			return $result;
+		}
+
+		if (strpos($hostname, ':') !== FALSE)
+		{
+			$parts = explode(':', $hostname, 2);
+			$result['host'] = $parts[0];
+
+			if (isset($parts[1]) && strpos($parts[1], '/') === 0)
+			{
+				$result['socket'] = $parts[1];
+			}
+			elseif (isset($parts[1]))
+			{
+				$result['port'] = $parts[1];
+			}
+		}
+
+		if ($result['host'] == '')
+		{
+			$result['host'] = 'localhost';
+		}
+
+		return $result;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Collect DB Error Text
+	 *
+	 * @access	private
+	 * @return	string
+	 */
+	function _collect_db_error_text()
+	{
+		if ( ! isset($this->db) OR ! is_object($this->db))
+		{
+			return '';
+		}
+
+		$error_text = '';
+
+		if (method_exists($this->db, 'error'))
+		{
+			$db_error = $this->db->error();
+
+			if (is_array($db_error))
+			{
+				if (isset($db_error['message']) && $db_error['message'] !== '')
+				{
+					$error_text = $db_error['message'];
+				}
+				elseif (isset($db_error['code']) && $db_error['code'] !== 0)
+				{
+					$error_text = 'Error code '.$db_error['code'];
+				}
+			}
+		}
+
+		if ($error_text === '' && method_exists($this->db, '_error_message'))
+		{
+			$error_text = (string) $this->db->_error_message();
+		}
+
+		if ($error_text === '' && method_exists($this->db, '_error_number'))
+		{
+			$error_number = $this->db->_error_number();
+
+			if ((int) $error_number !== 0)
+			{
+				$error_text = 'Error code '.$error_number;
+			}
+		}
+
+		return trim($error_text);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Escape DB Error Value
+	 *
+	 * @access	private
+	 * @param	string
+	 * @return	string
+	 */
+	function _escape_db_error_value($value)
+	{
+		$value = (string) $value;
+
+		return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Mysqli Loaded
+	 *
+	 * @access	private
+	 * @return	bool
+	 */
+	function _mysqli_is_loaded()
+	{
+		return extension_loaded('mysqli');
 	}
 
 	// --------------------------------------------------------------------

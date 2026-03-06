@@ -4,6 +4,16 @@ $lang = array(
 
 // Installation Errors
 'db_unable_to_connect'		=> "Unable to connect to your database server using the provided settings.",
+'db_connection_details'		=> 'Database configuration test failed with the following details:',
+'db_error_stage'			=> 'Stage',
+'db_error_driver'		=> 'Driver',
+'db_error_host'			=> 'Host',
+'db_error_port'			=> 'Port',
+'db_error_socket'		=> 'Socket',
+'db_error_database'		=> 'Database',
+'db_error_username'		=> 'Username',
+'db_error_extension'		=> 'PHP extension',
+'db_error_message'		=> 'Database error',
 'install_warning'			=> "Installation Warning",
 'warnings_encountered'		=> "Before we can install MojoMotor, we need to address the following issues.",
 'db_file_not_stock'			=> "The database configuration file is not the stock MojoMotor file. <em>If you continue, you will <span class=\"error\">over-write this file</span> and <span class=\"error\">delete any previous MojoMotor installations</span></em>. If you are sure you want to do this, you can continue.",
