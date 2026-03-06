@@ -59,6 +59,12 @@
 
 - **Goal:** Reduce warning noise and future breakage risk.
 - **Deliverable:** Decision + implementation: explicit properties, `#[AllowDynamicProperties]` bridge, or targeted class refactors.
+- **Status:**
+  - ✅ Applied compatibility bridge on framework base classes: `#[AllowDynamicProperties]` on `CI_Controller` and `CI_Model`.
+  - ✅ Added repeatable audit harness: `scripts/audit_dynamic_properties.php` + composer entrypoint `composer audit:dynamic-properties`.
+  - ✅ Generated audit artifacts: `reports/dynamic-properties/result-local-php.json` and `reports/dynamic-properties/report.md`.
+  - ✅ Captured deeper-refactor candidates from static audit (36 total), including app-owned classes: `Utilities`, `Mojomotor_Config`, `CI_Auth`, `Mojomotor_parser`, and `Mojomotor_pagination`.
+  - ✅ Adopted phased strategy: keep bridge for runtime stability, then incrementally add explicit properties to app-owned candidates first.
 - **Prompt:**
   - "Audit classes for dynamic property creation and implement a phased strategy: add declared properties where practical, use temporary bridging only where necessary, and document classes requiring deeper refactor. Keep behavior unchanged."
 

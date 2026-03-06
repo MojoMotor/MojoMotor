@@ -17,6 +17,7 @@
   "scripts": {
     "lint:style": "phpcs -p --standard=phpcs.xml.dist",
     "lint:compat": "phpcs -p --extensions=php --ignore=*/javascript/*,*/compressed/*,*/database/drivers/mysql/*,*/database/drivers/mssql/*,*/database/drivers/sqlite/*,*/database/drivers/oci8/*,*/database/drivers/odbc/*,*/views/themes/default/css/*,*/views/mojo_footer.php,*/views/setup/blank_layout.php --standard=PHPCompatibility --runtime-set testVersion 8.2-8.3 system/mojomotor system/codeigniter/system",
-    "verify:encrypt": "php scripts/verify_encrypt_migration.php"
+    "verify:encrypt": "php scripts/verify_encrypt_migration.php",
+    "audit:dynamic-properties": "php scripts/audit_dynamic_properties.php"
   }
 }

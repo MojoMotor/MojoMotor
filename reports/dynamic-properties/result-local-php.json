@@ -1,0 +1,381 @@
+{
+    "timestamp_utc": "2026-03-06T03:19:14+00:00",
+    "php_version": "8.5.1",
+    "summary": {
+        "scanned_files": 211,
+        "scanned_classes": 116,
+        "bridge_classes": 2,
+        "candidate_classes": 36
+    },
+    "bridge_classes": [
+        {
+            "class": "CI_Controller",
+            "file": "system/codeigniter/system/core/Controller.php",
+            "undeclared_writes": {
+                "load": [
+                    50
+                ]
+            },
+            "variable_property_writes": 1
+        },
+        {
+            "class": "CI_Model",
+            "file": "system/codeigniter/system/core/Model.php",
+            "undeclared_writes": [],
+            "variable_property_writes": 0
+        }
+    ],
+    "candidate_classes": [
+        {
+            "class": "CI_Image_lib",
+            "file": "system/codeigniter/system/libraries/Image_lib.php",
+            "undeclared_writes": {
+                "dest_image": [
+                    207,
+                    215,
+                    232,
+                    237
+                ]
+            },
+            "variable_property_writes": 2
+        },
+        {
+            "class": "CI_Input",
+            "file": "system/codeigniter/system/core/Input.php",
+            "undeclared_writes": {
+                "security": [
+                    57
+                ],
+                "uni": [
+                    63
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_DB_mysql_driver",
+            "file": "system/codeigniter/system/database/drivers/mysql/mysql_driver.php",
+            "undeclared_writes": {
+                "conn_id": [
+                    109
+                ],
+                "_trans_failure": [
+                    232
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_DB_mysqli_driver",
+            "file": "system/codeigniter/system/database/drivers/mysqli/mysqli_driver.php",
+            "undeclared_writes": {
+                "conn_id": [
+                    109
+                ],
+                "_trans_failure": [
+                    233
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_DB_postgre_driver",
+            "file": "system/codeigniter/system/database/drivers/postgre/postgre_driver.php",
+            "undeclared_writes": {
+                "conn_id": [
+                    117
+                ],
+                "_trans_failure": [
+                    219
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_Calendar",
+            "file": "system/codeigniter/system/libraries/Calendar.php",
+            "undeclared_writes": {
+                "temp": [
+                    445
+                ]
+            },
+            "variable_property_writes": 1
+        },
+        {
+            "class": "CI_Javascript",
+            "file": "system/codeigniter/system/libraries/Javascript.php",
+            "undeclared_writes": {
+                "CI": [
+                    45
+                ],
+                "js": [
+                    50
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_Pagination",
+            "file": "system/codeigniter/system/libraries/Pagination.php",
+            "undeclared_writes": {
+                "CI": [
+                    70
+                ]
+            },
+            "variable_property_writes": 1
+        },
+        {
+            "class": "CI_Upload",
+            "file": "system/codeigniter/system/libraries/Upload.php",
+            "undeclared_writes": [],
+            "variable_property_writes": 2
+        },
+        {
+            "class": "CI_Xmlrpcs",
+            "file": "system/codeigniter/system/libraries/Xmlrpcs.php",
+            "undeclared_writes": {
+                "debug": [
+                    75
+                ],
+                "xss_clean": [
+                    85
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_Loader",
+            "file": "system/codeigniter/system/core/Loader.php",
+            "undeclared_writes": [],
+            "variable_property_writes": 1
+        },
+        {
+            "class": "CI_Router",
+            "file": "system/codeigniter/system/core/Router.php",
+            "undeclared_writes": {
+                "uri": [
+                    46
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_URI",
+            "file": "system/codeigniter/system/core/URI.php",
+            "undeclared_writes": {
+                "config": [
+                    48
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_DB_driver",
+            "file": "system/codeigniter/system/database/DB_driver.php",
+            "undeclared_writes": [],
+            "variable_property_writes": 1
+        },
+        {
+            "class": "CI_DB_forge",
+            "file": "system/codeigniter/system/database/DB_forge.php",
+            "undeclared_writes": {
+                "db": [
+                    42
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_DB_mssql_driver",
+            "file": "system/codeigniter/system/database/drivers/mssql/mssql_driver.php",
+            "undeclared_writes": {
+                "_trans_failure": [
+                    186
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_DB_mssql_result",
+            "file": "system/codeigniter/system/database/drivers/mssql/mssql_result.php",
+            "undeclared_writes": {
+                "result_id": [
+                    114
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_DB_mysql_result",
+            "file": "system/codeigniter/system/database/drivers/mysql/mysql_result.php",
+            "undeclared_writes": {
+                "result_id": [
+                    114
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_DB_mysqli_result",
+            "file": "system/codeigniter/system/database/drivers/mysqli/mysqli_result.php",
+            "undeclared_writes": {
+                "result_id": [
+                    114
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_DB_oci8_driver",
+            "file": "system/codeigniter/system/database/drivers/oci8/oci8_driver.php",
+            "undeclared_writes": {
+                "_trans_failure": [
+                    326
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_DB_oci8_result",
+            "file": "system/codeigniter/system/database/drivers/oci8/oci8_result.php",
+            "undeclared_writes": {
+                "result_id": [
+                    137
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_DB_odbc_driver",
+            "file": "system/codeigniter/system/database/drivers/odbc/odbc_driver.php",
+            "undeclared_writes": {
+                "_trans_failure": [
+                    196
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_DB_odbc_result",
+            "file": "system/codeigniter/system/database/drivers/odbc/odbc_result.php",
+            "undeclared_writes": {
+                "result_id": [
+                    114
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_DB_postgre_result",
+            "file": "system/codeigniter/system/database/drivers/postgre/postgre_result.php",
+            "undeclared_writes": {
+                "result_id": [
+                    114
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_DB_sqlite_driver",
+            "file": "system/codeigniter/system/database/drivers/sqlite/sqlite_driver.php",
+            "undeclared_writes": {
+                "_trans_failure": [
+                    213
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_Driver_Library",
+            "file": "system/codeigniter/system/libraries/Driver.php",
+            "undeclared_writes": [],
+            "variable_property_writes": 1
+        },
+        {
+            "class": "CI_Email",
+            "file": "system/codeigniter/system/libraries/Email.php",
+            "undeclared_writes": [],
+            "variable_property_writes": 1
+        },
+        {
+            "class": "CI_FTP",
+            "file": "system/codeigniter/system/libraries/Ftp.php",
+            "undeclared_writes": [],
+            "variable_property_writes": 1
+        },
+        {
+            "class": "CI_Session",
+            "file": "system/codeigniter/system/libraries/Session.php",
+            "undeclared_writes": [],
+            "variable_property_writes": 1
+        },
+        {
+            "class": "CI_Table",
+            "file": "system/codeigniter/system/libraries/Table.php",
+            "undeclared_writes": {
+                "temp": [
+                    478
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_Xmlrpc",
+            "file": "system/codeigniter/system/libraries/Xmlrpc.php",
+            "undeclared_writes": [],
+            "variable_property_writes": 1
+        },
+        {
+            "class": "Utilities",
+            "file": "system/mojomotor/controllers/admin/utilities.php",
+            "undeclared_writes": {
+                "CI": [
+                    89
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "Mojomotor_Config",
+            "file": "system/mojomotor/core/Mojomotor_Config.php",
+            "undeclared_writes": {
+                "CI": [
+                    114,
+                    246,
+                    365
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "CI_Auth",
+            "file": "system/mojomotor/libraries/Auth.php",
+            "undeclared_writes": {
+                "CI": [
+                    41
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "Mojomotor_parser",
+            "file": "system/mojomotor/libraries/Mojomotor_parser/Mojomotor_parser.php",
+            "undeclared_writes": {
+                "in_point": [
+                    369
+                ]
+            },
+            "variable_property_writes": 0
+        },
+        {
+            "class": "Mojomotor_pagination",
+            "file": "system/mojomotor/libraries/Pagination.php",
+            "undeclared_writes": [],
+            "variable_property_writes": 1
+        }
+    ],
+    "strategy": {
+        "applied": "Use #[AllowDynamicProperties] on CI_Controller and CI_Model as a compatibility bridge for PHP 8.2+.",
+        "next_phase": "Iteratively replace undeclared writes with explicit properties in app-owned classes first, then reassess remaining framework internals."
+    }
+}
