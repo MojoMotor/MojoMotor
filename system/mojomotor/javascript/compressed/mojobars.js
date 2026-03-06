@@ -331,7 +331,7 @@ mojoEditor.init_editor = function (a) {
     startupMode: Mojo.edit_mode,
     toolbar: Mojo.toolbar,
     extraPlugins: "mojo_cancel,mojo_save",
-    removePlugins: "scayt,bidi,iframe,save",
+    removePlugins: "scayt,bidi,iframe,save,exportpdf,uploadimage",
     toolbarCanCollapse: !1,
     toolbarStartupExpanded: !0,
     resize_enabled: !0,
