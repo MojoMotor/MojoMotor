@@ -69,6 +69,7 @@ function mojo_set_encrypt_transport_modes(CI_Encrypt $encrypt, bool $opensslExis
 
     foreach (['_openssl_exists' => $opensslExists, '_mcrypt_exists' => $mcryptExists] as $property => $value) {
         $prop = $reflection->getProperty($property);
+        $prop->setAccessible(true);
         $prop->setValue($encrypt, $value);
     }
 }
