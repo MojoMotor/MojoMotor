@@ -1,0 +1,54 @@
+{
+    "timestamp_utc": "2026-03-06T03:16:07+00:00",
+    "php_version": "8.5.1",
+    "summary": {
+        "passed": 6,
+        "total": 6
+    },
+    "checks": [
+        {
+            "label": "Modern token is issued",
+            "pass": true,
+            "context": {
+                "token_length": 64
+            }
+        },
+        {
+            "label": "Modern token decodes back to original payload",
+            "pass": true,
+            "context": {
+                "decoded_matches": true
+            }
+        },
+        {
+            "label": "Tampered token does not decode to original payload",
+            "pass": true,
+            "context": {
+                "decode_result_type": "string",
+                "matches_original": false
+            }
+        },
+        {
+            "label": "Legacy XOR token fixture is generated",
+            "pass": true,
+            "context": {
+                "token_length": 72
+            }
+        },
+        {
+            "label": "Legacy XOR token can be decoded by current runtime",
+            "pass": true,
+            "context": {
+                "decoded_matches": true
+            }
+        },
+        {
+            "label": "Legacy mcrypt re-encode path unavailable without mcrypt (expected)",
+            "pass": true,
+            "context": {
+                "encode_from_legacy_result": "false"
+            }
+        }
+    ],
+    "migration_action": "Force re-authentication for any pre-modern mcrypt-derived remember-me/session tokens after deployment; new tokens are re-issued automatically on successful login/session write."
+}

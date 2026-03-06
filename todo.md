@@ -46,6 +46,12 @@
 
 - **Goal:** Ensure encrypted token interoperability and migration behavior is explicitly verified.
 - **Deliverable:** Documented compatibility strategy + tests for remember-me/session token read/write.
+- **Status:**
+  - ✅ Added repeatable runtime verification harness: `scripts/verify_encrypt_migration.php`.
+  - ✅ Added composer entrypoint: `composer verify:encrypt`.
+  - ✅ Generated result artifacts: `reports/encryption/result-local-php.json` and `reports/encryption/report.md`.
+  - ✅ Verified modern token issue/decode, tamper rejection, and legacy XOR decode compatibility.
+  - ✅ Documented expected migration behavior where legacy `encode_from_legacy()` requires mcrypt and falls back to forced re-auth for pre-modern mcrypt-derived tokens.
 - **Prompt:**
   - "Verify and document `CI_Encrypt` runtime behavior on PHP 8.2: include tests for newly issued tokens, legacy token handling, and re-issue flow. If legacy token decode is not possible without mcrypt, add explicit forced-reauth migration behavior and release notes."
 
