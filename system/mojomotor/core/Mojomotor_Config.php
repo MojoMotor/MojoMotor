@@ -25,6 +25,7 @@
  */
 class Mojomotor_Config Extends CI_Config {
 
+	var $CI;
 	var $config_path 		= ''; // Set in the constructor below
 	var $database_path		= ''; // Set in the constructor below
 	var $autoload_path		= ''; // Set in the constructor below

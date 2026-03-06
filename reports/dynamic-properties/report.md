@@ -1,10 +1,10 @@
 # Dynamic property audit report
 
-- Generated: 2026-03-06 17:12:21 UTC
+- Generated: 2026-03-06 17:20:57 UTC
 - PHP: 8.5.1
 - Scanned files/classes: 212/116
 - Bridge classes: 2
-- Candidate classes for explicit property refactor: 29
+- Candidate classes for explicit property refactor: 25
 
 ## Strategy
 
@@ -13,10 +13,10 @@
 
 ## Top candidates
 
-- CI_Image_lib (system/codeigniter/system/libraries/Image_lib.php): undeclared-writes=1, variable-property-writes=2
 - CI_DB_mysql_driver (system/codeigniter/system/database/drivers/mysql/mysql_driver.php): undeclared-writes=2, variable-property-writes=0
 - CI_DB_mysqli_driver (system/codeigniter/system/database/drivers/mysqli/mysqli_driver.php): undeclared-writes=2, variable-property-writes=0
 - CI_DB_postgre_driver (system/codeigniter/system/database/drivers/postgre/postgre_driver.php): undeclared-writes=2, variable-property-writes=0
+- CI_Image_lib (system/codeigniter/system/libraries/Image_lib.php): undeclared-writes=0, variable-property-writes=2
 - CI_Upload (system/codeigniter/system/libraries/Upload.php): undeclared-writes=0, variable-property-writes=2
 - CI_Loader (system/codeigniter/system/core/Loader.php): undeclared-writes=0, variable-property-writes=1
 - CI_DB_driver (system/codeigniter/system/database/DB_driver.php): undeclared-writes=0, variable-property-writes=1

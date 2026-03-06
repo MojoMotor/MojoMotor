@@ -8,7 +8,7 @@
  * @link		http://mojomotor.com
  * @since		Version 1.0
  */
- 
+
 // ------------------------------------------------------------------------
 
 (function()
@@ -41,7 +41,7 @@
 	CKEDITOR.plugins.add(pluginName, {
 		init: function(editor) {
 			editor.addCommand(pluginName, save_command);
-					
+
 			editor.ui.addButton(pluginName, {
 				label: editor.lang.save,
 				command: pluginName

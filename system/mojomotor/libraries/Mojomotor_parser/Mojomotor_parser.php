@@ -33,6 +33,7 @@ class Mojomotor_parser extends CI_Driver_Library {
 	var $trigger	= 'mojo:';
 	var $max_depth	= 3; // How many tags can be nested within a single tag. Prevents runaway loop.
 	var $url_title	= '';
+	var $in_point	= FALSE;
 	var $loop_count = 0;
 	var $template_embed = array(); // Used in embed loop check
 	var $layout_name = 'default';

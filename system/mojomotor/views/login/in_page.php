@@ -8,11 +8,11 @@
 		<p id="mojo_login_error"><?=$this->lang->line('login_sub_greeting')?></p>
 
 		<p class="mojo_login_field">
-			<label for="mojo_email"><?=$this->lang->line("email")?>:</label> 
+			<label for="mojo_email"><?=$this->lang->line("email")?>:</label>
 			<?=form_input("email", '', 'id="mojo_email"')?>
 		</p>
 		<p class="mojo_login_field">
-			<label for="mojo_password"><?=$this->lang->line("password")?>:</label> 
+			<label for="mojo_password"><?=$this->lang->line("password")?>:</label>
 			<?=form_password("password", '', 'id="mojo_password"')?>
 		</p>
 		<p class="mojo_submit_holder">

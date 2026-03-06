@@ -93,12 +93,12 @@ if ( ! function_exists('elements'))
 	function elements($items, $array, $default = FALSE)
 	{
 		$return = array();
-		
+
 		if ( ! is_array($items))
 		{
 			$items = array($items);
 		}
-		
+
 		foreach ($items as $item)
 		{
 			if (isset($array[$item]))

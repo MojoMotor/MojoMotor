@@ -11,7 +11,7 @@
  * have changed the name of the system folder please indicate the
  * new name here, and include the server path.  The path can be a
  * simple relative path or it can be a full server path.
- * 
+ *
  */
 	$system_path = './system';
 
@@ -21,10 +21,10 @@
  * --------------------------------------------------------------------
  *
  * PHP and database errors are normally displayed dynamically based
- * on the authorization level of each user accessing your site.  
- * This variable allows the error reporting system to be overridden, 
- * which can be useful for low level debugging during site development, 
- * since errors happening before a user is authenticated will not normally 
+ * on the authorization level of each user accessing your site.
+ * This variable allows the error reporting system to be overridden,
+ * which can be useful for low level debugging during site development,
+ * since errors happening before a user is authenticated will not normally
  * be shown.  Options:
  *
  *	$debug = 0;  Default setting. Errors shown based on authorization level
@@ -33,7 +33,7 @@
  *
  * NOTE: Enabling this override can have security implications.
  * Enable it only if you have a good reason to.
- * 
+ *
  */
 	$debug = 0;
 
@@ -44,10 +44,10 @@
  * -------------------------------------------------------------------
  *
  * The $assign_to_config array below will be passed dynamically to the
- * config class when initialized. This allows you to set custom config 
- * items or override any default config values found in the config.php file.  
+ * config class when initialized. This allows you to set custom config
+ * items or override any default config values found in the config.php file.
  * This can be handy as it permits you to share one application between
- * multiple front controller files, with each file containing different 
+ * multiple front controller files, with each file containing different
  * config values.
  *
  * Un-comment the $assign_to_config array below to use this feature
@@ -85,7 +85,7 @@
  * --------------------------------------------------------------------
  *  Now that we know the path, set the main constants
  * --------------------------------------------------------------------
- */	
+ */
 	// The name of THIS file
 	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
@@ -94,13 +94,13 @@
 
  	// Path to the system folder
 	define('BASEPATH', str_replace("\\", "/", $system_path.'codeigniter/system/'));
-	
+
 	// Path to the "application" folder
 	define('APPPATH', $system_path.'mojomotor/');
-	
+
 	// Path to the front controller (this file)
 	define('FCPATH', str_replace(SELF, '', __FILE__));
-	
+
 	// Name of the "system folder"
 	// define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
 	// BASEPATH is altered, so this constant needs a different way of defining itself then
@@ -114,7 +114,7 @@
  * --------------------------------------------------------------------
  *  Set the error reporting level
  * --------------------------------------------------------------------
- */	
+ */
 	if (DEBUG == 1)
 	{
 		error_reporting(E_ALL);
@@ -122,7 +122,7 @@
 	}
 	else
 	{
-		error_reporting(0);	
+		error_reporting(0);
 	}
 
 /*

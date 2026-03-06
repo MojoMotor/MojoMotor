@@ -1,11 +1,11 @@
 {
-    "timestamp_utc": "2026-03-06T17:12:21+00:00",
+    "timestamp_utc": "2026-03-06T17:20:57+00:00",
     "php_version": "8.5.1",
     "summary": {
         "scanned_files": 212,
         "scanned_classes": 116,
         "bridge_classes": 2,
-        "candidate_classes": 29
+        "candidate_classes": 25
     },
     "bridge_classes": [
         {
@@ -26,19 +26,6 @@
         }
     ],
     "candidate_classes": [
-        {
-            "class": "CI_Image_lib",
-            "file": "system/codeigniter/system/libraries/Image_lib.php",
-            "undeclared_writes": {
-                "dest_image": [
-                    207,
-                    215,
-                    232,
-                    237
-                ]
-            },
-            "variable_property_writes": 2
-        },
         {
             "class": "CI_DB_mysql_driver",
             "file": "system/codeigniter/system/database/drivers/mysql/mysql_driver.php",
@@ -77,6 +64,12 @@
                 ]
             },
             "variable_property_writes": 0
+        },
+        {
+            "class": "CI_Image_lib",
+            "file": "system/codeigniter/system/libraries/Image_lib.php",
+            "undeclared_writes": [],
+            "variable_property_writes": 2
         },
         {
             "class": "CI_Upload",
@@ -233,52 +226,10 @@
             "variable_property_writes": 1
         },
         {
-            "class": "CI_Table",
-            "file": "system/codeigniter/system/libraries/Table.php",
-            "undeclared_writes": {
-                "temp": [
-                    478
-                ]
-            },
-            "variable_property_writes": 0
-        },
-        {
             "class": "CI_Xmlrpc",
             "file": "system/codeigniter/system/libraries/Xmlrpc.php",
             "undeclared_writes": [],
             "variable_property_writes": 1
-        },
-        {
-            "class": "Utilities",
-            "file": "system/mojomotor/controllers/admin/utilities.php",
-            "undeclared_writes": {
-                "CI": [
-                    89
-                ]
-            },
-            "variable_property_writes": 0
-        },
-        {
-            "class": "Mojomotor_Config",
-            "file": "system/mojomotor/core/Mojomotor_Config.php",
-            "undeclared_writes": {
-                "CI": [
-                    114,
-                    246,
-                    365
-                ]
-            },
-            "variable_property_writes": 0
-        },
-        {
-            "class": "Mojomotor_parser",
-            "file": "system/mojomotor/libraries/Mojomotor_parser/Mojomotor_parser.php",
-            "undeclared_writes": {
-                "in_point": [
-                    369
-                ]
-            },
-            "variable_property_writes": 0
         },
         {
             "class": "Mojomotor_pagination",

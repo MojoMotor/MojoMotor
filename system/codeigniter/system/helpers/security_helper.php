@@ -79,7 +79,7 @@ if ( ! function_exists('do_hash'))
 		{
 			return sha1($str);
 		}
-		
+
 		return md5($str);
 	}
 }

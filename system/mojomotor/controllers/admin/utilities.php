@@ -25,6 +25,7 @@
  */
 class Utilities extends Mojomotor_Controller {
 
+	var $CI;
 	var $embed_map = array();
 	var $ee_export_version = '2.1';
 

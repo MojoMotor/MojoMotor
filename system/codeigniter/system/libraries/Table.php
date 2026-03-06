@@ -33,6 +33,7 @@ class CI_Table {
 	var $auto_heading		= TRUE;
 	var $caption			= NULL;
 	var $template			= NULL;
+	var $temp				= NULL;
 	var $newline			= "\n";
 	var $empty_cells		= "";
 	var	$function			= FALSE;

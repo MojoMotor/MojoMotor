@@ -1,5 +1,5 @@
 /*
- * We're big fans of "The Kick Awesome" show put on by the immaculately bearded 
+ * We're big fans of "The Kick Awesome" show put on by the immaculately bearded
  * gents of fortyseven media. In episode 3, they gave a shout out (some "dap"
  * if you will) to MojoMotor, and it seemed only appropriate to return the favour.
  *
@@ -22,7 +22,7 @@
 }
 
 body {
-	font-family: "Trebuchet MS", helvetica, arial, sans-serif; 
+	font-family: "Trebuchet MS", helvetica, arial, sans-serif;
 	background: #EFF1F3;
 }
 
@@ -173,7 +173,7 @@ body {
 
 
 #content h2, #content h3, #content h4, #content h5, #content h6 {
-	color: #474747;	
+	color: #474747;
 }
 
 #content h2, #sidebar h3 {

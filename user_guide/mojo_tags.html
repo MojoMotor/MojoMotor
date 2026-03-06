@@ -92,7 +92,7 @@ MojoMotor Tags
 		<li><a href="#disallow_cookies_link">{mojo:cookie_consent:disallow_cookies_link}</a></li>
 	</ul>
 	</li>
-	
+
 </ul>
 
 <h2><a name="overview"></a>Overview</h2>
@@ -297,7 +297,7 @@ Link to the featured product goes here!<br>
 <code>
 html header, etc.....<br>
 {mojo:layout:embed layout="header"}
-</code>	
+</code>
 
 <h2><a name="setting_tags"></a>Setting Tags {mojo:setting:tag}</h2>
 <p>These are tags that pertain to <a href="admin/admin_site_settings.html">Site Settings</a>.</p>
@@ -326,13 +326,13 @@ for later.</p>
 
 
 <h2><a name="cookie_consent_tags"></a>Cookie Consent Tags {mojo:cookie_consent:tag}</h2>
-<p>These tags produce links that will allow and disallow the setting of cookies.  
+<p>These tags produce links that will allow and disallow the setting of cookies.
 	Note that the <a href="advanced_usage/advanced_config_options.html">
-	<kbd>$config['require_cookie_consent']</kbd></a> configuration variable must be 
+	<kbd>$config['require_cookie_consent']</kbd></a> configuration variable must be
 	set to <kbd>'y'</kbd> for these tags to output content.</p>
 
 <h3><a name="allow_cookies_link"></a>{mojo:cookie_consent:allow_cookies_link}</h3>
-<p>This tag produces a URL that, when clicked, sets a <kbd>cookies_allowed</kbd> 
+<p>This tag produces a URL that, when clicked, sets a <kbd>cookies_allowed</kbd>
 	cookie, which indicates to MojoMotor that permission has been granted to set site cookies.</p>
 
 <p>By default, the tag is replaced by a URL.  The optional text attribute allows you to
@@ -343,8 +343,8 @@ specify the exact text used to create a link.  If link text is specified, you ma
 </code>
 
 <h3><a name="disallow_cookies_link"></a>{mojo:cookie_consent:disallow_cookies_link}</h3>
-<p>This tag works exactly like the allow_cookies_link, except it produces a 
-	URL/link that will disallow cookies.  Clicking the link will remove all 
+<p>This tag works exactly like the allow_cookies_link, except it produces a
+	URL/link that will disallow cookies.  Clicking the link will remove all
 	site cookies with the MojoMotor cookie prefix and prevent the setting of new ones.</p>
 
 

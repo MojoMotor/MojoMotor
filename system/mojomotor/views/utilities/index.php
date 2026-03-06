@@ -3,7 +3,7 @@
 	<h3><?=lang('new_version')?></h3>
 
 	<p class="shun"><?=str_replace('%x', $mm_download_url, lang('new_version_exp'))?></p>
-	
+
 </div>
 <?php endif;?>
 
@@ -22,5 +22,5 @@
 	<h3><?=lang('php_info')?></h3>
 
 	<p class="shun"><?=anchor('utilities/php_info', lang('php_info'), 'class="mojo_sub_page" title="'.lang('php_info').'"')?><?=lang('php_info_exp')?></p>
-	
+
 </div>

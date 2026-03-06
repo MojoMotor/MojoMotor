@@ -63,6 +63,7 @@ class CI_Image_lib {
 	// Private Vars
 	var $source_folder		= '';
 	var $dest_folder		= '';
+	var $dest_image			= '';
 	var $mime_type			= '';
 	var $orig_width			= '';
 	var $orig_height		= '';

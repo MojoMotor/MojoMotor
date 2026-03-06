@@ -111,7 +111,7 @@ class Robots
 			      /   \\   /   \\
 			     |_____| |_____|
 			     |HHHHH| |HHHHH|
-			
+
 		(http://www.asciiworld.com/-Robots,24-.html#id2958)
 		';
 		return "<pre>$robot</pre>";

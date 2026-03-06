@@ -781,7 +781,7 @@ Note: {cp_img_path} will generate the path for you. For example background: url(
 		width: 99%;
 		height: 250px;
 	}
-	
+
 	#mojo-container button a {
 		color: black;
 		text-decoration: none

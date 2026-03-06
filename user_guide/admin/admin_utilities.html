@@ -94,7 +94,7 @@ data. Always back up your data before attempting imports.</p>
 	<li>Each MojoMotor Layout of the type Webpage or Embed Content will have an ExpressionEngine <a href="http://expressionengine.com/user_guide/cp/admin/content_admin/channel_management.html">Channel</a> created to hold associated page data.  The Channel will have the same name as the layout.  In addition, a <a href="http://expressionengine.com/user_guide/cp/admin/content_admin/custom_channel_fields.html">Custom Field Group</a> of the same name will be created.</li>
 	<li>Each Page Region will have the data associated with it imported as a new channel entry assigned to the Channel named for the Page Region's Layout.  The author of each entry will be the logged in user who runs the import.</li>
 	<li>Each Global Region will have it's data imported as a <a href="http://expressionengine.com/user_guide/templates/globals/snippets.html">Snippet</a>.</li>
-	
+
 	<li>Each MojoMotor Layout will be converted to an ExpressionEngine <a href="http://expressionengine.com/user_guide/overview/templates.html">template</a>.
 		<ul>
 		<li>For Webpage type layouts, a template group will be created with the same name as the layout and the layout content will be in that group's index template.</li>
@@ -117,7 +117,7 @@ data. Always back up your data before attempting imports.</p>
 		<li>{mojo:setting:version} -> {app_version}</li>
 		<li>Comment tags work the same in ExpressionEngine, thus no conversion is needed</li>
 		</ul>
-	</li>			
+	</li>
 	<li>Members are imported into ExpressionEngine, with 'Members' assigned to the Member group and 'Admins' assigned to the Superadmin group.  By default, only the Superadmin group has access to the Control Panel.
 		<ul>
 		<li>The username and screen name in ExpressionEngine will be the email address from MojoMotor.</li>

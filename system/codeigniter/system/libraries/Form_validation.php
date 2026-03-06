@@ -171,7 +171,7 @@ class CI_Form_validation {
 		}
 
 		$this->_error_messages = array_merge($this->_error_messages, $lang);
-		
+
 		return $this;
 	}
 
@@ -191,7 +191,7 @@ class CI_Form_validation {
 	{
 		$this->_error_prefix = $prefix;
 		$this->_error_suffix = $suffix;
-		
+
 		return $this;
 	}
 
