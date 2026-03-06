@@ -34,6 +34,11 @@
 
 - **Goal:** Remove dependency on deleted `ext/mysql`.
 - **Deliverable:** Config defaults and framework path that no longer depend on `mysql_*`.
+- **Status:**
+  - ✅ Completed for installer/config defaults.
+  - Updated default `dbdriver` to `mysqli` in config prototypes and `database.php`.
+  - Updated setup wizard DB type selection to submit `mysqli`.
+  - Updated setup JS hooks and installer language text to present MySQLi.
 - **Prompt:**
   - "Migrate DB config defaults and setup/install flow away from `mysql` to `mysqli` while preserving upgrade behavior for existing installs. Ensure installer UI/options and language strings no longer encourage deprecated drivers."
 

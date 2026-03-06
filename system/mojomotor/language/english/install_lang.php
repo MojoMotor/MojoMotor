@@ -68,9 +68,9 @@ $lang = array(
 
 'advanced_install_options_exp'	=> "These options provide you with fine grain control over the process.",
 'sqlite_db'					=> "SQLite",
-'mysql_db'					=> "MySQL",
+'mysql_db'					=> "MySQLi",
 'database_type'				=> "Database Type",
-'database_type_exp'			=> "MojoMotor supports both MySQL and SQLite. SQLite installation won't require a database server or database information.",
+'database_type_exp'			=> "MojoMotor supports both MySQLi and SQLite. SQLite installation won't require a database server or database information.",
 'base_url'					=> "Site URL",
 'base_url_exp'				=> "This is the address your site can be found at. We've taken a guess for you.",
 'password'					=> "Password",

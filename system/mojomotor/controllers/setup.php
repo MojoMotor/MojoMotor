@@ -33,7 +33,7 @@ class Setup extends CI_Controller {
 	var $admin_email = '';
 
 	// Some database defaults and information that needs tracking throughout the process
-	var $db_driver = 'mysql';
+	var $db_driver = 'mysqli';
 	var $db_prefix = 'mojo_';
 
 	// Figured out in the constructor and needed for the install process
@@ -333,7 +333,7 @@ class Setup extends CI_Controller {
 			$vars['site_content']['blank_site'] = ($this->input->post('site_content') == 'blank_site') ? TRUE : FALSE;
 			$vars['pconnect']['y'] = ($this->input->post('pconnect') == 'y') ? TRUE : FALSE;
 			$vars['pconnect']['n'] = ($this->input->post('pconnect') == 'y') ? FALSE : TRUE;
-			$vars['db_type']['mysql'] = ($this->input->post('db_type') == 'sqlite3') ? FALSE : TRUE;
+			$vars['db_type']['mysqli'] = ($this->input->post('db_type') == 'sqlite3') ? FALSE : TRUE;
 			$vars['db_type']['sqlite'] = ($this->input->post('db_type') == 'sqlite3') ? TRUE : FALSE;
 
 			$this->load->view('setup/wizard', $vars);

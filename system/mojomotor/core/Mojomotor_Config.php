@@ -251,7 +251,7 @@ class Mojomotor_Config Extends CI_Config {
 							'username'	=> '',
 							'password'	=> '',
 							'database'	=> '',
-							'dbdriver'	=> 'mysql',
+							'dbdriver'	=> 'mysqli',
 							'dbprefix'	=> 'mojo_',
 							'pconnect'	=> TRUE,
 							'db_debug'	=> FALSE,

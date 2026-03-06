@@ -10,7 +10,7 @@
 			jQuery("#site_content").click();
 		});
 
-		jQuery("#db_type_mysql").click(function() {
+		jQuery("#db_type_mysqli").click(function() {
 			jQuery(".mysql_info").fadeIn();
 		});
 
