@@ -463,7 +463,17 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function _error_message()
 	{
-		return mysqli_error($this->conn_id);
+		if (is_object($this->conn_id) OR is_resource($this->conn_id))
+		{
+			return mysqli_error($this->conn_id);
+		}
+
+		if (function_exists('mysqli_connect_error'))
+		{
+			return (string) mysqli_connect_error();
+		}
+
+		return '';
 	}
 
 	// --------------------------------------------------------------------
@@ -476,7 +486,17 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function _error_number()
 	{
-		return mysqli_errno($this->conn_id);
+		if (is_object($this->conn_id) OR is_resource($this->conn_id))
+		{
+			return mysqli_errno($this->conn_id);
+		}
+
+		if (function_exists('mysqli_connect_errno'))
+		{
+			return (int) mysqli_connect_errno();
+		}
+
+		return 0;
 	}
 
 	// --------------------------------------------------------------------
