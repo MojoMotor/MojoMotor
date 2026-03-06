@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 
@@ -108,7 +108,7 @@ class Members extends Mojomotor_Controller {
 
 		$vars['password_lang'] = 'password';
 		$vars['password_confirm_lang'] = 'password_confirm';
-		
+
 		$vars['html_page_title'] = $this->lang->line('member_add');
 
 		$this->load->view('members/add_edit', $vars);
@@ -153,7 +153,7 @@ class Members extends Mojomotor_Controller {
 
 		$vars['password_lang'] = 'password_new';
 		$vars['password_confirm_lang'] = 'password_new_confirm';
-		
+
 		$vars['html_page_title'] = $this->lang->line('member_edit');
 
 		$this->load->view('members/add_edit', $vars);
@@ -217,7 +217,7 @@ class Members extends Mojomotor_Controller {
 					$json['message'] = str_replace('%password_length', '6', $this->lang->line('password_too_short'));
 					exit($this->javascript->generate_json($json));
 				}
-				
+
 				if (strlen($this->input->post('password')) > 50)
 				{
 					$json['result'] = 'error';
@@ -225,7 +225,6 @@ class Members extends Mojomotor_Controller {
 					exit($this->javascript->generate_json($json));
 				}
 
-				
 				// Members created this way don't have system assigned passwords
 				$member_data['autogen_password'] = 'n';
 
@@ -298,12 +297,12 @@ class Members extends Mojomotor_Controller {
 					{
 						$error_messages[] = $this->lang->line('passwords_no_match');
 					}
-					
+
 					if (strlen($this->input->post('password')) < 6)
 					{
 						$error_messages[] = str_replace('%password_length', '6', $this->lang->line('password_too_short'));
 					}
-					
+
 					if (strlen($this->input->post('password')) > 50)
 					{
 						$error_messages[] = $this->lang->line('password_too_long');
@@ -343,7 +342,7 @@ class Members extends Mojomotor_Controller {
 					{
 						if ($this->auth->is_admin() && $this->input->post('member_group'))
 						{
-						    $member_data['group_id'] = (int) $this->input->post('member_group');
+							$member_data['group_id'] = (int) $this->input->post('member_group');
 						}
 					}
 

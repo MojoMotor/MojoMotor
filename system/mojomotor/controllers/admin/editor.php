@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 
@@ -392,15 +392,15 @@ class Editor extends Mojomotor_Controller {
 	function update_page_region()
 	{
 		$this->load->helper('cache_helper');
-		
+
 		$content		= $this->input->post('value');
 		$region_id		= $this->input->post('region_id');
 		$region_type	= $this->input->post('region_type');
-		
+
 		if ($region_type == 'global')
 		{
 			$layout_id = ($this->input->post('region_layout_id')) ? $this->input->post('region_layout_id') : $this->input->post('layout_id');
-			
+
 			remove_cache();
 
 			if ( ! $this->page_model->update_global_region($layout_id, $region_id, $content))

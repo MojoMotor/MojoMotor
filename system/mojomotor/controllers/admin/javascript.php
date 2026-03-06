@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 
@@ -230,7 +230,7 @@ class Javascript extends CI_Controller {
 
 		$loadfile = $this->security->sanitize_filename($loadfile);
 		$addon_seg = $this->security->sanitize_filename($this->uri->segment(4));
-		
+
 		if ($loadfile == 'jquery')
 		{
 			$file = PATH_JQUERY.'jquery.js';
@@ -325,7 +325,7 @@ class Javascript extends CI_Controller {
 			{
 				$parts = explode('/', $file);
 				$clean_parts = array();
-				
+
 				foreach ($parts as $part)
 				{
 					if ($part != '..')
@@ -333,7 +333,7 @@ class Javascript extends CI_Controller {
 						$clean_parts[] = $this->security->sanitize_filename($part);
 					}
 				}
-				
+
 				$file = implode('/', $clean_parts);
 				$file = APPPATH.'javascript/compressed/'.$file.'.js';
 
@@ -394,7 +394,7 @@ class Javascript extends CI_Controller {
 		}
 		else
 		{
-			
+
 			$modified = time();
 		}
 
@@ -416,7 +416,7 @@ class Javascript extends CI_Controller {
 
 		// Send a custom ETag to maintain a useful cache in
 		// load-balanced environments
-        $this->output->set_header("ETag: ".md5($modified.$file));
+		$this->output->set_header("ETag: ".md5($modified.$file));
 
 		// All times GMT
 		$modified = gmdate('D, d M Y H:i:s', $modified).' GMT';
@@ -428,7 +428,7 @@ class Javascript extends CI_Controller {
 		$this->output->set_header('Last-Modified: '.$modified);
 		$this->output->set_header('Expires: '.$expires);
 		*/
-    }
+	}
 
 	// --------------------------------------------------------------------
 
@@ -445,7 +445,7 @@ class Javascript extends CI_Controller {
 	{
 		$page = func_get_args();
 		$page = implode('/', $page);
-		
+
 		if ($page === '')
 		{
 			return;
@@ -456,30 +456,30 @@ class Javascript extends CI_Controller {
 		$this->load->library('auth');
 
 		$out = 'var Mojo = ' . $this->_generate_mojo_json($page);
-		
+
 		$this->output->set_header("Content-Type: text/javascript");
 		$this->output->set_output($out);
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Generate MojoMotor JSON
 	 *
-	 * This method generates a big 'ole pile of JSON.  
+	 * This method generates a big 'ole pile of JSON.
 	 *
-	 * @param 	
+	 * @param
 	 */
 	private function _generate_mojo_json($page)
 	{
 		$url_separator = ( ! $this->config->item('url_separator')) ? '-' : $this->config->item('url_separator');
-		
+
 		$page_info = $this->page_model->get_page_content($page);
-		
+
 		$expanded_bar_opts = ($this->config->item('show_expanded_image_options')) ? TRUE : FALSE;
 
 		$update = FALSE;
-		
+
 		// Auto update flag. We'll check if this is an admin before we spend time loading resources.
 		if ($this->auth->is_admin())
 		{
@@ -517,7 +517,7 @@ class Javascript extends CI_Controller {
 				),
 				'toolbar'=> array(),
 		);
-		
+
 		if ($this->auth->is_editor())
 		{
 			// Parse URLs of plugin and skin paths to get the URI, which we'll
@@ -526,61 +526,61 @@ class Javascript extends CI_Controller {
 			// still allowing Mojo to run from a subfolder.
 			$skin_path_array = parse_url(base_url().SYSDIR.'/mojomotor/views/themes/'.$this->theme.'/editor_skin/');
 			$editor_path_array = parse_url(base_url().SYSDIR.'/mojomotor/javascript/ckeditor/plugins/');
-			
+
 			$page['URL']['editor_skin_path'] = $skin_path_array['path'];
 			$page['URL']['editor_plugin_path'] = $editor_path_array['path'];
 
 			$page['URL']['editor_lang_path'] = site_url('editor/ckeditor_lang');
-			
+
 			$prefs = $this->member_model->get_member_by_id($this->session->userdata('id'));
-			
+
 			$page['edit_mode'] = $prefs->row('edit_mode');
 
 			// If the ckeditor config isn't viable, fail silently and load the most minimal possible bar
 			if ($this->config->load('ckeditor', FALSE, TRUE))
 			{
-				$page['toolbar'] = $this->config->item('wysiwyg_toolbar');				
+				$page['toolbar'] = $this->config->item('wysiwyg_toolbar');
 			}
 			else
 			{
 				$page['toolbar'] = array(array('mojo_save'), array('Maximize'), array('mojo_cancel'));
 			}
 		}
-		
+
 		$this->load->library('javascript');
 		return $this->javascript->generate_json($page, TRUE);
-	}	
+	}
 
-	// --------------------------------------------------------------------	
-	
+	// --------------------------------------------------------------------
+
 	/**
 	 * Setup language keys
 	 *
 	 * This is just to break it out from the larger method above.  If you need
-	 * to add a new language key, simply add it to the array below, and it'll 
+	 * to add a new language key, simply add it to the array below, and it'll
 	 * work
 	 *
-	 * @return array 
+	 * @return array
 	 */
 	private function _setup_language_keys()
 	{
 		$words = array(
-			'close', 'logout', 'logout_confirm', 'member_delete', 'page_delete', 
-			'subpage_delete', 'layout_delete', 'delete_confirm', 'email', 
-			'email_password_warning', 'layouts', 'pages', 'members', 'settings', 
-			'utilities', 'local', 'global', 'super_global', 'layout_region_warning_title', 
-			'layout_region_warning', 'last_item_delete', 'enter_url', 
+			'close', 'logout', 'logout_confirm', 'member_delete', 'page_delete',
+			'subpage_delete', 'layout_delete', 'delete_confirm', 'email',
+			'email_password_warning', 'layouts', 'pages', 'members', 'settings',
+			'utilities', 'local', 'global', 'super_global', 'layout_region_warning_title',
+			'layout_region_warning', 'last_item_delete', 'enter_url',
 			'open_in_new_window', 'login_result_failure', 'run_update', 'or',
 			'or_choose_page', 'or_choose_page_dropdown'
 		);
-		
+
 		$lang_array = array();
-		
+
 		foreach ($words as $word)
 		{
 			$lang_array[$word] = $this->lang->line($word);
 		}
-		
+
 		return $lang_array;
 	}
 }

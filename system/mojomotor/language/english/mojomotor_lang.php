@@ -195,15 +195,15 @@ $lang = array(
 'new_version_exp'			=> '<em>There is a new version of MojoMotor available.</em> We recommend keeping your versions current. Please visit the <a href="%x">MojoMotor download area</a> to get a copy of the latest release.',
 'export_to_ee'				=> "Export to ExpressionEngine ",
 'import_site'				=> 'Import Site',
-'export_ee_description'		=> 'MojoMotor has the ability to export into <a href="http://expressionengine.com">ExpressionEngine 2</a>. The resulting file will be importable into ExpressionEngine via an import module. Please see <a href="http://mojomotor.com/user_guide/admin/admin_utilities.html">the export documentation</a> for more information on using this feature, including <em>important notes</em>.',
+'export_ee_description'		=> 'MojoMotor has the ability to export into <a href="http://expressionengine.com">ExpressionEngine 2</a>. The resulting file will be importable into ExpressionEngine via an import module. Please see <a href="https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/admin/admin_utilities.html">the export documentation</a> for more information on using this feature, including <em>important notes</em>.',
 'php_info'					=> 'PHP Info',
 'php_info_exp'				=> ' can be used to help debugging or technical support issues.',
 
 
 // Help
 'version'					=> 'Version',
-'help_verbiage1'			=> 'If you need support, the <a href="http://mojomotor.com/forums/">MojoMotor support forums</a> are here for you.',
-'help_verbiage2'			=> 'MojoMotor is about empowerment. We want to empower you to shape MojoMotor. Found a bug? Please <a href="http://mojomotor.com/bug_tracker/">report it</a>. Have a feature suggestion? Hit us up on the <a href="http://mojomotor.com/forums/">MotorMotor forums</a>. We\'re here for you!',
+'help_verbiage1'			=> 'If you need support, the <a href="https://web.archive.org/web/20120919080359/http://mojomotor.com/forums/">MojoMotor support forums</a> are here for you.',
+'help_verbiage2'			=> 'MojoMotor is about empowerment. We want to empower you to shape MojoMotor. Found a bug? Please <a href="https://web.archive.org/web/20120919080359/http://mojomotor.com/bug_tracker/">report it</a>. Have a feature suggestion? Hit us up on the <a href="https://web.archive.org/web/20120919080359/http://mojomotor.com/forums/">MotorMotor forums</a>. We\'re here for you!',
 
 
 // File Manager

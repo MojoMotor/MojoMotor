@@ -149,15 +149,13 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 	function parseRequest($data='')
 	{
-		global $HTTP_RAW_POST_DATA;
-
 		//-------------------------------------
 		//  Get Data
 		//-------------------------------------
 
 		if ($data == '')
 		{
-			$data = $HTTP_RAW_POST_DATA;
+			$data = file_get_contents('php://input');
 		}
 
 		//-------------------------------------
@@ -338,11 +336,18 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 				if ($this->object === FALSE)
 				{
 					$CI =& get_instance();
-					return $CI->$method_parts['1']($m);
+					$method = $method_parts[1];
+					return $CI->$method($m);
 				}
 				else
 				{
-					return $this->object->$method_parts['1']($m);
+					$method = $method_parts[1];
+					if ( ! is_object($this->object))
+					{
+						return new XML_RPC_Response(0, $this->xmlrpcerr['unknown_method'], $this->xmlrpcstr['unknown_method']);
+					}
+
+					return $this->object->$method($m);
 					//return call_user_func(array(&$method_parts['0'],$method_parts['1']), $m);
 				}
 			}
@@ -505,7 +510,9 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		elseif ( ! $methName = $call->me['struct']['methodName'])
 			return $this->multicall_error('nomethod');
 
-		list($scalar_type,$scalar_value)=each($methName->me);
+		reset($methName->me);
+		$scalar_type = key($methName->me);
+		$scalar_value = current($methName->me);
 		$scalar_type = $scalar_type == $this->xmlrpcI4 ? $this->xmlrpcInt : $scalar_type;
 
 		if ($methName->kindOf() != 'scalar' OR $scalar_type != 'string')
@@ -517,7 +524,8 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		elseif ($params->kindOf() != 'array')
 			return $this->multicall_error('notarray');
 
-		list($a,$b)=each($params->me);
+		reset($params->me);
+		$b = current($params->me);
 		$numParams = count($b);
 
 		$msg = new XML_RPC_Message($scalar_value);

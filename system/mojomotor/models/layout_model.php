@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -275,9 +275,9 @@ class Layout_model extends CI_Model {
 			if ($pages->num_rows() > 0)
 			{
 				$this->load->model('page_model');
-				
+
 				foreach ($pages->result() as $page)
-				{			
+				{
 					$this->page_model->delete_page($page->id);
 				}
 			}
@@ -395,9 +395,9 @@ class Layout_model extends CI_Model {
 	{
 		$regions = $this->db->get('global_regions');
 		$layouts = $this->db->get('layouts');
-		
+
 		$l = array();
-		
+
 		foreach ($layouts->result() as $row)
 		{
 			$l[$row->id] = $row->layout_name;

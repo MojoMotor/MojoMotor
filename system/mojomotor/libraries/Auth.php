@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -64,7 +64,7 @@ class CI_Auth {
 	public function is_editor()
 	{
 		$group_id = $this->CI->session->userdata('group_id');
-		
+
 		return ($group_id == 1 OR $group_id == 2) ? TRUE : FALSE;
 	}
 
@@ -213,11 +213,17 @@ class CI_Auth {
 			$timeout = '';
 
 			$cookie_data = $this->CI->encrypt->decode($cookie_data);
-			
+
+			if ( ! is_string($cookie_data))
+			{
+				delete_cookie('rememberme');
+				return FALSE;
+			}
+
 			if (strpos($cookie_data, ':') !== FALSE)
 			{
 				$cookie_data = explode(':', $cookie_data);
-				
+
 				if (count($cookie_data) == 3)
 				{
 					list($user_id, $token, $timeout) = $cookie_data;

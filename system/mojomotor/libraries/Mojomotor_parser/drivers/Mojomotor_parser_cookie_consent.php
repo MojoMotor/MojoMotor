@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -86,9 +86,9 @@ class Mojomotor_parser_cookie_consent extends CI_Driver {
 	{
 		$this->CI->load->helper('cookie');
 		$expires = 60*60*24*365;  // 1 year
-		
+
 		set_cookie('cookies_allowed', 'y', $expires, '', '/', '', FALSE);
-		
+
 		$return = $this->CI->uri->segment(5, '');
 		$return = base64_decode(strtr($return, '_-', '/='));
 
@@ -107,7 +107,7 @@ class Mojomotor_parser_cookie_consent extends CI_Driver {
 	public function disallow_cookies()
 	{
 		$this->CI->load->helper('cookie');
-		
+
 		$prefix = (config_item('cookie_prefix')) ? config_item('cookie_prefix') : '';
 		$prefix_length = strlen($prefix);
 
@@ -143,7 +143,7 @@ class Mojomotor_parser_cookie_consent extends CI_Driver {
 		{
 			return '';
 		}
-		
+
 		$cookies_allowed = (get_cookie('cookies_allowed') != 'y') ? FALSE : TRUE;
 
 		// Conditionally display content
@@ -151,12 +151,12 @@ class Mojomotor_parser_cookie_consent extends CI_Driver {
 		{
 			return '';
 		}
-		
+
 		$ret = $this->CI->uri->uri_string();
 		$ret = strtr(base64_encode($ret), '/=', '_-');
-		
-		$type = ($type == 'disallow') ? 'disallow' : 'allow';		
-				
+
+		$type = ($type == 'disallow') ? 'disallow' : 'allow';
+
 		$link = site_url('addons/cookie_consent/'.$type.'_cookies/'.$ret);
 
 		if (count($template_data['parameters']) > 0)
@@ -165,18 +165,18 @@ class Mojomotor_parser_cookie_consent extends CI_Driver {
 			{
 				$text = $template_data['parameters']['text'];
 				$class = '';
-	
+
 				if (isset($template_data['parameters']['class']))
 				{
 					$class = 'class="'.$template_data['parameters']['class'].'"';
 
 				}
-				
+
 				$link = anchor($link, $text, $class);
 			}
 		}
 
-		return $link;		
+		return $link;
 	}
 }
 

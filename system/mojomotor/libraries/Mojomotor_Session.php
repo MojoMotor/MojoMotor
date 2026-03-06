@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -41,7 +41,7 @@ class Mojomotor_Session extends CI_Session {
 			{
 				return;
 			}
-		}		
+		}
 
 		if (is_null($cookie_data))
 		{
@@ -62,7 +62,7 @@ class Mojomotor_Session extends CI_Session {
 		}
 
 		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
-		
+
 		$secure_cookie = (config_item('cookie_secure') === TRUE) ? 1 : 0;
 
 		if ($secure_cookie)

@@ -62,10 +62,7 @@
  */
 	set_error_handler('_exception_handler');
 
-	if ( ! is_php('5.3'))
-	{
-		@set_magic_quotes_runtime(0); // Kill magic quotes
-	}
+	// Magic quotes runtime handling removed for modern PHP compatibility.
 
 /*
  * ------------------------------------------------------
@@ -87,13 +84,13 @@
 	{
 		get_config(array('subclass_prefix' => $assign_to_config['subclass_prefix']));
 	}
-	
+
 /*
  * ------------------------------------------------------
  *  Set a liberal script execution time limit
  * ------------------------------------------------------
  */
-	if (function_exists("set_time_limit") == TRUE AND @ini_get("safe_mode") == 0)
+	if (function_exists("set_time_limit") == TRUE)
 	{
 		@set_time_limit(300);
 	}

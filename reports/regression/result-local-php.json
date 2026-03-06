@@ -1,0 +1,71 @@
+{
+    "timestamp_utc": "2026-03-06T03:24:02+00:00",
+    "base_url": "http://127.0.0.1:8080",
+    "checks": [
+        {
+            "name": "homepage_get",
+            "method": "GET",
+            "path": "/",
+            "status": 200,
+            "pass": true,
+            "fatal_detected": false,
+            "allow_5xx_without_fatal": false,
+            "snippet": ""
+        },
+        {
+            "name": "setup_get",
+            "method": "GET",
+            "path": "/setup",
+            "status": 200,
+            "pass": true,
+            "fatal_detected": false,
+            "allow_5xx_without_fatal": false,
+            "snippet": ""
+        },
+        {
+            "name": "admin_login_get",
+            "method": "GET",
+            "path": "/index.php/admin/login",
+            "status": 200,
+            "pass": true,
+            "fatal_detected": false,
+            "allow_5xx_without_fatal": false,
+            "snippet": ""
+        },
+        {
+            "name": "page_render_get",
+            "method": "GET",
+            "path": "/index.php/page/content",
+            "status": 200,
+            "pass": true,
+            "fatal_detected": false,
+            "allow_5xx_without_fatal": false,
+            "snippet": ""
+        },
+        {
+            "name": "admin_login_post_invalid",
+            "method": "POST",
+            "path": "/index.php/admin/login/process",
+            "status": 500,
+            "pass": true,
+            "fatal_detected": false,
+            "allow_5xx_without_fatal": true,
+            "snippet": "<html> <head> <title>Error</title> <style type=\"text/css\"> body { background-color: #fff; margin: 40px; font-family: Lucida Grande, Verdana, Sans-serif; font-size: 12px; color: #000; } #content { border: #999 1px solid;"
+        },
+        {
+            "name": "admin_pages_update_post_unauth",
+            "method": "POST",
+            "path": "/index.php/admin/pages/update",
+            "status": 500,
+            "pass": true,
+            "fatal_detected": false,
+            "allow_5xx_without_fatal": true,
+            "snippet": "<html> <head> <title>Error</title> <style type=\"text/css\"> body { background-color: #fff; margin: 40px; font-family: Lucida Grande, Verdana, Sans-serif; font-size: 12px; color: #000; } #content { border: #999 1px solid;"
+        }
+    ],
+    "summary": {
+        "passed": 6,
+        "total": 6,
+        "first_fatal": null
+    }
+}

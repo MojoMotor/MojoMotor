@@ -56,7 +56,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 
 	// whether SET NAMES must be used to set the character set
 	var $use_set_names;
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -67,13 +67,26 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
-		if ($this->port != '')
+		if (function_exists('mysqli_report') && defined('MYSQLI_REPORT_OFF'))
 		{
-			return @mysqli_connect($this->hostname, $this->username, $this->password, $this->database, $this->port);
+			@mysqli_report(MYSQLI_REPORT_OFF);
 		}
-		else
+
+		try
 		{
-			return @mysqli_connect($this->hostname, $this->username, $this->password, $this->database);
+			if ($this->port != '')
+			{
+				return @mysqli_connect($this->hostname, $this->username, $this->password, $this->database, $this->port);
+			}
+			else
+			{
+				return @mysqli_connect($this->hostname, $this->username, $this->password, $this->database);
+			}
+		}
+		catch (Exception $e)
+		{
+			log_message('error', $e->getMessage());
+			return FALSE;
 		}
 
 	}
@@ -315,10 +328,6 @@ class CI_DB_mysqli_driver extends CI_DB {
 		{
 			$str = mysqli_real_escape_string($this->conn_id, $str);
 		}
-		elseif (function_exists('mysql_escape_string'))
-		{
-			$str = mysql_escape_string($str);
-		}
 		else
 		{
 			$str = addslashes($str);
@@ -454,7 +463,17 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function _error_message()
 	{
-		return mysqli_error($this->conn_id);
+		if (is_object($this->conn_id) OR is_resource($this->conn_id))
+		{
+			return mysqli_error($this->conn_id);
+		}
+
+		if (function_exists('mysqli_connect_error'))
+		{
+			return (string) mysqli_connect_error();
+		}
+
+		return '';
 	}
 
 	// --------------------------------------------------------------------
@@ -467,7 +486,17 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function _error_number()
 	{
-		return mysqli_errno($this->conn_id);
+		if (is_object($this->conn_id) OR is_resource($this->conn_id))
+		{
+			return mysqli_errno($this->conn_id);
+		}
+
+		if (function_exists('mysqli_connect_errno'))
+		{
+			return (int) mysqli_connect_errno();
+		}
+
+		return 0;
 	}
 
 	// --------------------------------------------------------------------
@@ -569,7 +598,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	{
 		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES ".implode(', ', $values);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**

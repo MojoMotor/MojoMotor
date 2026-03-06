@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 
@@ -43,7 +43,7 @@ class Mojomotor_Config Extends CI_Config {
 		$this->database_path	= APPPATH.'config/database'.EXT;
 		$this->autoload_path	= APPPATH.'config/autoload'.EXT;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -62,7 +62,7 @@ class Mojomotor_Config Extends CI_Config {
 		if ($uri)
 		{
 			$admin = array('addons', 'pages', 'members', 'editor', 'layouts', 'settings', 'utilities', 'help');
-			
+
 			$seg_1 = substr($uri, 0, strcspn($uri, '/'));
 
 			if (in_array($seg_1, $admin))
@@ -70,7 +70,7 @@ class Mojomotor_Config Extends CI_Config {
 				$uri = 'admin/'.$uri;
 			}
 		}
-		
+
 		return parent::site_url($uri);
 	}
 
@@ -251,7 +251,7 @@ class Mojomotor_Config Extends CI_Config {
 							'username'	=> '',
 							'password'	=> '',
 							'database'	=> '',
-							'dbdriver'	=> 'mysql',
+							'dbdriver'	=> 'mysqli',
 							'dbprefix'	=> 'mojo_',
 							'pconnect'	=> TRUE,
 							'db_debug'	=> FALSE,

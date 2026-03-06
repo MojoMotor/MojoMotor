@@ -327,7 +327,7 @@ class CI_Image_lib {
 		{
 			$this->wm_overlay_path = str_replace("\\", "/", realpath($this->wm_overlay_path));
 		}
-		
+
 		if (isset($props['wm_opacity']) AND $props['wm_opacity'] != 100)
 		{
 			$this->wm_use_opacity = TRUE;
@@ -524,12 +524,12 @@ class CI_Image_lib {
 		}
 
 		$dst_img = $create($this->width, $this->height);
-		
+
 		// Preserve alpha
 		$this->image_preserve_alpha($dst_img, $src_img);
 
 		$copy($dst_img, $src_img, 0, 0, $this->x_axis, $this->y_axis, $this->width, $this->height, $this->orig_width, $this->orig_height);
-		
+
 
 		//  Show the image
 		if ($this->dynamic_output == TRUE)
@@ -734,9 +734,9 @@ class CI_Image_lib {
 
 		//  Rotate it!
 		$dst_img = imagerotate($src_img, $this->rotation_angle, $white);
-		
+
 		// Preserve transparency
-		imagealphablending($dst_img, true); 
+		imagealphablending($dst_img, true);
 		imagesavealpha($dst_img, true);
 
 		//  Save the Image
@@ -783,17 +783,17 @@ class CI_Image_lib {
 
 		$width  = $this->orig_width;
 		$height = $this->orig_height;
-		
+
 		$new_img = imagecreatetruecolor($width, $height);
-		
+
 		// Preserve alpha
 		$this->image_preserve_alpha($new_img, $src_img);
-		
+
 		$src_x = 0;
 		$src_y = 0;
 		$src_width = $width;
 		$src_height = $height;
-		
+
 		if ($this->rotation_angle == 'hor')
 		{
 			$src_x = $width - 1;
@@ -804,9 +804,9 @@ class CI_Image_lib {
 			$src_y = $height - 1;
 			$src_height = 0 - $height;
 		}
-		
+
 		imagecopyresampled($new_img, $src_img, 0, 0, $src_x, $src_y, $width, $height, $src_width, $src_height);
-		
+
 		//  Show the image
 		if ($this->dynamic_output == TRUE)
 		{
@@ -848,7 +848,7 @@ class CI_Image_lib {
 		if ($this->image_type == 1 || $this->image_type == 3)
 		{
 			$src_alpha_index = imagecolortransparent($src_img);
-			
+
 			if ($src_alpha_index >= 0)
 			{
 				// Get color at alpha index
@@ -856,7 +856,7 @@ class CI_Image_lib {
 
 				// Get new alpha index in new image resource
 				$alpha_index = imagecolorallocate($new_img, $alpha_color['red'], $alpha_color['green'], $alpha_color['blue']);
-				
+
 				// Set alpha color as background color and make it transparent
 				imagefill($new_img, 0, 0, $alpha_index);
 				imagecolortransparent($new_img, $alpha_index);
@@ -864,10 +864,10 @@ class CI_Image_lib {
 			else if ($this->image_type == 3)
 			{
 				imagealphablending($new_img, false);
-				
+
 				// Create a new transparent color for image
 				$alpha_color = imagecolorallocatealpha($new_img, 0, 0, 0, 127);
-				
+
 				// Set alpha color as background color and save alpha state
 				imagefill($new_img, 0, 0, $alpha_color);
 				imagesavealpha($new_img, true);
@@ -942,10 +942,10 @@ class CI_Image_lib {
 
 		$this->wm_vrt_alignment = strtoupper(substr($this->wm_vrt_alignment, 0, 1));
 		$this->wm_hor_alignment = strtoupper(substr($this->wm_hor_alignment, 0, 1));
-		
+
 		$x_padding = $this->wm_padding;
 		$y_padding = $this->wm_padding;
-		
+
 		if ($this->wm_vrt_alignment == 'B')
 		{
 			$this->wm_vrt_offset = $this->wm_vrt_offset * -1;
@@ -997,7 +997,7 @@ class CI_Image_lib {
 		// Set RGB values for text and shadow
 		$rgba = imagecolorat($wm_img, $this->wm_x_transp, $this->wm_y_transp);
 		$alpha = ($rgba & 0x7F000000) >> 24;
-		
+
 		// make a best guess as to whether we're dealing with an image with alpha transparency or no/binary transparency
 		if ( ! $this->wm_use_opacity AND $alpha > 0)
 		{
@@ -1010,7 +1010,7 @@ class CI_Image_lib {
 			imagecolortransparent($wm_img, imagecolorat($wm_img, $this->wm_x_transp, $this->wm_y_transp));
 			imagecopymerge($src_img, $wm_img, $x_axis, $y_axis, 0, 0, $wm_width, $wm_height, $this->wm_opacity);
 		}
-		
+
 		//  Output the image
 		if ($this->dynamic_output == TRUE)
 		{
@@ -1080,13 +1080,13 @@ class CI_Image_lib {
 		// and left when aligned in top left, and
 		// applied bottom and right when aligned bottom
 		// right.
-		
+
 		$this->wm_vrt_alignment = strtoupper(substr($this->wm_vrt_alignment, 0, 1));
 		$this->wm_hor_alignment = strtoupper(substr($this->wm_hor_alignment, 0, 1));
 
 		$x_padding = $this->wm_padding;
 		$y_padding = $this->wm_padding;
-		
+
 		if ($this->wm_vrt_alignment == 'B')
 		{
 			$this->wm_vrt_offset = $this->wm_vrt_offset * -1;
@@ -1542,15 +1542,7 @@ class CI_Image_lib {
 	 */
 	function gd_loaded()
 	{
-		if ( ! extension_loaded('gd'))
-		{
-			if (! function_exists('dl') OR ! @dl('gd.so'))
-			{
-				return FALSE;
-			}
-		}
-
-		return TRUE;
+		return extension_loaded('gd');
 	}
 
 	// --------------------------------------------------------------------

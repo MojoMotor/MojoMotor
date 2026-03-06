@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 
@@ -97,7 +97,7 @@ class Pages extends Mojomotor_Controller {
 		// Pages can be created from a parent directly. If so, pass that data
 		$segs = $this->uri->segment_array();
 		unset($segs[1], $segs[2], $segs[3]); // Remove the directory, controller and method, don't want those
-		
+
 		$vars['form_hidden']['parent_hierarchy'] = urlencode(serialize($segs));
 
 		// This is the actual page title to be displayed in the view
@@ -144,7 +144,6 @@ class Pages extends Mojomotor_Controller {
 		{
 			$vars['layouts'][$layout->id] = $layout->layout_name;
 		}
-
 
 		// This is the actual page title to be displayed in the view
 		$vars['html_page_title'] = $this->lang->line('page_edit');
@@ -207,13 +206,13 @@ class Pages extends Mojomotor_Controller {
 
 				$page['id'] = $this->input->post('page_id');
 				$old_page_data = $this->page_model->get_page($page['id']);
-				
+
 				$old_page_url = $old_page_data->url_title;
 
 				if ($old_page_url != $page['url_title'])
 				{
 					// Update page region url titles
-					$this->page_model->update_page_region_url_title($old_page_url, $page['url_title']);					
+					$this->page_model->update_page_region_url_title($old_page_url, $page['url_title']);
 				}
 
 				if ($this->page_model->update_page($page))
@@ -249,9 +248,9 @@ class Pages extends Mojomotor_Controller {
 
 					// Since each page is based on a layout, if we are inserting a new page we need,
 					// to poll its layout for existing regions and drop those into the db.
-					
+
 					$regions = $this->_check_page_regions($page['layout_id']);
-					
+
 					foreach ($regions as $region_id)
 					{
 						// Insert new page regions
@@ -268,7 +267,7 @@ class Pages extends Mojomotor_Controller {
 					$site_structure = $this->site_model->get_setting('site_structure');
 
 					$parent_hierarchy = unserialize(urldecode($this->input->post('parent_hierarchy')));
-					
+
 					if (count($parent_hierarchy) > 0)
 					{
 						// Copy of the site structure to manipulate as we move through it
@@ -450,7 +449,7 @@ class Pages extends Mojomotor_Controller {
 	}
 
 	// ------------------------------------------------------------------------
-	
+
 	/**
 	 * Build Page List
 	 *
@@ -466,7 +465,7 @@ class Pages extends Mojomotor_Controller {
 	function _build_page_list($page_map, $attributes, $cur_depth = 1)
 	{
 		$CI =& get_instance();
-		
+
 		// Set the indentation based on the depth
 		$out = str_repeat(" ", $cur_depth);
 
@@ -480,24 +479,24 @@ class Pages extends Mojomotor_Controller {
 			}
 			$attributes = $atts;
 		}
-	
+
 		// Write the opening list tag
 		$out .= "<ul".$attributes.">\n";
-	
+
 		$count = 1;
-	
+
 		// Cycle through the list elements.  If an array is
 		// encountered we will recursively call build_page_list()
 		foreach ($page_map as $id => $page)
 		{
 			$out .= str_repeat(" ", $cur_depth * 2);
-	
+
 			if($count == 1 && $cur_depth == 1)
 			{
 				$out .= '<li id="mojo_first_drop_target"><div class="mojo_site_structure_placeholder"></div></li>';
 				$count++;
 			}
-	
+
 			if ($page['include_in_page_list'] == 'n')
 			{
 				$class = 'class="mojo_page_hidden" ';
@@ -506,15 +505,15 @@ class Pages extends Mojomotor_Controller {
 			{
 				$class = '';
 			}
-	
+
 			$out .= '<li '.$class.'id="mojo_page_delete_'.$id.'">';
-	
+
 			$out .= '<div class="ie_fix">';
-	
+
 			$out .= $page['page_title'];
-	
+
 			$out .= '<div class="mojo_page_edit_delete">';
-	
+
 			// If the page is hidden, there are different styles and icons
 			if ($page['include_in_page_list'] == 'n')
 			{
@@ -528,34 +527,34 @@ class Pages extends Mojomotor_Controller {
 				$out .= '&nbsp;';
 				$out .= anchor('pages/delete/'.$id, '<img src="'.site_url('assets/img').'/page_delete.png" alt="'.$CI->lang->line('page_delete').'" height="29" width="23" />', 'class="mojo_page_delete" title="'.str_replace('%', $page['page_title'], $CI->lang->line('delete_confirm')).'"');
 			}
-	
+
 			$out .= anchor($page['url_title'], $CI->lang->line('visit_page'), 'class="mojo_page_link_inline" title="'.$CI->lang->line('link').'"');
-	
+
 			$out .= anchor('pages/add/', $CI->lang->line('page_add'), 'class="mojo_sub_page mojo_add_page_inline" title="'.$CI->lang->line('page_add').'"');
-	
+
 			$out .= '</div>';
 			$out .= '</div>'; // close ie_fix div
-	
+
 			// droppable target. Its better to create it here vs inserting it via js.
 			// I've found the results much more predictable, and the cycles not being
 			// used by js seem to help.
 			$out .= '<div class="mojo_site_structure_placeholder"></div>';
-	
+
 			if (isset($page['children']))
 			{
 				$out .= "\n".$this->_build_page_list($page['children'], array('class'=>'mojo_sub_structure'), $cur_depth + 1);
 				$out .= str_repeat(" ", $cur_depth * 2);
 			}
-	
+
 			$out .= "</li>\n";
 		}
-	
+
 		// Set the indentation for the closing tag
 		$out .= str_repeat(" ", $cur_depth);
-	
+
 		// Write the closing list tag
 		$out .= "</ul>\n";
-	
+
 		return $out;
 	}
 

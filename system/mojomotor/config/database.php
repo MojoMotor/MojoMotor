@@ -16,8 +16,8 @@
 |	['username'] The username used to connect to the database
 |	['password'] The password used to connect to the database
 |	['database'] The name of the database you want to connect to
-|	['dbdriver'] The database type. ie: mysql.  Currently supported:
-				 mysql, mysqli, postgre, odbc, mssql, sqlite, oci8
+	['dbdriver'] The database type. ie: mysqli.  Currently supported:
+				 mysqli, postgre, odbc, mssql, sqlite, oci8
 |	['dbprefix'] You can add an optional prefix, which will be added
 |				 to the table name when using the  Active Record class
 |	['pconnect'] TRUE/FALSE - Whether to use a persistent connection
@@ -41,7 +41,7 @@ $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'mojo_username';
 $db['default']['password'] = 'mojo_password';
 $db['default']['database'] = 'mojomotor';
-$db['default']['dbdriver'] = 'mysql';
+$db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = 'mojo_';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;

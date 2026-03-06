@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 
@@ -38,13 +38,13 @@ class Login extends Mojomotor_Controller {
 		if (config_item('require_cookie_consent') == 'y')
 		{
 			$this->load->helper('cookie');
-			
+
 			if (get_cookie('cookies_allowed') != 'y')
 			{
 				$ret = $this->uri->uri_string();
 				$link = site_url('addons/cookie_consent/allow_cookies/'.$ret);
 
-				show_error(sprintf($this->lang->line('cookies_required_for_login'), $link));	
+				show_error(sprintf($this->lang->line('cookies_required_for_login'), $link));
 			}
 		}
 
@@ -83,7 +83,7 @@ class Login extends Mojomotor_Controller {
 	{
 		$this->load->library('form_validation');
 		$this->load->helper('form');
-		
+
 		// They already logged in? Direct them to the home page
 		if ($this->session->userdata('group_id'))
 		{

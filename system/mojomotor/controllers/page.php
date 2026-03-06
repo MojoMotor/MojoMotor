@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 
@@ -92,9 +92,9 @@ class Page extends Mojomotor_Controller {
 			if ( ! $page_404_id)
 			{
 				// Show default CI error page
-				show_404($page);		
+				show_404($page);
 			}
-			
+
 			if ($page_404_row = $this->page_model->get_page($page_404_id))
 			{
 				// Show our assigned 404 page, but with a 404 header status
@@ -115,7 +115,7 @@ class Page extends Mojomotor_Controller {
 
 		// Get page content
 		$page_content = $page_info->layout_content;
-		
+
 		$this->mojomotor_parser->url_title = $page;
 		$this->mojomotor_parser->layout_name = $page_info->layout_name;
 

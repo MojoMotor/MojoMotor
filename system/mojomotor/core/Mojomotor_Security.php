@@ -61,10 +61,10 @@ class Mojomotor_Security Extends CI_Security  {
 		setcookie($this->_csrf_cookie_name, $this->_csrf_hash, $expire, config_item('cookie_path'), config_item('cookie_domain'), $secure_cookie);
 
 		log_message('debug', "CRSF cookie Set");
-		
+
 		return $this;
 	}
-	
+
 }
 
 // END Security Class

@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 
@@ -31,13 +31,11 @@ class Welcome extends CI_Controller {
 	/**
 	 * Constructor
 	 *
-	 * Declared in PHP 4 fashion here and in the setup wizard so that we can send an error
-	 * if the user is not using a high enough version of PHP. We want to warn them before
-	 * this causes a PHP error.
+	 * Initializes install-time welcome behavior.
 	 *
 	 * @access	public
 	 */
-	function Welcome()
+	function __construct()
 	{
 		parent::__construct();
 
@@ -49,20 +47,14 @@ class Welcome extends CI_Controller {
 
 		// The base_url won't be available (unless its a validation error but the user has
 		// correctly set this value) so detect for that, and then work it out dynamically.
-		if (strpos($this->input->server("REQUEST_URI"), 'index'.EXT))
-		{
-			$temp_base_url = substr($this->input->server("REQUEST_URI"), 0, strpos($this->input->server("REQUEST_URI"), 'index'.EXT));
-		}
-		else
-		{
-			$temp_base_url = $this->input->server("REQUEST_URI");
-		}
+		$script_name = (string) $this->input->server('SCRIPT_NAME');
+		$temp_base_url = trim(str_replace('\\', '/', dirname($script_name)), '/');
 
 		// What port are we on? If it isn't 80, append it in.
 		$port = $this->input->server("SERVER_PORT");
 		$temp_server = ($port != '80') ? $this->input->server("SERVER_NAME").":$port" : $this->input->server("SERVER_NAME");
 
-		$this->base_url = trim('http://'.$temp_server.$temp_base_url, '/').'/';
+		$this->base_url = 'http://'.$temp_server.'/'.($temp_base_url !== '' ? $temp_base_url.'/' : '');
 		$this->config->set_item('base_url', $this->base_url);
 
 		// Welcome is a standalone page. The only other standalone pages are used in the installer. During

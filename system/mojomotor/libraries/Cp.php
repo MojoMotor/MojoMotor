@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -36,7 +36,7 @@ class Cp
 	 * @access	public
 	 * @return	void
 	 */
-	function Cp()
+	function __construct()
 	{
 		$this->CI =& get_instance();
 		$this->CI->load->library('auth');
@@ -67,8 +67,8 @@ class Cp
 			{
 				$expires = 60*60*24*365;  // 1 year
 				set_cookie('cookies_allowed', 'y', $expires);
-			}			
-		}		
+			}
+		}
 
 		// load custom stuff
 		if ($this->CI->session->userdata('group_id') == 1)

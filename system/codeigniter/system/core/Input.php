@@ -36,7 +36,7 @@ class CI_Input {
 	var $_enable_csrf			= FALSE; // Set automatically based on config setting
 
 	protected $headers			= array();
-	
+
 
 	/**
 	 * Constructor
@@ -221,7 +221,7 @@ class CI_Input {
 				$expire = 0;
 			}
 		}
-		
+
 		$secure_cookie = (config_item('cookie_secure') === TRUE) ? 1 : 0;
 
 		if ($secure_cookie)
@@ -334,7 +334,7 @@ class CI_Input {
 					$flag = FILTER_FLAG_IPV6;
 					break;
 				default:
-					$flag = '';
+					$flag = 0;
 					break;
 			}
 
@@ -343,8 +343,8 @@ class CI_Input {
 
 		// If it's not we'll do it manually
 		$which = strtolower($which);
-		
-		if ($which != 'ipv6' OR $which != 'ipv4')
+
+		if ($which != 'ipv6' && $which != 'ipv4')
 		{
 			if (strpos($ip, ':') !== FALSE)
 			{
@@ -359,13 +359,13 @@ class CI_Input {
 				return FALSE;
 			}
 		}
-		
+
 		$func = '_valid_'.$which;
 		return $this->$func($ip);
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	* Validate IPv4 Address
 	*
@@ -389,7 +389,7 @@ class CI_Input {
 		{
 			return FALSE;
 		}
-		
+
 		// Check each segment
 		foreach ($ip_segments as $segment)
 		{
@@ -403,9 +403,9 @@ class CI_Input {
 
 		return TRUE;
 	}
-		
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	* Validate IPv6 Address
 	*
@@ -418,33 +418,33 @@ class CI_Input {
 		// 8 groups, separated by :
 		// 0-ffff per group
 		// one set of consecutive 0 groups can be collapsed to ::
-		
+
 		$groups = 8;
 		$collapsed = FALSE;
-		
+
 		$chunks = array_filter(
 			preg_split('/(:{1,2})/', $str, NULL, PREG_SPLIT_DELIM_CAPTURE)
 		);
-		
+
 		// Rule out easy nonsense
 		if (current($chunks) == ':' OR end($chunks) == ':')
 		{
 			return FALSE;
 		}
-		
+
 		// PHP supports IPv4-mapped IPv6 addresses, so we'll expect those as well
 		if (strpos(end($chunks), '.') !== FALSE)
 		{
 			$ipv4 = array_pop($chunks);
-			
+
 			if ( ! $this->_valid_ipv4($ipv4))
 			{
 				return FALSE;
 			}
-			
+
 			$groups--;
 		}
-		
+
 		while ($seg = array_pop($chunks))
 		{
 			if ($seg[0] == ':')
@@ -453,19 +453,19 @@ class CI_Input {
 				{
 					return FALSE;	// too many groups
 				}
-				
+
 				if (strlen($seg) > 2)
 				{
 					return FALSE;	// long separator
 				}
-				
+
 				if ($seg == '::')
 				{
 					if ($collapsed)
 					{
 						return FALSE;	// multiple collapsed
 					}
-					
+
 					$collapsed = TRUE;
 				}
 			}
@@ -477,12 +477,12 @@ class CI_Input {
 
 		return $collapsed OR $groups == 1;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
 	 * Compare an IP versus the current IP
-	 * 
+	 *
 	 * @param string $ip IP address to compare to current address
 	 * @param int $accuracy The number of octets you want to check, 4 being full
 	 *		accuracy, 0 being no check at all
@@ -491,7 +491,7 @@ class CI_Input {
 	function compare_ip($ip, $accuracy = 4)
 	{
 		// If accuracy is 0, then no check is necessary
-		if ($accuracy === 0) 
+		if ($accuracy === 0)
 		{
 			return TRUE;
 		}
@@ -557,9 +557,9 @@ class CI_Input {
 	function _sanitize_globals()
 	{
 		// It would be "wrong" to unset any of these GLOBALS.
-		$protected = array('_SERVER', '_GET', '_POST', '_FILES', '_REQUEST', 
+		$protected = array('_SERVER', '_GET', '_POST', '_FILES', '_REQUEST',
 							'_SESSION', '_ENV', 'GLOBALS', 'HTTP_RAW_POST_DATA',
-							'system_folder', 'application_folder', 'BM', 'EXT', 
+							'system_folder', 'application_folder', 'BM', 'EXT',
 							'CFG', 'URI', 'RTR', 'OUT', 'IN');
 
 		// Unset globals for securiy.
@@ -570,8 +570,10 @@ class CI_Input {
 			{
 				if ( ! in_array($global, $protected))
 				{
-					global $$global;
-					$$global = NULL;
+					if (isset($GLOBALS[$global]))
+					{
+						unset($GLOBALS[$global]);
+					}
 				}
 			}
 			else
@@ -580,8 +582,10 @@ class CI_Input {
 				{
 					if ( ! in_array($key, $protected))
 					{
-						global $$key;
-						$$key = NULL;
+						if (isset($GLOBALS[$key]))
+						{
+							unset($GLOBALS[$key]);
+						}
 					}
 				}
 			}
@@ -667,18 +671,14 @@ class CI_Input {
 			return $new_array;
 		}
 
-		// We strip slashes if magic quotes is on to keep things consistent
-		if (get_magic_quotes_gpc())
-		{
-			$str = stripslashes($str);
-		}
+		// Magic quotes are removed in modern PHP, so no slash normalization is required.
 
 		// Clean UTF-8 if supported
 		if (UTF8_ENABLED === TRUE)
 		{
 			$str = $this->uni->clean_string($str);
 		}
-		
+
 		// Remove control characters
 		$str = remove_invisible_characters($str);
 
@@ -735,7 +735,7 @@ class CI_Input {
 	/**
 	 * Request Headers
 	 *
-	 * In Apache, you can simply call apache_request_headers(), however for 
+	 * In Apache, you can simply call apache_request_headers(), however for
 	 * people running other webservers the function is undefined.
 	 *
 	 * @return array
@@ -765,10 +765,10 @@ class CI_Input {
 		{
 			$key = str_replace('_', ' ', strtolower($key));
 			$key = str_replace(' ', '-', ucwords($key));
-			
+
 			$this->headers[$key] = $val;
 		}
-		
+
 		return $this->headers;
 	}
 
@@ -789,7 +789,7 @@ class CI_Input {
 		{
 			$this->request_headers();
 		}
-		
+
 		if ( ! isset($this->headers[$index]))
 		{
 			return FALSE;
@@ -800,17 +800,17 @@ class CI_Input {
 			return $this->security->xss_clean($this->headers[$index]);
 		}
 
-		return $this->headers[$index];		
+		return $this->headers[$index];
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Is ajax Request?
 	 *
 	 * Test to see if a request contains the HTTP_X_REQUESTED_WITH header
 	 *
-	 * @return 	boolean 	
+	 * @return 	boolean
 	 */
 	public function is_ajax_request()
 	{

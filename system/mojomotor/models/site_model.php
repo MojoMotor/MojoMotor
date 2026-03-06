@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -86,7 +86,7 @@ class Site_model extends CI_Model {
 		$qry = $this->db->select($setting)
 						->limit(1)
 						->get('site_settings');
-		
+
 		if ($qry->num_rows() != 0)
 		{
 			if ($setting == 'site_structure')
@@ -95,7 +95,7 @@ class Site_model extends CI_Model {
 
 				return $site_structure;
 			}
-			
+
 			return $qry->row($setting);
 		}
 
@@ -203,9 +203,9 @@ class Site_model extends CI_Model {
 			// make sure the theme is updated for the logged in user
 			if (isset($settings['theme']))
 			{
-				$this->session->set_userdata(array('theme' => $settings['theme']));				
+				$this->session->set_userdata(array('theme' => $settings['theme']));
 			}
-			
+
 			// Do we need to take care of language now?
 			if ($language)
 			{
@@ -230,7 +230,7 @@ class Site_model extends CI_Model {
 	 */
 	public function version_check()
 	{
-		$page_url = 'http://mojomotor.com/resources/mmversion.txt';
+		$page_url = 'https://web.archive.org/web/20120919080359/http://mojomotor.com/resources/mmversion.txt';
 
 		$target = parse_url($page_url);
 
@@ -238,8 +238,8 @@ class Site_model extends CI_Model {
 
 		if (is_resource($fp))
 		{
-			fputs ($fp,"GET ".$page_url." HTTP/1.0\r\n" ); 
-			fputs ($fp,"Host: ".$target['host'] . "\r\n" ); 
+			fputs ($fp,"GET ".$page_url." HTTP/1.0\r\n" );
+			fputs ($fp,"Host: ".$target['host'] . "\r\n" );
 			fputs ($fp,"User-Agent: MojoMotor/\r\n");
 			fputs ($fp,"If-Modified-Since: Fri, 01 Jan 2004 12:24:04\r\n\r\n");
 
@@ -265,7 +265,7 @@ class Site_model extends CI_Model {
 
 			return 'undetermined';
 		}
-		
+
 		return 'connection_failed';
 	}
 }

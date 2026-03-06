@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -155,23 +155,22 @@ class Mojomotor_parser_contact extends CI_Driver {
 	{
 		$this->CI->load->model('site_model');
 
-		$input_recip = $this->CI->input->post('recipients');
-
 		$raw_recipients = $this->CI->input->post('recipients');
-		$recipients = explode('|', $this->CI->encrypt->decode($raw_recipients));
+		$decoded_recipients = $this->CI->encrypt->decode($raw_recipients);
+		$recipients = is_string($decoded_recipients) ? explode('|', $decoded_recipients) : array();
 		$recipients_hash = $this->CI->input->post('recipients_hash');
 
 		// Just for code clarity below
 		$n = $this->CI->email->crlf;
 
 		// Is there a message body?
-		if ( ! $message = trim($this->CI->input->post('message')))
+		$message = trim((string) $this->CI->input->post('message'));
+		if ($message == '')
 		{
 			show_error($this->CI->lang->line('contact_message_empty'));
 		}
-		
+
 		$message .= "$n$n------------------$n$n";
-		
 
 		// Return URI
 		$return = ($this->CI->input->post('return')) ? $this->CI->input->post('return') : '';
@@ -186,7 +185,7 @@ class Mojomotor_parser_contact extends CI_Driver {
 					if ( ! $this->CI->email->valid_email($recipient))
 					{
 						log_message('error', 'Contact form is trying to send to an invalid email ('.$recipient.'). Email dropped from mail.');
-					    unset($recipient[$key]);
+						unset($recipients[$key]);
 					}
 				}
 			}
@@ -204,7 +203,7 @@ class Mojomotor_parser_contact extends CI_Driver {
 			{
 				$requested_from = $this->CI->encrypt->decode($raw_from);
 
-				if ($this->CI->email->valid_email($requested_from))
+				if (is_string($requested_from) && $this->CI->email->valid_email($requested_from))
 				{
 					// Its valid, replace the default set above.
 					$from = $requested_from;

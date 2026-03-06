@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 
@@ -33,8 +33,9 @@ class Setup extends CI_Controller {
 	var $admin_email = '';
 
 	// Some database defaults and information that needs tracking throughout the process
-	var $db_driver = 'mysql';
+	var $db_driver = 'mysqli';
 	var $db_prefix = 'mojo_';
+	var $db_error_details = '';
 
 	// Figured out in the constructor and needed for the install process
 	var $base_url = '';
@@ -67,7 +68,7 @@ class Setup extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		// Within this controller, ONLY update can be visited with the installer lock set to true
 		if ($this->router->method != 'update' && $this->config->item('install_lock') != 'unlocked')
 		{
@@ -80,23 +81,22 @@ class Setup extends CI_Controller {
 		$this->load->helper('string');
 		$this->load->library('session');
 
+		if ($this->session->userdata('load_db_from_config') === NULL)
+		{
+			$this->session->set_userdata('load_db_from_config', FALSE);
+		}
+
 		// The base_url won't be available (unless its a validation error but the user has
 		// correctly set this value) so detect for that, and then work it out dynamically.
-		if (strpos($this->input->server("REQUEST_URI"), 'index'.EXT))
-		{
-			$temp_base_url = substr($this->input->server("REQUEST_URI"), 0, strpos($this->input->server("REQUEST_URI"), 'index'.EXT));
-		}
-		else
-		{
-			$temp_base_url = $this->input->server("REQUEST_URI");
-		}
+		$script_name = (string) $this->input->server('SCRIPT_NAME');
+		$temp_base_url = trim(str_replace('\\', '/', dirname($script_name)), '/');
 
 		// What port are we on? If it isn't 80, append it in.
 		$port = $this->input->server("SERVER_PORT");
 		$temp_server = ($port != '80') ? $this->input->server("SERVER_NAME").":$port" : $this->input->server("SERVER_NAME");
 		$protocol = ($this->input->server('HTTPS') != '' && strtolower($this->input->server('HTTPS')) != 'off') ? 'https://' : 'http://';
 
-		$this->base_url = trim($protocol.$temp_server.$temp_base_url, '/').'/';
+		$this->base_url = $protocol.$temp_server.'/'.($temp_base_url !== '' ? $temp_base_url.'/' : '');
 		$this->config->set_item('base_url', $this->base_url);
 
 		// During the install process, the base_url won't have been set, and thus the site path to things
@@ -186,6 +186,11 @@ class Setup extends CI_Controller {
 				// Ensure the session isn't remembered from a previous test
 				$this->session->set_userdata('load_db_from_config', FALSE);
 
+				if ($db[$active_group]['dbdriver'] != 'sqlite3')
+				{
+					$vars['installation_warnings'][] = $this->lang->line('db_connection_details').$this->db_error_details;
+				}
+
 				// The connection information wasn't valid, so the database.php file needs to be changed.
 				// We'll try to make it writable so that MojoMotor can handle this internally, but even
 				// if it can't, we won't issue any complaints, it'll simply be up to the admin to handle it.
@@ -246,7 +251,7 @@ class Setup extends CI_Controller {
 
 		// Earlier, we checked if the database.php info was correct. If so, we don't need
 		// some of the validation. Also, set 'db_file_connected' to TRUE if it works.
-		if ($this->session->userdata('load_db_from_config') === FALSE)
+		if ($this->session->userdata('load_db_from_config') !== TRUE)
 		{
 			$vars['db_file_connected'] = FALSE;
 
@@ -333,7 +338,7 @@ class Setup extends CI_Controller {
 			$vars['site_content']['blank_site'] = ($this->input->post('site_content') == 'blank_site') ? TRUE : FALSE;
 			$vars['pconnect']['y'] = ($this->input->post('pconnect') == 'y') ? TRUE : FALSE;
 			$vars['pconnect']['n'] = ($this->input->post('pconnect') == 'y') ? FALSE : TRUE;
-			$vars['db_type']['mysql'] = ($this->input->post('db_type') == 'sqlite3') ? FALSE : TRUE;
+			$vars['db_type']['mysqli'] = ($this->input->post('db_type') == 'sqlite3') ? FALSE : TRUE;
 			$vars['db_type']['sqlite'] = ($this->input->post('db_type') == 'sqlite3') ? TRUE : FALSE;
 
 			$this->load->view('setup/wizard', $vars);
@@ -694,7 +699,7 @@ class Setup extends CI_Controller {
 
 		$layout_content = read_file($import_directory.$default_page);
 
-		// Drop in the layout. We need to insert it now, as we need the id, but content 
+		// Drop in the layout. We need to insert it now, as we need the id, but content
 		// is yet to be parsed out, so we'll update it again momentarily.
 		$layout_id = $this->layout_model->insert_layout(array(
 									'layout_name'		=> 'main_layout',
@@ -747,7 +752,6 @@ class Setup extends CI_Controller {
 									'layout_content'	=> (string) $layout_dom
 		));
 
-
 		// --------------------------------------------------------------------
 		// Setup the Pages
 		// --------------------------------------------------------------------
@@ -770,10 +774,29 @@ class Setup extends CI_Controller {
 			$file_dom = str_get_html($file_contents);
 
 			// Get the page <title>
-			$raw_title = $file_dom->find('title', 0); // PHP 4 style... sigh
-			$page_title = $raw_title->plaintext;
+			$page_title = '';
+
+			if (is_object($file_dom))
+			{
+				$raw_title = $file_dom->find('title', 0); // PHP 4 style... sigh
+
+				if (is_object($raw_title))
+				{
+					$page_title = trim($raw_title->plaintext);
+				}
+			}
+
+			if ($page_title === '' && is_string($file_contents) && preg_match('/<title[^>]*>(.*?)<\/title>/is', $file_contents, $matches))
+			{
+				$page_title = trim(html_entity_decode(strip_tags($matches[1]), ENT_QUOTES, 'UTF-8'));
+			}
 
 			$url_title = url_title(substr(ltrim($file, '_'), 0, strpos($file, '.htm')), $url_separator);
+
+			if ($page_title === '')
+			{
+				$page_title = ucwords(str_replace(array('-', '_'), ' ', $url_title));
+			}
 
 			$meta = get_meta_tags($import_directory.$file);
 
@@ -830,7 +853,7 @@ class Setup extends CI_Controller {
 		{
 			$this->update_notices[] = 'Unable to automatically update your config file. Please open system/mojomotor/config/config.php and add: $config[\'asset_url\'] = "' . $asset_url.'";';
 		}
-		
+
 		if ( ! $this->site_model->update_settings($update_settings))
 		{
 			return FALSE;
@@ -871,20 +894,20 @@ class Setup extends CI_Controller {
 
 		// meta tags
 		// 	    preg_match_all('/<[\s]*meta[\s]*name="?' . '([^>"]*)"?[\s]*' . 'content="?([^>"]*)"?[\s]*[\/]?[\s]*>/si',  $layout_content, $out);
-		// 
+		//
 		// foreach ($out as $meta => $content)
 		// {
 		// 	echo $content[0].' is '.$content[1].'<br>';
 		// }
-		// 
+		//
 		// echo '<pre>';print_r($out);echo '</pre>';exit;
-		// 
+		//
 		// 	    for ($i=0;$i < count($out[1]);$i++) {
 		// 	        // loop through the meta data - add your own tags here if you need
 		// 	        if (strtolower($out[1][$i]) == "keywords") $meta['keywords'] = $out[2][$i];
 		// 	        if (strtolower($out[1][$i]) == "description") $meta['description'] = $out[2][$i];
 		// 	    }
-		// 	    
+		//
 
 		return $layout_content;
 	}
@@ -1024,6 +1047,8 @@ class Setup extends CI_Controller {
 			return TRUE;
 		}
 
+		$this->form_validation->set_message('_db_verify', $this->lang->line('db_unable_to_connect').$this->db_error_details);
+
 		return FALSE;
 	}
 
@@ -1041,10 +1066,17 @@ class Setup extends CI_Controller {
 	 */
 	function _db_connection_test($db_config)
 	{
+		$this->db_error_details = '';
+
 		// If the extension is loaded, then SQLite3 is successful
 		if ($db_config['dbdriver'] == 'sqlite3' && extension_loaded('pdo_sqlite'))
 		{
 			return TRUE;
+		}
+		elseif ($db_config['dbdriver'] == 'sqlite3')
+		{
+			$this->db_error_details = $this->_format_db_error_details($db_config, 'connect', 'Required PHP extension pdo_sqlite is not loaded.');
+			return FALSE;
 		}
 
 		// Unset any existing DB information
@@ -1079,14 +1111,193 @@ class Setup extends CI_Controller {
 				}
 				else
 				{
+					$this->db_error_details = $this->_format_db_error_details($db_config, 'create_database');
 					return FALSE;
 				}
 			}
 		}
 		else
 		{
+			$this->db_error_details = $this->_format_db_error_details($db_config, 'connect');
 			return FALSE;
 		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Format DB Error Details
+	 *
+	 * @access	private
+	 * @param	array
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
+	function _format_db_error_details($db_config, $stage = 'connect', $explicit_message = '')
+	{
+		$host_parts = $this->_parse_db_host(isset($db_config['hostname']) ? $db_config['hostname'] : '');
+
+		$details = array();
+		$details[] = $this->lang->line('db_error_stage').': '.$this->_escape_db_error_value($stage);
+		$details[] = $this->lang->line('db_error_driver').': '.$this->_escape_db_error_value(isset($db_config['dbdriver']) ? $db_config['dbdriver'] : 'unknown');
+		$details[] = $this->lang->line('db_error_host').': '.$this->_escape_db_error_value($host_parts['host']);
+
+		if ($host_parts['port'] !== '')
+		{
+			$details[] = $this->lang->line('db_error_port').': '.$this->_escape_db_error_value($host_parts['port']);
+		}
+
+		if ($host_parts['socket'] !== '')
+		{
+			$details[] = $this->lang->line('db_error_socket').': '.$this->_escape_db_error_value($host_parts['socket']);
+		}
+
+		$details[] = $this->lang->line('db_error_database').': '.$this->_escape_db_error_value(isset($db_config['database']) ? $db_config['database'] : '');
+		$details[] = $this->lang->line('db_error_username').': '.$this->_escape_db_error_value(isset($db_config['username']) ? $db_config['username'] : '');
+
+		if (isset($db_config['dbdriver']) && $db_config['dbdriver'] == 'mysqli')
+		{
+			$details[] = $this->lang->line('db_error_extension').': mysqli '.($this->_mysqli_is_loaded() ? 'loaded' : 'missing');
+		}
+
+		if ($explicit_message !== '')
+		{
+			$details[] = $this->lang->line('db_error_message').': '.$this->_escape_db_error_value($explicit_message);
+		}
+		else
+		{
+			$error_text = $this->_collect_db_error_text();
+
+			if ($error_text !== '')
+			{
+				$details[] = $this->lang->line('db_error_message').': '.$this->_escape_db_error_value($error_text);
+			}
+		}
+
+		return '<br />'.implode('<br />', $details);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Parse DB Host
+	 *
+	 * @access	private
+	 * @param	string
+	 * @return	array
+	 */
+	function _parse_db_host($hostname)
+	{
+		$result = array('host' => (string) $hostname, 'port' => '', 'socket' => '');
+
+		if ((string) $hostname == '')
+		{
+			return $result;
+		}
+
+		if (strpos($hostname, ':') !== FALSE)
+		{
+			$parts = explode(':', $hostname, 2);
+			$result['host'] = $parts[0];
+
+			if (isset($parts[1]) && strpos($parts[1], '/') === 0)
+			{
+				$result['socket'] = $parts[1];
+			}
+			elseif (isset($parts[1]))
+			{
+				$result['port'] = $parts[1];
+			}
+		}
+
+		if ($result['host'] == '')
+		{
+			$result['host'] = 'localhost';
+		}
+
+		return $result;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Collect DB Error Text
+	 *
+	 * @access	private
+	 * @return	string
+	 */
+	function _collect_db_error_text()
+	{
+		if ( ! isset($this->db) OR ! is_object($this->db))
+		{
+			return '';
+		}
+
+		$error_text = '';
+
+		if (method_exists($this->db, 'error'))
+		{
+			$db_error = $this->db->error();
+
+			if (is_array($db_error))
+			{
+				if (isset($db_error['message']) && $db_error['message'] !== '')
+				{
+					$error_text = $db_error['message'];
+				}
+				elseif (isset($db_error['code']) && $db_error['code'] !== 0)
+				{
+					$error_text = 'Error code '.$db_error['code'];
+				}
+			}
+		}
+
+		if ($error_text === '' && method_exists($this->db, '_error_message'))
+		{
+			$error_text = (string) $this->db->_error_message();
+		}
+
+		if ($error_text === '' && method_exists($this->db, '_error_number'))
+		{
+			$error_number = $this->db->_error_number();
+
+			if ((int) $error_number !== 0)
+			{
+				$error_text = 'Error code '.$error_number;
+			}
+		}
+
+		return trim($error_text);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Escape DB Error Value
+	 *
+	 * @access	private
+	 * @param	string
+	 * @return	string
+	 */
+	function _escape_db_error_value($value)
+	{
+		$value = (string) $value;
+
+		return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Mysqli Loaded
+	 *
+	 * @access	private
+	 * @return	bool
+	 */
+	function _mysqli_is_loaded()
+	{
+		return extension_loaded('mysqli');
 	}
 
 	// --------------------------------------------------------------------
@@ -1138,13 +1349,13 @@ class Setup extends CI_Controller {
 
 			if (version_compare($this->mojo_version, $version, '==') && method_exists('Setup', $function_name))
 			{
-				// If at any point an update function returns FALSE, then something 
+				// If at any point an update function returns FALSE, then something
 				// has gone wrong, so exit the versions loop and report back to the user.
 				if ( ! call_user_func(array('Setup', $function_name)))
 				{
 					break;
 				}
-				
+
 				// the mojo_version field was not added until 0.1.0
 				if (version_compare($this->mojo_version, '0.1.0', '>'))
 				{
@@ -1156,9 +1367,9 @@ class Setup extends CI_Controller {
 					{
 						$this->update_notices[] = 'Unable to update <em>mojo_version</em> in the site_settings table.';
 						break;
-					}					
+					}
 				}
-				
+
 				$this->update_notices[] = str_replace('%x', $this->mojo_version, $this->lang->line('update_to_version'));
 			}
 		}
@@ -1170,9 +1381,9 @@ class Setup extends CI_Controller {
 
 		$this->load->view('setup/update', $vars);
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Update 1.2.0
 	 *
@@ -1206,7 +1417,7 @@ class Setup extends CI_Controller {
 
 		// pull old site_path setting out of the DB and into config.php as asset_url
 		$asset_url = $this->site_model->get_setting('site_path');
-		
+
 		if ( ! $this->config->config_update(array('asset_url' => $asset_url)))
 		{
 			$this->update_notices[] = 'Unable to automatically update your config file. Please open system/mojomotor/config/config.php and add: $config[\'asset_url\'] = "' . $asset_url.'";';
@@ -1214,7 +1425,7 @@ class Setup extends CI_Controller {
 
 		// drop old site_path column
 		$this->dbforge->drop_column('site_settings', 'site_path');
-		
+
 		// swap a few tags with their simpler counterparts
 		$tag_swap = array(
 			'{mojo:site:site_path}' 	=> '{mojo:site:asset_url}'
@@ -1256,11 +1467,11 @@ class Setup extends CI_Controller {
 		$this->load->dbforge();
 		$this->dbforge->add_column('sessions', array('user_data' => array('type' => 'TEXT', 'null' => TRUE)));
 		$this->mojo_version = '1.1.2';
-		return TRUE;		
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Update 1.1.0
 	 *
@@ -1290,13 +1501,13 @@ class Setup extends CI_Controller {
 	function _update_1_0_7()
 	{
 		// Go through mojo_page_regions and remove any records with no url_title
-		$this->db->delete('page_regions', array('page_url_title' => '')); 
+		$this->db->delete('page_regions', array('page_url_title' => ''));
 
 		$update = array(
 			'pages'			=> 'url_title',
 			'page_regions'	=> 'page_url_title'
 		);
-		
+
 		foreach ($update as $table => $field)
 		{
 			$qry = $this->db->select($field.', id')->get($table);
@@ -1312,7 +1523,7 @@ class Setup extends CI_Controller {
 
 				$row[$field] = 'page/'.$row[$field];
 			}
-			
+
 			if (count($res))
 			{
 				$this->db->update_batch($table, $res, 'id');

@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -128,7 +128,7 @@ class Page_model extends CI_Model {
 	 * @access	public
 	 * @param	mixed	array or string of additional fields to select
 	 * @param	mixed	array or string of additional where clauses
-	 * @return	mixed	array or FALSE if no results 
+	 * @return	mixed	array or FALSE if no results
 	 */
 	public function get_page_map($additional_fields = array(), $additional_where = array())
 	{
@@ -183,15 +183,15 @@ class Page_model extends CI_Model {
 		{
 			if (isset($page_info[$id])) // graceful handling of $site_structure/$page_info mismatch
 			{
-				$map[$id] = $page_info[$id];	
-		
+				$map[$id] = $page_info[$id];
+
 				if (is_array($val))
 				{
 					$this->_build_page_map($val, $page_info, $map[$id]['children']);
-				}			
+				}
 			}
 		}
-	
+
 		return $map;
 	}
 
@@ -295,7 +295,7 @@ class Page_model extends CI_Model {
 		$this->db->where('url_title', $page);
 
 		$page = $this->db->get('pages');
-		
+
 		return ($page->num_rows() > 0) ? $page->row() : FALSE;
 	}
 
@@ -520,7 +520,7 @@ class Page_model extends CI_Model {
 
 		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -539,8 +539,8 @@ class Page_model extends CI_Model {
 		$this->db->delete('page_regions');
 
 		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-	}	
-	
+	}
+
 }
 
 /* End of file page_model.php */

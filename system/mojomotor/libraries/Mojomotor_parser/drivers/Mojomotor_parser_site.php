@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -27,7 +27,7 @@
 class Mojomotor_parser_site extends CI_Driver {
 
 	private $CI;
-	
+
 	private $_default_page;
 	private $_page_count;
 
@@ -88,7 +88,7 @@ class Mojomotor_parser_site extends CI_Driver {
 			// Fall back to site_path; They need to run the updater.
 			$asset_url = $this->CI->site_model->get_setting('site_path');
 		}
-		
+
 		return trim($asset_url, '/').'/';
 	}
 
@@ -132,22 +132,22 @@ class Mojomotor_parser_site extends CI_Driver {
 		{
 			return '';
 		}
-		
+
 		// If cookies are required and not set?  They don't get the login
 		if (config_item('require_cookie_consent') == 'y')
 		{
 			$this->CI->load->helper('cookie');
-			
+
 			if (get_cookie('cookies_allowed') != 'y')
 			{
 				$ret = $this->CI->uri->uri_string();
 				$ret = strtr(base64_encode($ret), '/=', '_-');
-				
+
 				$link = site_url('addons/cookie_consent/allow_cookies/'.$ret);
 
 				return sprintf($this->CI->lang->line('cookies_required_for_login'), $link);
 			}
-		}		
+		}
 
 		$login_text = isset($tag['parameters']['text']) ? $tag['parameters']['text'] : $this->CI->lang->line('login');
 
@@ -229,7 +229,7 @@ class Mojomotor_parser_site extends CI_Driver {
 
 		// if no pages were actually output, return an empty string
 		$list = ($this->_page_count) ? $list : '';
-		
+
 		return $list;
 	}
 
@@ -253,19 +253,19 @@ class Mojomotor_parser_site extends CI_Driver {
 		{
 			return;
 		}
-		
+
 		// Set the indentation based on the depth
 		$out = str_repeat(" ", $cur_depth * 2);
-	
+
 		$atts = '';
-	
+
 		// Were any attributes submitted?  If so generate a string
 		if (is_array($attributes))
 		{
 			foreach ($attributes as $att => $val)
 			{
 				$atts .= ' '.$att.'="'.$val.'"';
-	
+
 				// We only want id applied to the top level list, so we'll unset it here so children
 				// don't inherit it. I wish I could have done with the big nose on my mothers side...
 				if ($att == 'id')
@@ -274,10 +274,10 @@ class Mojomotor_parser_site extends CI_Driver {
 				}
 			}
 		}
-	
+
 		// Write the opening list tag
 		$out .= "<ul".$atts.">\n";
-	
+
 		$current_uri = trim($this->CI->uri->uri_string, '/');
 
 		// Cycle through the list elements.  If an array is
@@ -305,10 +305,10 @@ class Mojomotor_parser_site extends CI_Driver {
 			{
 				$active_class = '';
 			}
-	
+
 			$out .= str_repeat(" ", $cur_depth * 2);
 			$out .= '<li id="mojo_page_list_'.$url_title.'"'.$active_class.'>';
-	
+
 			if ($page['url_title'] == $this->_default_page)
 			{
 				$out .= anchor('', $page['page_title']);
@@ -317,19 +317,19 @@ class Mojomotor_parser_site extends CI_Driver {
 			{
 				$out .= anchor($page['url_title'], $page['page_title']);
 			}
-	
+
 			if (isset($page['children']))
 			{
 				$out .= "\n".$this->_build_page_list($page['children'], $attributes, $max_depth, $cur_depth + 1);
 				$out .= str_repeat(" ", $cur_depth * 2);
 			}
-	
+
 			$out .= "</li>\n";
 		}
-	
+
 		// Closing tag
 		$out .= str_repeat(" ", $cur_depth * 2) . "</ul>\n";
-	
+
 		return $out;
 	}
 

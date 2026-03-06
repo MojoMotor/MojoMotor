@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -202,7 +202,7 @@ class Member_model extends CI_Model {
 		$this->db->where($haystack, $needle);
 
 		$member = $this->db->get('members');
-		
+
 		return ($member->num_rows() == 1) ? $member : FALSE;
 	}
 

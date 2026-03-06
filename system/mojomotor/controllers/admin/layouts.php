@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 
@@ -194,10 +194,10 @@ class Layouts extends Mojomotor_Controller {
 				// id was created by Mojo, so drop it into the DOM for further processing
 				$region->id = 'mojo_region_'.$mojo_inserted_region_number;
 			}
-			
+
 			if ( ! $region->{'data-mojo_id'})
 			{
-				$region->{'data-mojo_id'} = $layout_id; 
+				$region->{'data-mojo_id'} = $layout_id;
 			}
 
 			$regions[$region->id] = trim($region->innertext);
@@ -254,7 +254,7 @@ class Layouts extends Mojomotor_Controller {
 		$this->load->library('form_validation');
 
 		$embed_content_rules = '';
-		
+
 		// Embed templates may not contain page regions
 		if ($this->input->post('layout_type') == 'embed')
 		{
@@ -265,8 +265,6 @@ class Layouts extends Mojomotor_Controller {
 		$this->form_validation->set_rules('layout_type', $this->lang->line('layout_type'), 'required');
 		$this->form_validation->set_rules('layout_content', $this->lang->line('layout_content'), $embed_content_rules);
 		$this->form_validation->set_error_delimiters('', '');
-		
-
 
 		if ($this->form_validation->run() === FALSE)
 		{
@@ -401,11 +399,10 @@ class Layouts extends Mojomotor_Controller {
 			// no way around this.
 			$pages_using_layout = $this->layout_model->get_pages_by_layout($layout_id);
 
-			
 			// If there are currently no pages using the layout (i.e. its a new layout) then we
 			// must add dummy regions into the database so that new pages will properly save.
 			// The dummy regions will be removed when a page is added using this layout.
-			
+
 			// No- we will do this when we actually create the page
 			//if (empty($pages_using_layout))
 			//{
@@ -500,7 +497,7 @@ class Layouts extends Mojomotor_Controller {
 
 			// Get page regions
 			$page_regions = $layout_dom->find('*[class=mojo_page_region]');
-			
+
 			//var_dump($page_regions); exit;
 			if ( ! empty($page_regions))
 			{
@@ -510,7 +507,7 @@ class Layouts extends Mojomotor_Controller {
 		}
 
 		return TRUE;
-		
+
 	}
 
 

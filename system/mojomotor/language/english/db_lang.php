@@ -2,6 +2,16 @@
 
 $lang['db_invalid_connection_str'] = 'Unable to determine the database settings based on the connection string you submitted.';
 $lang['db_unable_to_connect'] = 'Unable to connect to your database server using the provided settings.';
+$lang['db_connection_details'] = 'Database connection diagnostics:';
+$lang['db_error_stage'] = 'Stage';
+$lang['db_error_driver'] = 'Driver';
+$lang['db_error_host'] = 'Host';
+$lang['db_error_port'] = 'Port';
+$lang['db_error_socket'] = 'Socket';
+$lang['db_error_database'] = 'Database';
+$lang['db_error_username'] = 'Username';
+$lang['db_error_extension'] = 'PHP extension';
+$lang['db_error_message'] = 'Database error';
 $lang['db_unable_to_select'] = 'Unable to select the specified database: %s';
 $lang['db_unable_to_create'] = 'Unable to create the specified database: %s';
 $lang['db_invalid_query'] = 'The query you submitted is not valid.';

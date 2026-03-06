@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ruleset name="MojoMotor-Legacy-CI-Style">
+  <description>Legacy CodeIgniter-style checks without forcing PSR-12 rewrites.</description>
+
+  <arg name="basepath" value="."/>
+  <arg name="extensions" value="php"/>
+  <arg value="sp"/>
+  <arg name="parallel" value="4"/>
+  <config name="tab_width" value="4"/>
+
+  <file>system/mojomotor</file>
+
+  <!-- Optional: include framework core once baseline noise is manageable -->
+  <!-- <file>system/codeigniter/system</file> -->
+
+  <exclude-pattern>*/third_party/*</exclude-pattern>
+  <exclude-pattern>*/logs/*</exclude-pattern>
+  <exclude-pattern>*/cache/*</exclude-pattern>
+
+  <rule ref="Generic.Files.ByteOrderMark"/>
+  <rule ref="Generic.PHP.DisallowShortOpenTag">
+    <exclude name="Generic.PHP.DisallowShortOpenTag.EchoFound"/>
+  </rule>
+  <rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
+  <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+  <rule ref="Generic.WhiteSpace.LanguageConstructSpacing"/>
+
+  <rule ref="Internal.NoCodeFound">
+    <severity>0</severity>
+  </rule>
+
+  <rule ref="PHPCompatibility">
+    <exclude-pattern>*</exclude-pattern>
+  </rule>
+</ruleset>

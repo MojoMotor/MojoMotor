@@ -1,0 +1,43 @@
+{
+    "timestamp_utc": "2026-03-06T03:08:17+00:00",
+    "base_url": "http://127.0.0.1:8080",
+    "checks": [
+        {
+            "path": "/",
+            "url": "http://127.0.0.1:8080/",
+            "status": 200,
+            "pass": true,
+            "fatal_detected": false,
+            "snippet": ""
+        },
+        {
+            "path": "/setup",
+            "url": "http://127.0.0.1:8080/setup",
+            "status": 200,
+            "pass": true,
+            "fatal_detected": false,
+            "snippet": ""
+        },
+        {
+            "path": "/index.php/admin/login",
+            "url": "http://127.0.0.1:8080/index.php/admin/login",
+            "status": 200,
+            "pass": true,
+            "fatal_detected": false,
+            "snippet": ""
+        },
+        {
+            "path": "/index.php/page/content",
+            "url": "http://127.0.0.1:8080/index.php/page/content",
+            "status": 200,
+            "pass": true,
+            "fatal_detected": false,
+            "snippet": ""
+        }
+    ],
+    "summary": {
+        "passed": 4,
+        "total": 4,
+        "first_fatal": null
+    }
+}

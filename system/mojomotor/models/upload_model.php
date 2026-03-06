@@ -5,12 +5,12 @@
  * @package		MojoMotor
  * @author		MojoMotor Dev Team
  * @copyright	Copyright (c) 2003 - 2012, EllisLab, Inc.
- * @license		http://mojomotor.com/user_guide/license.html
+ * @license		https://web.archive.org/web/20120919080359/http://mojomotor.com/user_guide/license.html
  * @link		http://mojomotor.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -33,7 +33,7 @@ class Upload_model extends CI_Model {
 	public function get_upload()
 	{
 		$folders = $this->get_upload_folders();
-	
+
 		return $folders[1];
 	}
 
@@ -49,7 +49,7 @@ class Upload_model extends CI_Model {
 	public function get_upload_folders($id = FALSE)
 	{
 		$this->db->from('upload_prefs');
-		
+
 		if ($id)
 		{
 			$this->db->where('id', $id);
@@ -61,7 +61,7 @@ class Upload_model extends CI_Model {
 		if ($this->config->item('upload_preferences') !== FALSE && count($folders) > 0)
 		{
 			$upload_preferences = $this->config->item('upload_preferences');
-	      
+
 			// If we are dealing with a single row
 			if (isset($folders['id']))
 			{
@@ -86,14 +86,14 @@ class Upload_model extends CI_Model {
 			}
 		}
 
-	    // Use upload destination ID as key for row for easy traversing
+		// Use upload destination ID as key for row for easy traversing
 		$return_array = array();
-	
+
 		foreach ($folders as $folder)
 		{
 			$return_array[$folder['id']] = $folder;
 		}
-		
+
 		return $return_array;
 	}
 
