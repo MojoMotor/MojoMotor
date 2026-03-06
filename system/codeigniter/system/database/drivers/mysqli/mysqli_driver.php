@@ -67,13 +67,26 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
-		if ($this->port != '')
+		if (function_exists('mysqli_report') && defined('MYSQLI_REPORT_OFF'))
 		{
-			return @mysqli_connect($this->hostname, $this->username, $this->password, $this->database, $this->port);
+			@mysqli_report(MYSQLI_REPORT_OFF);
 		}
-		else
+
+		try
 		{
-			return @mysqli_connect($this->hostname, $this->username, $this->password, $this->database);
+			if ($this->port != '')
+			{
+				return @mysqli_connect($this->hostname, $this->username, $this->password, $this->database, $this->port);
+			}
+			else
+			{
+				return @mysqli_connect($this->hostname, $this->username, $this->password, $this->database);
+			}
+		}
+		catch (Exception $e)
+		{
+			log_message('error', $e->getMessage());
+			return FALSE;
 		}
 
 	}

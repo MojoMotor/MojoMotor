@@ -334,7 +334,7 @@ class CI_Input {
 					$flag = FILTER_FLAG_IPV6;
 					break;
 				default:
-					$flag = '';
+					$flag = 0;
 					break;
 			}
 
@@ -344,7 +344,7 @@ class CI_Input {
 		// If it's not we'll do it manually
 		$which = strtolower($which);
 
-		if ($which != 'ipv6' OR $which != 'ipv4')
+		if ($which != 'ipv6' && $which != 'ipv4')
 		{
 			if (strpos($ip, ':') !== FALSE)
 			{
