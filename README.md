@@ -14,10 +14,62 @@ Thanks for stopping by, any input is of course welcome!
 
 - Status + completed modernization tasks: [todo.md](todo.md)
 - Deployment/rollback checklist: [release_checklist.md](release_checklist.md)
+- Framework upgrade planning notes: [codeigniter-update.md](codeigniter-update.md)
 
-## Quick Local Testing
+## New contributor quickstart (5 minutes)
 
-### 1) Start MojoMotor with PHP built-in server
+1. Clone the repo and `cd` into it.
+2. Install tools: `composer install`.
+3. Create an empty MySQL/MariaDB database for local setup.
+4. Start the app: `php -S 127.0.0.1:8080 -t .`.
+5. Visit `http://127.0.0.1:8080/setup` and complete install using `mysqli`.
+6. Run baseline checks:
+
+   ```bash
+   composer lint:style
+   composer lint:compat
+   composer test:regression
+   ```
+
+7. (Optional) Run full modernization checks:
+
+   ```bash
+   composer verify:encrypt
+   composer audit:dynamic-properties
+   bash scripts/smoke-matrix.sh
+   ```
+
+### Quick troubleshooting
+
+- `composer: command not found`: install Composer and re-run `composer install`.
+- `Class "mysqli" not found` or setup DB errors: enable/install the `mysqli` extension in your PHP build.
+- `Address already in use` on port `8080`: use a different port, for example `php -S 127.0.0.1:8081 -t .`.
+- Setup page loops or behaves as already installed: check/remove `install_lock` in your writable app path for a fresh local install.
+- Smoke matrix does not run all versions: if Docker or versioned local binaries are unavailable, `scripts/smoke-matrix.sh` falls back to local `php` and writes `reports/smoke/result-local-php.json`.
+
+### Reporting issues
+
+When opening an issue, include your PHP version (`php -v`), DB type/version, exact reproduction steps, and relevant generated artifacts from `reports/` (for example `reports/smoke/report.md`, `reports/regression/report.md`, plus matching `result-*.json`).
+
+If you're filing through GitHub, use the Bug report issue template to include this information consistently.
+
+## Local Development
+
+### Prerequisites
+
+- PHP 8.2+ (8.3 also validated in this repo workflows)
+- A MySQL/MariaDB database for local installs (`mysqli`)
+- Composer (for linting and modernization checks)
+
+### 1) Install dev tooling
+
+From the repository root:
+
+```bash
+composer install
+```
+
+### 2) Start MojoMotor with PHP built-in server
 
 From the repository root:
 
@@ -30,32 +82,41 @@ Then open:
 - `http://127.0.0.1:8080/setup` (installer)
 - `http://127.0.0.1:8080/` (site)
 
-### 2) SQLite test setup (fast local testing)
+### 3) Run checks during development
 
-MojoMotor currently includes the legacy CodeIgniter `sqlite` driver. Before choosing SQLite in setup, verify extension support:
-
-```bash
-php -m | grep -E '(^sqlite$|^pdo_sqlite$)'
-```
-
-If the output includes `sqlite`, you can test with SQLite directly.
-
-Suggested local DB path (example):
-
-```bash
-mkdir -p ./tmp && touch ./tmp/mojomotor.sqlite
-```
-
-In setup, use SQLite and point to that file path if prompted.
-
-### Important SQLite note
-
-If your PHP build only has `pdo_sqlite` (common on modern macOS/Homebrew PHP) and does **not** include the legacy `sqlite` extension, SQLite setup may fail in this legacy codebase.
-
-For immediate testing in that case, use `mysqli` in setup, then run the included checks:
+After setup (using `mysqli`), run:
 
 ```bash
 composer lint:style
 composer lint:compat
+composer verify:encrypt
+composer audit:dynamic-properties
 composer test:regression
 ```
+
+For multi-version smoke checks, run:
+
+```bash
+bash scripts/smoke-matrix.sh
+```
+
+## Repository layout
+
+- `system/mojomotor/`: MojoMotor application code (controllers, models, views, config, libraries)
+- `system/codeigniter/system/`: vendored legacy CodeIgniter framework runtime
+- `scripts/`: modernization and validation scripts used by local/CI workflows
+- `reports/`: generated report artifacts (`report.md`, `result-*.json`) for smoke, regression, encryption, and dynamic-property checks
+- `mm_uploads/`: writable uploads/content directory used by the application
+- `import/`: default static import/source assets used by setup and migration paths
+- `user_guide/`: legacy MojoMotor user documentation
+
+## Generated artifacts
+
+Most generated artifacts for checks are written under `reports/` subdirectories:
+
+- `reports/smoke/`
+- `reports/regression/`
+- `reports/encryption/`
+- `reports/dynamic-properties/`
+
+When running release validation, pair these with [release_checklist.md](release_checklist.md) and archive outputs with your release notes.
