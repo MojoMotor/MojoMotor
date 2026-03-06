@@ -47,23 +47,14 @@ class Welcome extends CI_Controller {
 
 		// The base_url won't be available (unless its a validation error but the user has
 		// correctly set this value) so detect for that, and then work it out dynamically.
-		$request_uri = (string) $this->input->server('REQUEST_URI');
-		$index_position = strpos($request_uri, 'index'.EXT);
-
-		if ($index_position !== FALSE)
-		{
-			$temp_base_url = substr($request_uri, 0, $index_position);
-		}
-		else
-		{
-			$temp_base_url = $request_uri;
-		}
+		$script_name = (string) $this->input->server('SCRIPT_NAME');
+		$temp_base_url = trim(str_replace('\\', '/', dirname($script_name)), '/');
 
 		// What port are we on? If it isn't 80, append it in.
 		$port = $this->input->server("SERVER_PORT");
 		$temp_server = ($port != '80') ? $this->input->server("SERVER_NAME").":$port" : $this->input->server("SERVER_NAME");
 
-		$this->base_url = trim('http://'.$temp_server.$temp_base_url, '/').'/';
+		$this->base_url = 'http://'.$temp_server.'/'.($temp_base_url !== '' ? $temp_base_url.'/' : '');
 		$this->config->set_item('base_url', $this->base_url);
 
 		// Welcome is a standalone page. The only other standalone pages are used in the installer. During
