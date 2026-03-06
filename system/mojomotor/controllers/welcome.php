@@ -31,13 +31,11 @@ class Welcome extends CI_Controller {
 	/**
 	 * Constructor
 	 *
-	 * Declared in PHP 4 fashion here and in the setup wizard so that we can send an error
-	 * if the user is not using a high enough version of PHP. We want to warn them before
-	 * this causes a PHP error.
+	 * Initializes install-time welcome behavior.
 	 *
 	 * @access	public
 	 */
-	function Welcome()
+	function __construct()
 	{
 		parent::__construct();
 

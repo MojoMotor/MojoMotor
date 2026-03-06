@@ -36,7 +36,7 @@ class Cp
 	 * @access	public
 	 * @return	void
 	 */
-	function Cp()
+	function __construct()
 	{
 		$this->CI =& get_instance();
 		$this->CI->load->library('auth');

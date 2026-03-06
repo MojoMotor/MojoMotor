@@ -63,7 +63,7 @@ class Mojomotor_pagination {
 	 * @access	public
 	 * @param	array	initialization parameters
 	 */
-	function Mojomotor_pagination($params = array())
+	function __construct($params = array())
 	{
 		if (count($params) > 0)
 		{
