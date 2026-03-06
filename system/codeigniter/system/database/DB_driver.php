@@ -56,6 +56,7 @@ class CI_DB_driver {
 	var $trans_strict	= TRUE;
 	var $_trans_depth	= 0;
 	var $_trans_status	= TRUE; // Used with transactions to determine if a rollback should occur
+	var $_trans_failure	= FALSE;
 	var $cache_on		= FALSE;
 	var $cachedir		= '';
 	var $cache_autodel	= FALSE;

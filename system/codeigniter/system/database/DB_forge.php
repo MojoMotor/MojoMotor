@@ -24,6 +24,7 @@
  */
 class CI_DB_forge {
 
+	var $db;
 	var $fields			= array();
 	var $keys			= array();
 	var $primary_keys	= array();

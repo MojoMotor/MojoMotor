@@ -26,6 +26,7 @@
  */
 class CI_Pagination {
 
+	var $CI;
 	var $base_url			= ''; // The page we are linking to
 	var $prefix				= ''; // A custom prefix added to the path.
 	var $suffix				= ''; // A custom suffix added to the path.

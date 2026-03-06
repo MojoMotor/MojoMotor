@@ -30,6 +30,7 @@ class CI_Calendar {
 
 	var $CI;
 	var $lang;
+	var $temp;
 	var $local_time;
 	var $template		= '';
 	var $start_day		= 'sunday';

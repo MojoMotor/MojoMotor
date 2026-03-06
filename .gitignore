@@ -1,2 +1,8 @@
+# Composer dependencies
 /vendor
+
+# Ignore Mac system files
 .DS_Store
+
+# Ignore log files
+system/mojomotor/logs/*.php

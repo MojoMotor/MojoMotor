@@ -239,7 +239,9 @@
 			}
 		}
 
-		return $_config[0] =& $config;
+		$_config[0] = $config;
+
+		return $_config[0];
 	}
 
 // ------------------------------------------------------------------------
@@ -319,7 +321,7 @@
 * @access	public
 * @return	void
 */
-	function log_message($level = 'error', $message, $php_error = FALSE)
+	function log_message($level = 'error', $message = '', $php_error = FALSE)
 	{
 		static $_log;
 

@@ -37,11 +37,13 @@ if ( ! class_exists('CI_Xmlrpc'))
 class CI_Xmlrpcs extends CI_Xmlrpc
 {
 	var $methods		= array();	//array of methods mapped to function names and signatures
+	var $debug			= FALSE;
 	var $debug_msg		= '';		// Debug Message
 	var $system_methods = array();	// XML RPC Server methods
 	var $controller_obj;
 
 	var $object			= FALSE;
+	var $xss_clean		= FALSE;
 
 	/**
 	 * Constructor
@@ -489,8 +491,8 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 	function multicall_error($err)
 	{
-		$str  = is_string($err) ? $this->xmlrpcstr["multicall_${err}"] : $err->faultString();
-		$code = is_string($err) ? $this->xmlrpcerr["multicall_${err}"] : $err->faultCode();
+		$str  = is_string($err) ? $this->xmlrpcstr["multicall_{$err}"] : $err->faultString();
+		$code = is_string($err) ? $this->xmlrpcerr["multicall_{$err}"] : $err->faultCode();
 
 		$struct['faultCode'] = new XML_RPC_Values($code, 'int');
 		$struct['faultString'] = new XML_RPC_Values($str, 'string');

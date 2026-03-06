@@ -1,11 +1,11 @@
 {
-    "timestamp_utc": "2026-03-06T03:19:14+00:00",
+    "timestamp_utc": "2026-03-06T17:12:21+00:00",
     "php_version": "8.5.1",
     "summary": {
-        "scanned_files": 211,
+        "scanned_files": 212,
         "scanned_classes": 116,
         "bridge_classes": 2,
-        "candidate_classes": 36
+        "candidate_classes": 29
     },
     "bridge_classes": [
         {
@@ -40,19 +40,6 @@
             "variable_property_writes": 2
         },
         {
-            "class": "CI_Input",
-            "file": "system/codeigniter/system/core/Input.php",
-            "undeclared_writes": {
-                "security": [
-                    57
-                ],
-                "uni": [
-                    63
-                ]
-            },
-            "variable_property_writes": 0
-        },
-        {
             "class": "CI_DB_mysql_driver",
             "file": "system/codeigniter/system/database/drivers/mysql/mysql_driver.php",
             "undeclared_writes": {
@@ -70,10 +57,10 @@
             "file": "system/codeigniter/system/database/drivers/mysqli/mysqli_driver.php",
             "undeclared_writes": {
                 "conn_id": [
-                    109
+                    122
                 ],
                 "_trans_failure": [
-                    233
+                    246
                 ]
             },
             "variable_property_writes": 0
@@ -92,56 +79,10 @@
             "variable_property_writes": 0
         },
         {
-            "class": "CI_Calendar",
-            "file": "system/codeigniter/system/libraries/Calendar.php",
-            "undeclared_writes": {
-                "temp": [
-                    445
-                ]
-            },
-            "variable_property_writes": 1
-        },
-        {
-            "class": "CI_Javascript",
-            "file": "system/codeigniter/system/libraries/Javascript.php",
-            "undeclared_writes": {
-                "CI": [
-                    45
-                ],
-                "js": [
-                    50
-                ]
-            },
-            "variable_property_writes": 0
-        },
-        {
-            "class": "CI_Pagination",
-            "file": "system/codeigniter/system/libraries/Pagination.php",
-            "undeclared_writes": {
-                "CI": [
-                    70
-                ]
-            },
-            "variable_property_writes": 1
-        },
-        {
             "class": "CI_Upload",
             "file": "system/codeigniter/system/libraries/Upload.php",
             "undeclared_writes": [],
             "variable_property_writes": 2
-        },
-        {
-            "class": "CI_Xmlrpcs",
-            "file": "system/codeigniter/system/libraries/Xmlrpcs.php",
-            "undeclared_writes": {
-                "debug": [
-                    75
-                ],
-                "xss_clean": [
-                    85
-                ]
-            },
-            "variable_property_writes": 0
         },
         {
             "class": "CI_Loader",
@@ -150,40 +91,10 @@
             "variable_property_writes": 1
         },
         {
-            "class": "CI_Router",
-            "file": "system/codeigniter/system/core/Router.php",
-            "undeclared_writes": {
-                "uri": [
-                    46
-                ]
-            },
-            "variable_property_writes": 0
-        },
-        {
-            "class": "CI_URI",
-            "file": "system/codeigniter/system/core/URI.php",
-            "undeclared_writes": {
-                "config": [
-                    48
-                ]
-            },
-            "variable_property_writes": 0
-        },
-        {
             "class": "CI_DB_driver",
             "file": "system/codeigniter/system/database/DB_driver.php",
             "undeclared_writes": [],
             "variable_property_writes": 1
-        },
-        {
-            "class": "CI_DB_forge",
-            "file": "system/codeigniter/system/database/DB_forge.php",
-            "undeclared_writes": {
-                "db": [
-                    42
-                ]
-            },
-            "variable_property_writes": 0
         },
         {
             "class": "CI_DB_mssql_driver",
@@ -280,10 +191,16 @@
             "file": "system/codeigniter/system/database/drivers/sqlite/sqlite_driver.php",
             "undeclared_writes": {
                 "_trans_failure": [
-                    213
+                    229
                 ]
             },
             "variable_property_writes": 0
+        },
+        {
+            "class": "CI_Calendar",
+            "file": "system/codeigniter/system/libraries/Calendar.php",
+            "undeclared_writes": [],
+            "variable_property_writes": 1
         },
         {
             "class": "CI_Driver_Library",
@@ -300,6 +217,12 @@
         {
             "class": "CI_FTP",
             "file": "system/codeigniter/system/libraries/Ftp.php",
+            "undeclared_writes": [],
+            "variable_property_writes": 1
+        },
+        {
+            "class": "CI_Pagination",
+            "file": "system/codeigniter/system/libraries/Pagination.php",
             "undeclared_writes": [],
             "variable_property_writes": 1
         },
@@ -343,16 +266,6 @@
                     114,
                     246,
                     365
-                ]
-            },
-            "variable_property_writes": 0
-        },
-        {
-            "class": "CI_Auth",
-            "file": "system/mojomotor/libraries/Auth.php",
-            "undeclared_writes": {
-                "CI": [
-                    41
                 ]
             },
             "variable_property_writes": 0
