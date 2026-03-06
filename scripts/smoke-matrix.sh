@@ -17,7 +17,6 @@ echo "Running MojoMotor smoke matrix..."
 if [[ "$HAS_DOCKER" == "1" ]]; then
   for version in "${VERSIONS[@]}"; do
     image="php:${version}-cli"
-    result_json="$REPORT_DIR/result-${version}.json"
 
     echo "--- PHP ${version} ---"
 
@@ -31,7 +30,7 @@ if [[ "$HAS_DOCKER" == "1" ]]; then
         server_pid=\$!
         trap 'kill \$server_pid >/dev/null 2>&1 || true' EXIT
         sleep 2
-        php /app/scripts/smoke_check.php --base-url=http://127.0.0.1:8080 --output=$result_json --paths=/,/setup,/index.php/admin/login,/index.php/page/content || true
+        php /app/scripts/smoke_check.php --base-url=http://127.0.0.1:8080 --output=/app/reports/smoke/result-${version}.json --paths=/,/setup,/index.php/admin/login,/index.php/page/content || true
       "
   done
 else

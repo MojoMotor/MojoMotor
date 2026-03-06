@@ -35,6 +35,8 @@ class CI_Encrypt {
 	var $_openssl_exists = FALSE;
 	var $_mcrypt_cipher;
 	var $_mcrypt_mode;
+	var $_openssl_cipher = 'AES-256-CBC';
+	var $_openssl_mode = 'cbc';
 
 	/**
 	 * Constructor
@@ -352,7 +354,7 @@ class CI_Encrypt {
 		$encrypt = 'mcrypt_encrypt';
 
 		$init_size = $get_iv_size($this->_get_cipher(), $this->_get_mode());
-		$init_vect = $create_iv($init_size);
+		$init_vect = $create_iv($init_size, MCRYPT_DEV_URANDOM);
 
 		return $this->_add_cipher_noise($init_vect.$encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), $key);
 	}
@@ -413,7 +415,7 @@ class CI_Encrypt {
 			return FALSE;
 		}
 
-		$cipher = $this->_get_cipher();
+		$cipher = $this->_get_openssl_cipher();
 		$init_size = openssl_cipher_iv_length($cipher);
 
 		if ($init_size === FALSE)
@@ -454,7 +456,7 @@ class CI_Encrypt {
 			return FALSE;
 		}
 
-		$cipher = $this->_get_cipher();
+		$cipher = $this->_get_openssl_cipher();
 		$init_size = openssl_cipher_iv_length($cipher);
 
 		if ($init_size === FALSE)
@@ -587,10 +589,23 @@ class CI_Encrypt {
 	{
 		if ($this->_mcrypt_cipher == '')
 		{
-			$this->_mcrypt_cipher = 'AES-256-CBC';
+			$this->_mcrypt_cipher = MCRYPT_RIJNDAEL_256;
 		}
 
 		return $this->_mcrypt_cipher;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get OpenSSL Cipher Value
+	 *
+	 * @access	private
+	 * @return	string
+	 */
+	function _get_openssl_cipher()
+	{
+		return $this->_openssl_cipher;
 	}
 
 	// --------------------------------------------------------------------
@@ -605,7 +620,7 @@ class CI_Encrypt {
 	{
 		if ($this->_mcrypt_mode == '')
 		{
-			$this->_mcrypt_mode = 'cbc';
+			$this->_mcrypt_mode = MCRYPT_MODE_CBC;
 		}
 
 		return $this->_mcrypt_mode;
