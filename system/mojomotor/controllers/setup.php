@@ -774,10 +774,29 @@ class Setup extends CI_Controller {
 			$file_dom = str_get_html($file_contents);
 
 			// Get the page <title>
-			$raw_title = $file_dom->find('title', 0); // PHP 4 style... sigh
-			$page_title = $raw_title->plaintext;
+			$page_title = '';
+
+			if (is_object($file_dom))
+			{
+				$raw_title = $file_dom->find('title', 0); // PHP 4 style... sigh
+
+				if (is_object($raw_title))
+				{
+					$page_title = trim($raw_title->plaintext);
+				}
+			}
+
+			if ($page_title === '' && is_string($file_contents) && preg_match('/<title[^>]*>(.*?)<\/title>/is', $file_contents, $matches))
+			{
+				$page_title = trim(html_entity_decode(strip_tags($matches[1]), ENT_QUOTES, 'UTF-8'));
+			}
 
 			$url_title = url_title(substr(ltrim($file, '_'), 0, strpos($file, '.htm')), $url_separator);
+
+			if ($page_title === '')
+			{
+				$page_title = ucwords(str_replace(array('-', '_'), ' ', $url_title));
+			}
 
 			$meta = get_meta_tags($import_directory.$file);
 
