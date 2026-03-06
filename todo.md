@@ -85,6 +85,12 @@
 
 - **Goal:** Ensure modernization doesn’t break core features.
 - **Deliverable:** Basic test coverage for setup, login, page rendering, and admin save operations.
+- **Status:**
+  - ✅ Added lightweight regression harness: `scripts/regression_check.php`.
+  - ✅ Added report generator + runner: `scripts/render_regression_report.php`, `scripts/regression-run.sh`.
+  - ✅ Added composer entrypoint: `composer test:regression`.
+  - ✅ Generated regression artifacts: `reports/regression/result-local-php.json` and `reports/regression/report.md`.
+  - ✅ Covered setup, login page, page render, login POST workflow, and admin page update POST workflow with fatal-error detection.
 - **Prompt:**
   - "Add lightweight regression tests (or scriptable smoke tests) for setup wizard, admin login, page render, and page save/update. Focus on high-value workflows and keep test harness simple enough for legacy project constraints."
 
@@ -92,6 +98,8 @@
 
 - **Goal:** Ship safely with known risk log.
 - **Deliverable:** Release checklist and rollback notes.
+- **Status:**
+  - ✅ Release checklist and rollback notes documented in `release_checklist.md`.
 - **Prompt:**
   - "Create a release checklist for the PHP modernization effort including backup/rollback steps, DB backup reminder, config diffs, post-deploy smoke checks, and known limitations list."
 
