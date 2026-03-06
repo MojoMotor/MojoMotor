@@ -16,4 +16,4 @@
  @since		Version 1.0
  @filesource
 */
-function CKEDITOR_GETURL(a){if(a.indexOf("lang")>=0)return Mojo.URL.editor_lang_path}jQuery(document).ready(function(){mojoEditor.setup_mojobars("{editorMarkup}");mojoEditor.delete_abstraction("page_delete")});
+function CKEDITOR_GETURL(a){}jQuery(document).ready(function(){mojoEditor.setup_mojobars("{editorMarkup}");mojoEditor.delete_abstraction("page_delete")});
