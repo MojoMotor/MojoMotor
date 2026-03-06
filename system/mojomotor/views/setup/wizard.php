@@ -116,7 +116,7 @@
 					<td class="labels"><?=$this->lang->line("database_type")?></label></td>
 					<td><ul class="radio_options">
 						<li><?=form_radio('db_type', 'mysqli', $db_type['mysqli'], 'id="db_type_mysqli"')?> <?=$this->lang->line('mysql_db')?></li>
-						<li><?=form_radio('db_type', 'sqlite3', $db_type['sqlite'], 'id="db_type_sqlite"')?> <?=$this->lang->line('sqlite_db')?></li>
+						<li><?=form_radio('db_type', 'sqlite', $db_type['sqlite'], 'id="db_type_sqlite"')?> <?=$this->lang->line('sqlite_db')?></li>
 					</ul></td>
 					<td><?=$this->lang->line("database_type_exp")?></td>
 				</tr>

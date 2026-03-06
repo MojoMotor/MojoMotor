@@ -33,7 +33,7 @@ class Setup extends CI_Controller {
 	var $admin_email = '';
 
 	// Some database defaults and information that needs tracking throughout the process
-	var $db_driver = 'mysqli';
+	var $db_driver = 'sqlite';
 	var $db_prefix = 'mojo_';
 
 	// Figured out in the constructor and needed for the install process
@@ -171,7 +171,7 @@ class Setup extends CI_Controller {
 		if (@include($this->config->database_path))
 		{
 			// Can we connect with provided information? Don't trust SQLite, but otherwise we're done
-			if ($db[$active_group]['dbdriver'] != 'sqlite3' && $this->_db_connection_test($db[$active_group]))
+			if ($db[$active_group]['dbdriver'] != 'sqlite' && $this->_db_connection_test($db[$active_group]))
 			{
 				$this->session->set_userdata('load_db_from_config', TRUE);
 			}
@@ -287,10 +287,7 @@ class Setup extends CI_Controller {
 			$vars['show_advanced'] = ($this->input->post('show_advanced') == 'y') ? 'y' : 'n';
 
 			// Do we present an option for sqlite?
-			$vars['sqlite_support'] = (extension_loaded('pdo_sqlite')) ? TRUE : FALSE;
-
-			// temporary overwrite
-			$vars['sqlite_support'] = FALSE;
+			$vars['sqlite_support'] = function_exists('sqlite_open') ? TRUE : FALSE;
 
 			// For layout, we need to know how many options we're offering. This is 1 for "blank"
 			$site_count = 1;
@@ -327,8 +324,10 @@ class Setup extends CI_Controller {
 			$vars['site_content']['blank_site'] = ($this->input->post('site_content') == 'blank_site') ? TRUE : FALSE;
 			$vars['pconnect']['y'] = ($this->input->post('pconnect') == 'y') ? TRUE : FALSE;
 			$vars['pconnect']['n'] = ($this->input->post('pconnect') == 'y') ? FALSE : TRUE;
-			$vars['db_type']['mysqli'] = ($this->input->post('db_type') == 'sqlite3') ? FALSE : TRUE;
-			$vars['db_type']['sqlite'] = ($this->input->post('db_type') == 'sqlite3') ? TRUE : FALSE;
+			$db_type_post = $this->input->post('db_type');
+			$default_sqlite = ($db_type_post == '') ? $vars['sqlite_support'] : ($db_type_post == 'sqlite');
+			$vars['db_type']['sqlite'] = $default_sqlite;
+			$vars['db_type']['mysqli'] = ! $default_sqlite;
 
 			$this->load->view('setup/wizard', $vars);
 		}
@@ -352,7 +351,7 @@ class Setup extends CI_Controller {
 		// This is needed throughout the install
 		$this->db_prefix = $this->input->post('db_prefix');
 
-		if ($this->input->post('db_type') === 'sqlite3')
+		if ($this->input->post('db_type') === 'sqlite')
 		{
 			if ( ! $this->_setup_sqlite())
 			{
@@ -423,7 +422,7 @@ class Setup extends CI_Controller {
 			}
 
 			// region id is used a lot for lookups, so let's make it a key
-			if ($this->db_driver != 'sqlite3' && ($table == 'page_regions' OR $table == 'global_regions'))
+			if ($this->db_driver != 'sqlite' && ($table == 'page_regions' OR $table == 'global_regions'))
 			{
 				$this->dbforge->add_key('region_id');
 			}
@@ -559,7 +558,7 @@ class Setup extends CI_Controller {
 		// including the random path and database name.
 		return $this->config->dbconfig_update(array(
 												'database' => $db_name,
-												'dbdriver' => 'sqlite3',
+												'dbdriver' => 'sqlite',
 												'dbprefix' => $this->db_prefix,
 												'pconnect' => FALSE
 		));
@@ -1034,8 +1033,8 @@ class Setup extends CI_Controller {
 	 */
 	function _db_connection_test($db_config)
 	{
-		// If the extension is loaded, then SQLite3 is successful
-		if ($db_config['dbdriver'] == 'sqlite3' && extension_loaded('pdo_sqlite'))
+		// If the extension is loaded, then SQLite is successful
+		if ($db_config['dbdriver'] == 'sqlite' && function_exists('sqlite_open'))
 		{
 			return TRUE;
 		}
