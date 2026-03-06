@@ -72,6 +72,12 @@
 
 - **Goal:** Prevent PHP 8 strictness issues from surfacing at runtime.
 - **Deliverable:** Incremental fixes for parameter defaults, return expectations, and string/array handling edge cases.
+- **Status:**
+  - ✅ Applied targeted null/false string guards in app-owned paths (`system/mojomotor`) without broad rewrites.
+  - ✅ Hardened installer/welcome base URL detection to avoid null `REQUEST_URI` handling and non-strict `strpos()` behavior.
+  - ✅ Hardened remember-me/contact parsing flows for non-string decrypt output before string operations (`strpos`, `explode`, email validation).
+  - ✅ Corrected Mojo parser comment-removal `strpos` edge case (`0` offset falsey bug).
+  - ✅ Validation: syntax checks passed on all touched files; `composer lint:style` and `composer lint:compat` both pass.
 - **Prompt:**
   - "Run targeted PHP 8 hardening on app code (`system/mojomotor`) first: fix signature/order/deprecation issues flagged by runtime and static tools, add guards for null/false handling in string operations, and avoid broad rewrites."
 

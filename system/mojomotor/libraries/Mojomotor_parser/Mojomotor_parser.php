@@ -672,7 +672,7 @@ class Mojomotor_parser extends CI_Driver_Library {
 	 */
 	public function _remove_mm_comments($str)
 	{
-		return ( ! strpos($str, '{!--')) ? $str : preg_replace("/\{!--.*?--\}/s", '', $str);
+		return (strpos($str, '{!--') === FALSE) ? $str : preg_replace("/\{!--.*?--\}/s", '', $str);
 	}
 
 	// --------------------------------------------------------------------

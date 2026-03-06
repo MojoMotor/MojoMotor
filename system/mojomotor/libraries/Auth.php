@@ -214,6 +214,12 @@ class CI_Auth {
 
 			$cookie_data = $this->CI->encrypt->decode($cookie_data);
 
+			if ( ! is_string($cookie_data))
+			{
+				delete_cookie('rememberme');
+				return FALSE;
+			}
+
 			if (strpos($cookie_data, ':') !== FALSE)
 			{
 				$cookie_data = explode(':', $cookie_data);

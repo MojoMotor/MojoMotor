@@ -82,13 +82,16 @@ class Setup extends CI_Controller {
 
 		// The base_url won't be available (unless its a validation error but the user has
 		// correctly set this value) so detect for that, and then work it out dynamically.
-		if (strpos($this->input->server("REQUEST_URI"), 'index'.EXT))
+		$request_uri = (string) $this->input->server('REQUEST_URI');
+		$index_position = strpos($request_uri, 'index'.EXT);
+
+		if ($index_position !== FALSE)
 		{
-			$temp_base_url = substr($this->input->server("REQUEST_URI"), 0, strpos($this->input->server("REQUEST_URI"), 'index'.EXT));
+			$temp_base_url = substr($request_uri, 0, $index_position);
 		}
 		else
 		{
-			$temp_base_url = $this->input->server("REQUEST_URI");
+			$temp_base_url = $request_uri;
 		}
 
 		// What port are we on? If it isn't 80, append it in.
