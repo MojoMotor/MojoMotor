@@ -1,0 +1,21 @@
+{
+  "name": "mojomotor/mojomotor",
+  "description": "Developer tooling for modernizing MojoMotor compatibility on current PHP versions.",
+  "type": "project",
+  "require": {},
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.10",
+    "phpcompatibility/php-compatibility": "^9.3",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0"
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "scripts": {
+    "lint:style": "phpcs -p --standard=phpcs.xml.dist",
+    "lint:compat": "phpcs -p --standard=PHPCompatibility --runtime-set testVersion 8.2-8.3 system/mojomotor system/codeigniter/system"
+  }
+}
