@@ -40,7 +40,7 @@
  * @param	string	the cookie domain.  Usually:  .yourdomain.com
  * @param	string	the cookie path
  * @param	string	the cookie prefix
- * @param	bool	whether to bypass the require_cookie_consent check or not 
+ * @param	bool	whether to bypass the require_cookie_consent check or not
  * @return	void
  */
 if ( ! function_exists('set_cookie'))
@@ -55,7 +55,7 @@ if ( ! function_exists('set_cookie'))
 		{
 			return;
 		}
-		
+
 		$CI->input->set_cookie($name, $value, $expire, $domain, $path, $prefix);
 	}
 }

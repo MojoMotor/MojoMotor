@@ -10,7 +10,7 @@
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 
@@ -37,7 +37,7 @@ class Utilities extends Mojomotor_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->load->helper('language');
 		$this->load->library('auth');
 
@@ -70,7 +70,7 @@ class Utilities extends Mojomotor_Controller {
 			'update_status'		=> $this->site_model->version_check(),
 			'mm_download_url'	=> 'https://secure.mojomotor.com/download'
 		);
-		
+
 		$this->load->view('utilities/index', $data);
 	}
 
@@ -94,8 +94,8 @@ class Utilities extends Mojomotor_Controller {
 		$filename	= 'mojo_export_'.date("Y_m_d", time());
 
 		$pages		= $this->page_model->get_pages_exporter();
-		$members	= $this->member_model->get_members('*', '*', TRUE); // TRUE == get passwords also		
-				
+		$members	= $this->member_model->get_members('*', '*', TRUE); // TRUE == get passwords also
+
 		$layouts		= $this->layout_model->get_layouts(TRUE);
 		$page_regions	= $this->layout_model->get_all_page_regions();
 		$global_regions	= $this->layout_model->get_global_regions_export();
@@ -141,7 +141,7 @@ class Utilities extends Mojomotor_Controller {
 				'variable_data'	=> $region_content
 			);
 		}
-		
+
 		// Page regions
 		foreach($page_regions as $region)
 		{
@@ -149,7 +149,7 @@ class Utilities extends Mojomotor_Controller {
 			{
 				$pg_regions[$region['layout_id']] = array();
 			}
-			
+
 			if ( ! isset($pg_regions[$region['layout_id']][$region['region_name']]))
 			{
 				$pg_regions[$region['layout_id']][$region['region_id']] = array(
@@ -158,7 +158,7 @@ class Utilities extends Mojomotor_Controller {
 				);
 			}
 		}
-		
+
 		$export_data['page_regions'] = $pg_regions;
 
 		$editable_regions = array();
@@ -176,14 +176,14 @@ class Utilities extends Mojomotor_Controller {
 			$pattern = '/mojo:page:page_region id=\"([^"]*)\"/';
 			$replacement = 'exp:channel:entries channel="mojo_import"}{${1}}{/exp:channel:entries';
 			$layout_content = preg_replace($pattern, $replacement, $layout_content);
-			
+
 			// Replace mojo embeds with EE embeds- layout_name/index
 			//{mojo:layout:embed layout="layout_name"}
 			$pattern = '/mojo:layout:embed layout=\"([^"]*)\"/';
 			$replacement = 'embed="${1}/index"';
-			$layout_content = preg_replace($pattern, $replacement, $layout_content);			
+			$layout_content = preg_replace($pattern, $replacement, $layout_content);
 
-			
+
 			// preg_match($pattern, $layout->layout_content, $match);
 			// $export_data['editable_regions'][$layout->id][] = $match[1];
 
@@ -204,7 +204,7 @@ class Utilities extends Mojomotor_Controller {
 			);
 
 			$layout_content = str_replace($mojo_vars, $ee_vars, $layout_content);
-			
+
 			$export_data['layouts'][] = array(
 				'layout_id' => $layout->id,
 				'layout_name' => $layout->layout_name,
@@ -239,7 +239,7 @@ class Utilities extends Mojomotor_Controller {
 				$export_data['pages'][$page->id][$region->region_id] = $region->content;
 			}
 		}
-		
+
 		$export_data['site_structure'] = $this->site_model->get_setting('site_structure');
 
 		$data = "<?php\n";
@@ -280,8 +280,8 @@ class Utilities extends Mojomotor_Controller {
 		ob_end_clean();
 
 		// OK, the output from PHPinfo is ugly and messy, but I'm not going
-		// through it to clear everything out.  This is how ExpressionEngine 
-		// cleans up PHPinfo, and I'm happy to blatently stea... 
+		// through it to clear everything out.  This is how ExpressionEngine
+		// cleans up PHPinfo, and I'm happy to blatently stea...
 		// erm... "resuse" this function.
 
 		$output = (preg_match("/<body.*?".">(.*)<\/body>/is", $buffer, $match)) ? $match['1'] : $buffer;

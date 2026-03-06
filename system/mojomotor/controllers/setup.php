@@ -10,7 +10,7 @@
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 
@@ -67,7 +67,7 @@ class Setup extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		// Within this controller, ONLY update can be visited with the installer lock set to true
 		if ($this->router->method != 'update' && $this->config->item('install_lock') != 'unlocked')
 		{
@@ -694,7 +694,7 @@ class Setup extends CI_Controller {
 
 		$layout_content = read_file($import_directory.$default_page);
 
-		// Drop in the layout. We need to insert it now, as we need the id, but content 
+		// Drop in the layout. We need to insert it now, as we need the id, but content
 		// is yet to be parsed out, so we'll update it again momentarily.
 		$layout_id = $this->layout_model->insert_layout(array(
 									'layout_name'		=> 'main_layout',
@@ -746,7 +746,6 @@ class Setup extends CI_Controller {
 									'id'				=> $layout_id,
 									'layout_content'	=> (string) $layout_dom
 		));
-
 
 		// --------------------------------------------------------------------
 		// Setup the Pages
@@ -830,7 +829,7 @@ class Setup extends CI_Controller {
 		{
 			$this->update_notices[] = 'Unable to automatically update your config file. Please open system/mojomotor/config/config.php and add: $config[\'asset_url\'] = "' . $asset_url.'";';
 		}
-		
+
 		if ( ! $this->site_model->update_settings($update_settings))
 		{
 			return FALSE;
@@ -871,20 +870,20 @@ class Setup extends CI_Controller {
 
 		// meta tags
 		// 	    preg_match_all('/<[\s]*meta[\s]*name="?' . '([^>"]*)"?[\s]*' . 'content="?([^>"]*)"?[\s]*[\/]?[\s]*>/si',  $layout_content, $out);
-		// 
+		//
 		// foreach ($out as $meta => $content)
 		// {
 		// 	echo $content[0].' is '.$content[1].'<br>';
 		// }
-		// 
+		//
 		// echo '<pre>';print_r($out);echo '</pre>';exit;
-		// 
+		//
 		// 	    for ($i=0;$i < count($out[1]);$i++) {
 		// 	        // loop through the meta data - add your own tags here if you need
 		// 	        if (strtolower($out[1][$i]) == "keywords") $meta['keywords'] = $out[2][$i];
 		// 	        if (strtolower($out[1][$i]) == "description") $meta['description'] = $out[2][$i];
 		// 	    }
-		// 	    
+		//
 
 		return $layout_content;
 	}
@@ -1138,13 +1137,13 @@ class Setup extends CI_Controller {
 
 			if (version_compare($this->mojo_version, $version, '==') && method_exists('Setup', $function_name))
 			{
-				// If at any point an update function returns FALSE, then something 
+				// If at any point an update function returns FALSE, then something
 				// has gone wrong, so exit the versions loop and report back to the user.
 				if ( ! call_user_func(array('Setup', $function_name)))
 				{
 					break;
 				}
-				
+
 				// the mojo_version field was not added until 0.1.0
 				if (version_compare($this->mojo_version, '0.1.0', '>'))
 				{
@@ -1156,9 +1155,9 @@ class Setup extends CI_Controller {
 					{
 						$this->update_notices[] = 'Unable to update <em>mojo_version</em> in the site_settings table.';
 						break;
-					}					
+					}
 				}
-				
+
 				$this->update_notices[] = str_replace('%x', $this->mojo_version, $this->lang->line('update_to_version'));
 			}
 		}
@@ -1170,9 +1169,9 @@ class Setup extends CI_Controller {
 
 		$this->load->view('setup/update', $vars);
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Update 1.2.0
 	 *
@@ -1206,7 +1205,7 @@ class Setup extends CI_Controller {
 
 		// pull old site_path setting out of the DB and into config.php as asset_url
 		$asset_url = $this->site_model->get_setting('site_path');
-		
+
 		if ( ! $this->config->config_update(array('asset_url' => $asset_url)))
 		{
 			$this->update_notices[] = 'Unable to automatically update your config file. Please open system/mojomotor/config/config.php and add: $config[\'asset_url\'] = "' . $asset_url.'";';
@@ -1214,7 +1213,7 @@ class Setup extends CI_Controller {
 
 		// drop old site_path column
 		$this->dbforge->drop_column('site_settings', 'site_path');
-		
+
 		// swap a few tags with their simpler counterparts
 		$tag_swap = array(
 			'{mojo:site:site_path}' 	=> '{mojo:site:asset_url}'
@@ -1256,11 +1255,11 @@ class Setup extends CI_Controller {
 		$this->load->dbforge();
 		$this->dbforge->add_column('sessions', array('user_data' => array('type' => 'TEXT', 'null' => TRUE)));
 		$this->mojo_version = '1.1.2';
-		return TRUE;		
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Update 1.1.0
 	 *
@@ -1290,13 +1289,13 @@ class Setup extends CI_Controller {
 	function _update_1_0_7()
 	{
 		// Go through mojo_page_regions and remove any records with no url_title
-		$this->db->delete('page_regions', array('page_url_title' => '')); 
+		$this->db->delete('page_regions', array('page_url_title' => ''));
 
 		$update = array(
 			'pages'			=> 'url_title',
 			'page_regions'	=> 'page_url_title'
 		);
-		
+
 		foreach ($update as $table => $field)
 		{
 			$qry = $this->db->select($field.', id')->get($table);
@@ -1312,7 +1311,7 @@ class Setup extends CI_Controller {
 
 				$row[$field] = 'page/'.$row[$field];
 			}
-			
+
 			if (count($res))
 			{
 				$this->db->update_batch($table, $res, 'id');

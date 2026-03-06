@@ -10,7 +10,7 @@
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -129,7 +129,7 @@ class Mojomotor_parser_page extends CI_Driver {
 	public function global_region($tag)
 	{
 		$layout_id = (isset($tag['parameters']['emb_layout_id'])) ? $tag['parameters']['emb_layout_id'] : $this->page_info->layout_id;
-				
+
 		if ($return = $this->CI->layout_model->get_global_region($layout_id, $tag['parameters']['id']))
 		{
 			return $return->content;
@@ -137,7 +137,7 @@ class Mojomotor_parser_page extends CI_Driver {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Get last modified time of the page as a timestamp
 	 *

@@ -504,7 +504,7 @@ class XML_RPC_Response
 	function decode($array=FALSE)
 	{
 		$CI =& get_instance();
-		
+
 		if ($array !== FALSE && is_array($array))
 		{
 			foreach ($array as $key => $value)
@@ -1118,7 +1118,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	function output_parameters($array=FALSE)
 	{
 		$CI =& get_instance();
-		
+
 		if ($array !== FALSE && is_array($array))
 		{
 			foreach ($array as $key => $value)

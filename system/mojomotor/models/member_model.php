@@ -10,7 +10,7 @@
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -202,7 +202,7 @@ class Member_model extends CI_Model {
 		$this->db->where($haystack, $needle);
 
 		$member = $this->db->get('members');
-		
+
 		return ($member->num_rows() == 1) ? $member : FALSE;
 	}
 

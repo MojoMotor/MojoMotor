@@ -10,7 +10,7 @@
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -67,8 +67,8 @@ class Cp
 			{
 				$expires = 60*60*24*365;  // 1 year
 				set_cookie('cookies_allowed', 'y', $expires);
-			}			
-		}		
+			}
+		}
 
 		// load custom stuff
 		if ($this->CI->session->userdata('group_id') == 1)

@@ -10,7 +10,7 @@
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -219,10 +219,10 @@ class Mojomotor_parser extends CI_Driver_Library {
 
 		// Anything that's commented gets pulled out now.
 		$template = $this->_remove_mm_comments($template);
-		
+
 		$this->template_embed[$this->layout_name] = 0;
 		$embed_format = $this->l_delim.'mojo:layout:embed ';
-		
+
 		if (strpos($template, $embed_format) !== FALSE)
 		{
 			$this->template_embed[$this->layout_name] = substr_count($template, $embed_format);
@@ -376,7 +376,6 @@ class Mojomotor_parser extends CI_Driver_Library {
 				break;
 			}
 
-
 			// Let's parse out the components contained in the matched tag
 			// ------------------------------------------------------------
 
@@ -409,7 +408,7 @@ class Mojomotor_parser extends CI_Driver_Library {
 			{
 				$args = array_merge($params, $args);
 			}
-			
+
 			// Trim the floating template, removing the tag we just parsed.
 
 			$_template = substr($_template, $this->in_point + $tag_length);
@@ -438,52 +437,50 @@ class Mojomotor_parser extends CI_Driver_Library {
 
 			// Strip the "chunk" from the template, replacing it with a unique marker.
 			// This will allow us to replace the data easier.
-			
+
 			if ($segs[0] == 'layout' && $segs[1] == 'embed')
 			{
 				// OK- an embed exists- so first see if it's in the existing array of layouts
 				if (in_array($args['layout'], array_keys($this->template_embed)))
 				{
 					$this->reduce_layout_array();
-					
+
 					log_message('error', 'Recursive embedded template: '.$args['layout'].'.');
-					
+
 					$template = str_replace($chunk, '', $template);
 
-					continue;					
+					continue;
 				}
 
 				// Get the contents for the embedded layout
 				$CI =& get_instance();
-				$embed_layout = $CI->layout_model->get_layout_by_name($args['layout']);						
-
+				$embed_layout = $CI->layout_model->get_layout_by_name($args['layout']);
 
 				// If FALSE here?  The layout being embedded doesn't actually exist
 				if ($embed_layout == FALSE)
 				{
 					$this->reduce_layout_array();
-					
+
 					log_message('error', 'Attemped to embed non-existent layout: '.$args['layout'].'.');
-					
+
 					$template = str_replace($chunk, '', $template);
 
-					continue;					
+					continue;
 				}
-				
+
 				$embed_string = $embed_layout->row('layout_content');
-				
+
 				// Oy- layouts can have regions w/identical names - can't allow that
-				
+
 				// Now we take a look at the current embed contents
-				
-				
+
 				// OK- IF there are zero embeds left from the original count
 				// we'll know the next embed is one level up
 				// and we chop the end of the array and decrease the number
 				// of those embeds by 1
 
 				$embed_format = $this->l_delim.'mojo:layout:embed ';
-	
+
 				// We check for embeds ONLY in the included layout
 				if (strpos($embed_string, $embed_format) !== FALSE)
 				{
@@ -496,14 +493,12 @@ class Mojomotor_parser extends CI_Driver_Library {
 					// Has no embeds- we reduce cause next embed has to be a level up
 					$this->reduce_layout_array();
 				}
-				
 
-				
 				// Anything that's commented gets pulled out now.
 				$embed_string = $this->_remove_mm_comments($embed_string);
 				// Extract the tags from the supplied template
 				$embed_string = $this->_extract_tags($embed_string, array('emb_layout_id' => $embed_layout->row('id')));
-				
+
 				$template = str_replace($chunk, $embed_string, $template);
 
 				continue;
@@ -527,12 +522,11 @@ class Mojomotor_parser extends CI_Driver_Library {
 			$this->loop_count++;
 		}
 
-
 		return $template;
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Reduces the layout array once an embed is done with
 	 *
@@ -549,16 +543,16 @@ class Mojomotor_parser extends CI_Driver_Library {
 		{
 			return;
 		}
-		
-		$this->template_embed[$last_key]--; 
-						
+
+		$this->template_embed[$last_key]--;
+
 		if ($this->template_embed[$last_key] == 0)
 		{
 			unset($this->template_embed[$last_key]);
 			$this->reduce_layout_array();
 		}
-	}	
-	
+	}
+
 	// --------------------------------------------------------------------
 
 	/**

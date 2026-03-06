@@ -10,7 +10,7 @@
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -34,19 +34,19 @@ class Mojomotor_Form_validation extends CI_Form_validation {
 	function url_title($str)
 	{
 		$str = trim($str, '/');
-		
+
 		// reserved first segments
 		if (preg_match("#^(setup|admin|assets|javascript|login)(?:(/.*))?$#i", $str, $matches))
 		{
 			$this->set_message('url_title', 'First segment ('.$matches[1].') is a reserved word.');
 			return FALSE;
 		}
-		
+
 		$this->set_message('url_title', 'The %s field may only contain alpha-numeric characters, underscores, slashes, and dashes.');
-				
+
 		return ( ! preg_match("/^([-a-z0-9_\-\/])+$/i", $str)) ? FALSE : TRUE;
 	}
-	
+
 }
 
 /* End of file Mojomotor_form_validation.php */

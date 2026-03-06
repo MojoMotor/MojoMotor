@@ -27,12 +27,12 @@ function remove_cache()
 	$CI->load->helper('directory');
 
 	$cache_files = directory_map($CI->config->item('cache_path'));
-	
+
 	if ($cache_files === FALSE)
 	{
 		return;
 	}
-	
+
 	unset($cache_files[array_search('index.html', $cache_files)]);
 
 	foreach($cache_files as $file)

@@ -10,7 +10,7 @@
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -169,9 +169,8 @@ class Mojomotor_parser_contact extends CI_Driver {
 		{
 			show_error($this->CI->lang->line('contact_message_empty'));
 		}
-		
+
 		$message .= "$n$n------------------$n$n";
-		
 
 		// Return URI
 		$return = ($this->CI->input->post('return')) ? $this->CI->input->post('return') : '';
@@ -186,7 +185,7 @@ class Mojomotor_parser_contact extends CI_Driver {
 					if ( ! $this->CI->email->valid_email($recipient))
 					{
 						log_message('error', 'Contact form is trying to send to an invalid email ('.$recipient.'). Email dropped from mail.');
-					    unset($recipient[$key]);
+						unset($recipient[$key]);
 					}
 				}
 			}

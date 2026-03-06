@@ -2,7 +2,7 @@
 
 /*
 | NOTE TO TRANSLATORS
-| 
+|
 | Do not translate this file if translating MojoMotor. We can only offer
 | the license in English and in the exact wording we've used here. Simply
 | include this file unaltered in your new language pack. Thanks.
