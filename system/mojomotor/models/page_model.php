@@ -445,7 +445,37 @@ class Page_model extends CI_Model {
 
 		$this->db->set('content', $content);
 
-		return ( ! $this->db->update('page_regions')) ? FALSE : TRUE;
+		if ( ! $this->db->update('page_regions'))
+		{
+			return FALSE;
+		}
+
+		if ($this->db->affected_rows() > 0)
+		{
+			return TRUE;
+		}
+
+		// If no rows were affected, we either had unchanged content or a missing row.
+		// Return TRUE for unchanged rows, but self-heal by inserting when the row is missing.
+		if ($this->get_page_region($page_url_title, $region_id))
+		{
+			return TRUE;
+		}
+
+		$page = $this->get_page_by_url_title($page_url_title);
+
+		if ( ! $page)
+		{
+			return FALSE;
+		}
+
+		return (bool) $this->insert_page_region(array(
+									'region_id'			=> $region_id,
+									'region_name'		=> ucwords(str_replace('_', ' ', $region_id)),
+									'page_url_title'	=> $page_url_title,
+									'content'			=> $content,
+									'layout_id'			=> $page->layout_id
+		));
 	}
 
 
@@ -477,7 +507,31 @@ class Page_model extends CI_Model {
 		// that changes nothing would report as FALSE
 		// return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 
-		return ( ! $this->db->update('global_regions')) ? FALSE : TRUE;
+		if ( ! $this->db->update('global_regions'))
+		{
+			return FALSE;
+		}
+
+		if ($this->db->affected_rows() > 0)
+		{
+			return TRUE;
+		}
+
+		$exists = $this->db->where('region_id', $region_id)
+							->where('layout_id', $layout_id)
+							->count_all_results('global_regions');
+
+		if ($exists > 0)
+		{
+			return TRUE;
+		}
+
+		return (bool) $this->db->insert('global_regions', array(
+									'region_id'			=> $region_id,
+									'region_name'		=> ucwords(str_replace('_', ' ', $region_id)),
+									'layout_id'			=> $layout_id,
+									'content'			=> $content
+		));
 	}
 
 	// --------------------------------------------------------------------

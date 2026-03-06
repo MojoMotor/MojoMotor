@@ -397,13 +397,15 @@ class Editor extends Mojomotor_Controller {
 		$region_id		= $this->input->post('region_id');
 		$region_type	= $this->input->post('region_type');
 
+		$saved = FALSE;
+
 		if ($region_type == 'global')
 		{
 			$layout_id = ($this->input->post('region_layout_id')) ? $this->input->post('region_layout_id') : $this->input->post('layout_id');
 
 			remove_cache();
 
-			if ( ! $this->page_model->update_global_region($layout_id, $region_id, $content))
+			if ( ! $saved = $this->page_model->update_global_region($layout_id, $region_id, $content))
 			{
 				log_message('error', "Unable to update global region $region_id in $layout_id");
 			}
@@ -414,10 +416,17 @@ class Editor extends Mojomotor_Controller {
 
 			remove_cache_page($page_url_title);
 
-			if ( ! $this->page_model->update_page_region($page_url_title, $region_id, $content))
+			if ( ! $saved = $this->page_model->update_page_region($page_url_title, $region_id, $content))
 			{
 				log_message('error', "Unable to update local region $region_id on $page_url_title");
 			}
+		}
+
+		if ( ! $saved)
+		{
+			$this->output->set_status_header(500);
+			echo 'Unable to save region.';
+			return;
 		}
 
 		// We need to send back the parsed results so the user won't get bad links
