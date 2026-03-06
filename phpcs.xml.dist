@@ -23,7 +23,11 @@
   </rule>
   <rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
   <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
-  <rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
+  <rule ref="Generic.WhiteSpace.LanguageConstructSpacing"/>
+
+  <rule ref="Internal.NoCodeFound">
+    <severity>0</severity>
+  </rule>
 
   <rule ref="PHPCompatibility">
     <exclude-pattern>*</exclude-pattern>
