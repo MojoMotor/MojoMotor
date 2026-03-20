@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -27,19 +28,21 @@
  * @link		http://codeigniter.com/user_guide/
  */
 
-/*
- * ------------------------------------------------------
- *  Define the CodeIgniter Version
- * ------------------------------------------------------
+/**
+ * CodeIgniter Version
+ *
+ * @var string
+ *
  */
-	define('CI_VERSION', '2.0.1');
+	define('CI_VERSION', '2.2.6');
 
-/*
- * ------------------------------------------------------
- *  Define the CodeIgniter Branch (Core = TRUE, Reactor = FALSE)
- * ------------------------------------------------------
+/**
+ * CodeIgniter Branch (Core = TRUE, Reactor = FALSE)
+ *
+ * @var boolean
+ *
  */
-	define('CI_CORE', TRUE);
+	define('CI_CORE', FALSE);
 
 /*
  * ------------------------------------------------------
@@ -53,7 +56,14 @@
  *  Load the framework constants
  * ------------------------------------------------------
  */
-	require(APPPATH.'config/constants.php');
+	if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
+	{
+		require(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
+	}
+	else
+	{
+		require(APPPATH.'config/constants.php');
+	}
 
 /*
  * ------------------------------------------------------
@@ -61,8 +71,6 @@
  * ------------------------------------------------------
  */
 	set_error_handler('_exception_handler');
-
-	// Magic quotes runtime handling removed for modern PHP compatibility.
 
 /*
  * ------------------------------------------------------
@@ -257,7 +265,25 @@
 		OR in_array(strtolower($method), array_map('strtolower', get_class_methods('CI_Controller')))
 		)
 	{
-		show_404("{$class}/{$method}");
+		if ( ! empty($RTR->routes['404_override']))
+		{
+			$x = explode('/', $RTR->routes['404_override']);
+			$class = $x[0];
+			$method = (isset($x[1]) ? $x[1] : 'index');
+			if ( ! class_exists($class))
+			{
+				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
+				{
+					show_404("{$class}/{$method}");
+				}
+
+				include_once(APPPATH.'controllers/'.$class.'.php');
+			}
+		}
+		else
+		{
+			show_404("{$class}/{$method}");
+		}
 	}
 
 /*
@@ -300,7 +326,28 @@
 		// methods, so we'll use this workaround for consistent behavior
 		if ( ! in_array(strtolower($method), array_map('strtolower', get_class_methods($CI))))
 		{
-			show_404("{$class}/{$method}");
+			// Check and see if we are using a 404 override and use it.
+			if ( ! empty($RTR->routes['404_override']))
+			{
+				$x = explode('/', $RTR->routes['404_override']);
+				$class = $x[0];
+				$method = (isset($x[1]) ? $x[1] : 'index');
+				if ( ! class_exists($class))
+				{
+					if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
+					{
+						show_404("{$class}/{$method}");
+					}
+
+					include_once(APPPATH.'controllers/'.$class.'.php');
+					unset($CI);
+					$CI = new $class();
+				}
+			}
+			else
+			{
+				show_404("{$class}/{$method}");
+			}
 		}
 
 		// Call the requested method.

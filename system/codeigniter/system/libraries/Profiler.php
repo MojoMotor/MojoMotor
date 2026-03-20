@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -412,7 +413,7 @@ class CI_Profiler {
 		}
 		else
 		{
-			$output .= "<div style='color:#5a0099;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_memory_usage')."</div>";
+			$output .= "<div style='color:#5a0099;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_memory')."</div>";
 		}
 
 		$output .= "</fieldset>";
@@ -439,7 +440,7 @@ class CI_Profiler {
 
 		$output .= "\n\n<table style='width:100%;display:none' id='ci_profiler_httpheaders_table'>\n";
 
-		foreach(array('HTTP_ACCEPT', 'HTTP_USER_AGENT', 'HTTP_CONNECTION', 'SERVER_PORT', 'SERVER_NAME', 'REMOTE_ADDR', 'SERVER_SOFTWARE', 'HTTP_ACCEPT_LANGUAGE', 'SCRIPT_NAME', 'REQUEST_METHOD',' HTTP_HOST', 'REMOTE_HOST', 'CONTENT_TYPE', 'SERVER_PROTOCOL', 'QUERY_STRING', 'HTTP_ACCEPT_ENCODING', 'HTTP_X_FORWARDED_FOR') as $header)
+		foreach (array('HTTP_ACCEPT', 'HTTP_USER_AGENT', 'HTTP_CONNECTION', 'SERVER_PORT', 'SERVER_NAME', 'REMOTE_ADDR', 'SERVER_SOFTWARE', 'HTTP_ACCEPT_LANGUAGE', 'SCRIPT_NAME', 'REQUEST_METHOD',' HTTP_HOST', 'REMOTE_HOST', 'CONTENT_TYPE', 'SERVER_PROTOCOL', 'QUERY_STRING', 'HTTP_ACCEPT_ENCODING', 'HTTP_X_FORWARDED_FOR') as $header)
 		{
 			$val = (isset($_SERVER[$header])) ? $_SERVER[$header] : '';
 			$output .= "<tr><td style='vertical-align: top;width:50%;padding:5px;color:#900;background-color:#ddd;'>".$header."&nbsp;&nbsp;</td><td style='width:50%;padding:5px;color:#000;background-color:#ddd;'>".$val."</td></tr>\n";
@@ -470,7 +471,7 @@ class CI_Profiler {
 
 		$output .= "\n\n<table style='width:100%; display:none' id='ci_profiler_config_table'>\n";
 
-		foreach($this->CI->config->config as $config=>$val)
+		foreach ($this->CI->config->config as $config=>$val)
 		{
 			if (is_array($val))
 			{
@@ -506,7 +507,7 @@ class CI_Profiler {
 
 		foreach ($this->CI->session->all_userdata() as $key => $val)
 		{
-			if (is_array($val))
+			if (is_array($val) OR is_object($val))
 			{
 				$val = print_r($val, TRUE);
 			}

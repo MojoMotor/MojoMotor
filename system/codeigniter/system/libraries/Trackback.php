@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -94,7 +95,7 @@ class CI_Trackback {
 				{
 					$$item = $this->convert_ascii($$item);
 				}
-				elseif($item == 'blog_name')
+				elseif ($item == 'blog_name')
 				{
 					$$item = $this->convert_ascii($$item);
 				}
@@ -261,7 +262,7 @@ class CI_Trackback {
 		// Was it successful?
 		$this->response = "";
 
-		while( ! feof($fp))
+		while ( ! feof($fp))
 		{
 			$this->response .= fgets($fp, 128);
 		}

@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -42,7 +43,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/general/encryption.html
  */
-class CI_SHA {
+class CI_SHA1 {
 
 	public function __construct()
 	{
@@ -88,7 +89,7 @@ class CI_SHA {
 			$oldd = $d;
 			$olde = $e;
 
-			for($j = 0; $j < 80; $j++)
+			for ($j = 0; $j < 80; $j++)
 			{
 				if ($j < 16)
 				{

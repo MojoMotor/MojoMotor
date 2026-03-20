@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -96,7 +97,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			}
 
 			// Get the table schema
-			$query = $this->db->query("SHOW CREATE TABLE `".$this->db->database.'`.'.$table);
+			$query = $this->db->query("SHOW CREATE TABLE `".$this->db->database.'`.`'.$table.'`');
 
 			// No result means the table name was invalid
 			if ($query === FALSE)

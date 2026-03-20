@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -49,7 +50,14 @@ if ( ! function_exists('form_open'))
 			$attributes = 'method="post"';
 		}
 
-		$action = ( strpos($action, '://') === FALSE) ? $CI->config->site_url($action) : $action;
+		// If an action is not a full URL then turn it into one
+		if ($action && strpos($action, '://') === FALSE)
+		{
+			$action = $CI->config->site_url($action);
+		}
+
+		// If no action is provided then set to the current url
+		$action OR $action = $CI->config->site_url($CI->uri->uri_string());
 
 		$form = '<form action="'.$action.'"';
 
@@ -57,8 +65,8 @@ if ( ! function_exists('form_open'))
 
 		$form .= '>';
 
-		// CSRF
-		if ($CI->config->item('csrf_protection') === TRUE)
+		// Add CSRF field if enabled, but leave it out for GET requests and requests to external websites	
+		if ($CI->config->item('csrf_protection') === TRUE AND ! (strpos($action, $CI->config->base_url()) === FALSE OR strpos($form, 'method="get"')))	
 		{
 			$hidden[$CI->security->get_csrf_token_name()] = $CI->security->get_csrf_hash();
 		}
@@ -87,7 +95,7 @@ if ( ! function_exists('form_open'))
  */
 if ( ! function_exists('form_open_multipart'))
 {
-	function form_open_multipart($action, $attributes = array(), $hidden = array())
+	function form_open_multipart($action = '', $attributes = array(), $hidden = array())
 	{
 		if (is_string($attributes))
 		{
@@ -242,7 +250,7 @@ if ( ! function_exists('form_textarea'))
 {
 	function form_textarea($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'cols' => '90', 'rows' => '12');
+		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'cols' => '40', 'rows' => '10');
 
 		if ( ! is_array($data) OR ! isset($data['value']))
 		{
@@ -1016,6 +1024,7 @@ if ( ! function_exists('_attributes_to_string'))
  * Determines what the form validation class was instantiated as, fetches
  * the object and returns it.
  *
+ * @access	private
  * @return	mixed
  */
 if ( ! function_exists('_get_validation_object'))
@@ -1026,17 +1035,17 @@ if ( ! function_exists('_get_validation_object'))
 
 		// We set this as a variable since we're returning by reference.
 		$return = FALSE;
-
+		
 		if (FALSE !== ($object = $CI->load->is_loaded('form_validation')))
 		{
 			if ( ! isset($CI->$object) OR ! is_object($CI->$object))
 			{
 				return $return;
 			}
-
+			
 			return $CI->$object;
 		}
-
+		
 		return $return;
 	}
 }

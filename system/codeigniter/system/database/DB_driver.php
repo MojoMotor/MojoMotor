@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -56,7 +57,7 @@ class CI_DB_driver {
 	var $trans_strict	= TRUE;
 	var $_trans_depth	= 0;
 	var $_trans_status	= TRUE; // Used with transactions to determine if a rollback should occur
-	var $_trans_failure	= FALSE;
+	var $_trans_failure	= FALSE; // Used with transactions to determine if a transaction has failed
 	var $cache_on		= FALSE;
 	var $cachedir		= '';
 	var $cache_autodel	= FALSE;
@@ -219,7 +220,7 @@ class CI_DB_driver {
 
 		// Some DBs have functions that return the version, and don't run special
 		// SQL queries per se. In these instances, just return the result.
-		$driver_version_exceptions = array('oci8', 'sqlite');
+		$driver_version_exceptions = array('oci8', 'sqlite', 'cubrid');
 
 		if (in_array($this->dbdriver, $driver_version_exceptions))
 		{
@@ -266,6 +267,12 @@ class CI_DB_driver {
 			$sql = preg_replace("/(\W)".$this->swap_pre."(\S+?)/", "\\1".$this->dbprefix."\\2", $sql);
 		}
 
+		// Compile binds if needed
+		if ($binds !== FALSE)
+		{
+			$sql = $this->compile_binds($sql, $binds);
+		}
+
 		// Is query caching enabled?  If the query is a "read type"
 		// we will load the caching class and return the previously
 		// cached query if it exists
@@ -279,12 +286,6 @@ class CI_DB_driver {
 					return $cache;
 				}
 			}
-		}
-
-		// Compile binds if needed
-		if ($binds !== FALSE)
-		{
-			$sql = $this->compile_binds($sql, $binds);
 		}
 
 		// Save the  query for debugging
@@ -768,7 +769,7 @@ class CI_DB_driver {
 
 		if ($query->num_rows() > 0)
 		{
-			foreach($query->result_array() as $row)
+			foreach ($query->result_array() as $row)
 			{
 				if (isset($row['TABLE_NAME']))
 				{
@@ -835,7 +836,7 @@ class CI_DB_driver {
 		$query = $this->query($sql);
 
 		$retval = array();
-		foreach($query->result_array() as $row)
+		foreach ($query->result_array() as $row)
 		{
 			if (isset($row['COLUMN_NAME']))
 			{
@@ -905,7 +906,7 @@ class CI_DB_driver {
 		$fields = array();
 		$values = array();
 
-		foreach($data as $key => $val)
+		foreach ($data as $key => $val)
 		{
 			$fields[] = $this->_escape_identifiers($key);
 			$values[] = $this->escape($val);
@@ -933,7 +934,7 @@ class CI_DB_driver {
 		}
 
 		$fields = array();
-		foreach($data as $key => $val)
+		foreach ($data as $key => $val)
 		{
 			$fields[$this->_protect_identifiers($key)] = $this->escape($val);
 		}
@@ -1016,8 +1017,14 @@ class CI_DB_driver {
 		else
 		{
 			$args = (func_num_args() > 1) ? array_splice(func_get_args(), 1) : null;
-
-			return call_user_func_array($function, $args);
+			if (is_null($args))
+			{
+				return call_user_func($function);
+			}
+			else
+			{
+				return call_user_func_array($function, $args);
+			}
 		}
 	}
 
@@ -1181,7 +1188,7 @@ class CI_DB_driver {
 
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
-		foreach($trace as $call)
+		foreach ($trace as $call)
 		{
 			if (isset($call['file']) && strpos($call['file'], BASEPATH.'database') === FALSE)
 			{
@@ -1196,6 +1203,212 @@ class CI_DB_driver {
 		$error =& load_class('Exceptions', 'core');
 		echo $error->show_error($heading, $message, 'error_db');
 		exit;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Protect Identifiers
+	 *
+	 * This function adds backticks if appropriate based on db type
+	 *
+	 * @access	private
+	 * @param	mixed	the item to escape
+	 * @return	mixed	the item with backticks
+	 */
+	function protect_identifiers($item, $prefix_single = FALSE)
+	{
+		return $this->_protect_identifiers($item, $prefix_single);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Protect Identifiers
+	 *
+	 * This function is used extensively by the Active Record class, and by
+	 * a couple functions in this class.
+	 * It takes a column or table name (optionally with an alias) and inserts
+	 * the table prefix onto it.  Some logic is necessary in order to deal with
+	 * column names that include the path.  Consider a query like this:
+	 *
+	 * SELECT * FROM hostname.database.table.column AS c FROM hostname.database.table
+	 *
+	 * Or a query with aliasing:
+	 *
+	 * SELECT m.member_id, m.member_name FROM members AS m
+	 *
+	 * Since the column name can include up to four segments (host, DB, table, column)
+	 * or also have an alias prefix, we need to do a bit of work to figure this out and
+	 * insert the table prefix (if it exists) in the proper position, and escape only
+	 * the correct identifiers.
+	 *
+	 * @access	private
+	 * @param	string
+	 * @param	bool
+	 * @param	mixed
+	 * @param	bool
+	 * @return	string
+	 */
+	function _protect_identifiers($item, $prefix_single = FALSE, $protect_identifiers = NULL, $field_exists = TRUE)
+	{
+		if ( ! is_bool($protect_identifiers))
+		{
+			$protect_identifiers = $this->_protect_identifiers;
+		}
+
+		if (is_array($item))
+		{
+			$escaped_array = array();
+
+			foreach ($item as $k => $v)
+			{
+				$escaped_array[$this->_protect_identifiers($k)] = $this->_protect_identifiers($v);
+			}
+
+			return $escaped_array;
+		}
+
+		// Convert tabs or multiple spaces into single spaces
+		$item = preg_replace('/[\t ]+/', ' ', $item);
+
+		// If the item has an alias declaration we remove it and set it aside.
+		// Basically we remove everything to the right of the first space
+		if (strpos($item, ' ') !== FALSE)
+		{
+			$alias = strstr($item, ' ');
+			$item = substr($item, 0, - strlen($alias));
+		}
+		else
+		{
+			$alias = '';
+		}
+
+		// This is basically a bug fix for queries that use MAX, MIN, etc.
+		// If a parenthesis is found we know that we do not need to
+		// escape the data or add a prefix.  There's probably a more graceful
+		// way to deal with this, but I'm not thinking of it -- Rick
+		if (strpos($item, '(') !== FALSE)
+		{
+			return $item.$alias;
+		}
+
+		// Break the string apart if it contains periods, then insert the table prefix
+		// in the correct location, assuming the period doesn't indicate that we're dealing
+		// with an alias. While we're at it, we will escape the components
+		if (strpos($item, '.') !== FALSE)
+		{
+			$parts	= explode('.', $item);
+
+			// Does the first segment of the exploded item match
+			// one of the aliases previously identified?  If so,
+			// we have nothing more to do other than escape the item
+			if (in_array($parts[0], $this->ar_aliased_tables))
+			{
+				if ($protect_identifiers === TRUE)
+				{
+					foreach ($parts as $key => $val)
+					{
+						if ( ! in_array($val, $this->_reserved_identifiers))
+						{
+							$parts[$key] = $this->_escape_identifiers($val);
+						}
+					}
+
+					$item = implode('.', $parts);
+				}
+				return $item.$alias;
+			}
+
+			// Is there a table prefix defined in the config file?  If not, no need to do anything
+			if ($this->dbprefix != '')
+			{
+				// We now add the table prefix based on some logic.
+				// Do we have 4 segments (hostname.database.table.column)?
+				// If so, we add the table prefix to the column name in the 3rd segment.
+				if (isset($parts[3]))
+				{
+					$i = 2;
+				}
+				// Do we have 3 segments (database.table.column)?
+				// If so, we add the table prefix to the column name in 2nd position
+				elseif (isset($parts[2]))
+				{
+					$i = 1;
+				}
+				// Do we have 2 segments (table.column)?
+				// If so, we add the table prefix to the column name in 1st segment
+				else
+				{
+					$i = 0;
+				}
+
+				// This flag is set when the supplied $item does not contain a field name.
+				// This can happen when this function is being called from a JOIN.
+				if ($field_exists == FALSE)
+				{
+					$i++;
+				}
+
+				// Verify table prefix and replace if necessary
+				if ($this->swap_pre != '' && strncmp($parts[$i], $this->swap_pre, strlen($this->swap_pre)) === 0)
+				{
+					$parts[$i] = preg_replace("/^".$this->swap_pre."(\S+?)/", $this->dbprefix."\\1", $parts[$i]);
+				}
+
+				// We only add the table prefix if it does not already exist
+				if (substr($parts[$i], 0, strlen($this->dbprefix)) != $this->dbprefix)
+				{
+					$parts[$i] = $this->dbprefix.$parts[$i];
+				}
+
+				// Put the parts back together
+				$item = implode('.', $parts);
+			}
+
+			if ($protect_identifiers === TRUE)
+			{
+				$item = $this->_escape_identifiers($item);
+			}
+
+			return $item.$alias;
+		}
+
+		// Is there a table prefix?  If not, no need to insert it
+		if ($this->dbprefix != '')
+		{
+			// Verify table prefix and replace if necessary
+			if ($this->swap_pre != '' && strncmp($item, $this->swap_pre, strlen($this->swap_pre)) === 0)
+			{
+				$item = preg_replace("/^".$this->swap_pre."(\S+?)/", $this->dbprefix."\\1", $item);
+			}
+
+			// Do we prefix an item with no segments?
+			if ($prefix_single == TRUE AND substr($item, 0, strlen($this->dbprefix)) != $this->dbprefix)
+			{
+				$item = $this->dbprefix.$item;
+			}
+		}
+
+		if ($protect_identifiers === TRUE AND ! in_array($item, $this->_reserved_identifiers))
+		{
+			$item = $this->_escape_identifiers($item);
+		}
+
+		return $item.$alias;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Dummy method that allows Active Record class to be disabled
+	 *
+	 * This function is used extensively by every db driver.
+	 *
+	 * @return	void
+	 */
+	protected function _reset_select()
+	{
 	}
 
 	// --------------------------------------------------------------------
@@ -1391,199 +1604,7 @@ class CI_DB_driver {
 		return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Protect Identifiers
-	 *
-	 * This function adds backticks if appropriate based on db type
-	 *
-	 * @access	private
-	 * @param	mixed	the item to escape
-	 * @return	mixed	the item with backticks
-	 */
-	function protect_identifiers($item, $prefix_single = FALSE)
-	{
-		return $this->_protect_identifiers($item, $prefix_single);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Protect Identifiers
-	 *
-	 * This function is used extensively by the Active Record class, and by
-	 * a couple functions in this class.
-	 * It takes a column or table name (optionally with an alias) and inserts
-	 * the table prefix onto it.  Some logic is necessary in order to deal with
-	 * column names that include the path.  Consider a query like this:
-	 *
-	 * SELECT * FROM hostname.database.table.column AS c FROM hostname.database.table
-	 *
-	 * Or a query with aliasing:
-	 *
-	 * SELECT m.member_id, m.member_name FROM members AS m
-	 *
-	 * Since the column name can include up to four segments (host, DB, table, column)
-	 * or also have an alias prefix, we need to do a bit of work to figure this out and
-	 * insert the table prefix (if it exists) in the proper position, and escape only
-	 * the correct identifiers.
-	 *
-	 * @access	private
-	 * @param	string
-	 * @param	bool
-	 * @param	mixed
-	 * @param	bool
-	 * @return	string
-	 */
-	function _protect_identifiers($item, $prefix_single = FALSE, $protect_identifiers = NULL, $field_exists = TRUE)
-	{
-		if ( ! is_bool($protect_identifiers))
-		{
-			$protect_identifiers = $this->_protect_identifiers;
-		}
-
-		if (is_array($item))
-		{
-			$escaped_array = array();
-
-			foreach($item as $k => $v)
-			{
-				$escaped_array[$this->_protect_identifiers($k)] = $this->_protect_identifiers($v);
-			}
-
-			return $escaped_array;
-		}
-
-		// Convert tabs or multiple spaces into single spaces
-		$item = preg_replace('/[\t ]+/', ' ', $item);
-
-		// If the item has an alias declaration we remove it and set it aside.
-		// Basically we remove everything to the right of the first space
-		$alias = '';
-		if (strpos($item, ' ') !== FALSE)
-		{
-			$alias = strstr($item, " ");
-			$item = substr($item, 0, - strlen($alias));
-		}
-
-		// This is basically a bug fix for queries that use MAX, MIN, etc.
-		// If a parenthesis is found we know that we do not need to
-		// escape the data or add a prefix.  There's probably a more graceful
-		// way to deal with this, but I'm not thinking of it -- Rick
-		if (strpos($item, '(') !== FALSE)
-		{
-			return $item.$alias;
-		}
-
-		// Break the string apart if it contains periods, then insert the table prefix
-		// in the correct location, assuming the period doesn't indicate that we're dealing
-		// with an alias. While we're at it, we will escape the components
-		if (strpos($item, '.') !== FALSE)
-		{
-			$parts	= explode('.', $item);
-
-			// Does the first segment of the exploded item match
-			// one of the aliases previously identified?  If so,
-			// we have nothing more to do other than escape the item
-			if (in_array($parts[0], $this->ar_aliased_tables))
-			{
-				if ($protect_identifiers === TRUE)
-				{
-					foreach ($parts as $key => $val)
-					{
-						if ( ! in_array($val, $this->_reserved_identifiers))
-						{
-							$parts[$key] = $this->_escape_identifiers($val);
-						}
-					}
-
-					$item = implode('.', $parts);
-				}
-				return $item.$alias;
-			}
-
-			// Is there a table prefix defined in the config file?  If not, no need to do anything
-			if ($this->dbprefix != '')
-			{
-				// We now add the table prefix based on some logic.
-				// Do we have 4 segments (hostname.database.table.column)?
-				// If so, we add the table prefix to the column name in the 3rd segment.
-				if (isset($parts[3]))
-				{
-					$i = 2;
-				}
-				// Do we have 3 segments (database.table.column)?
-				// If so, we add the table prefix to the column name in 2nd position
-				elseif (isset($parts[2]))
-				{
-					$i = 1;
-				}
-				// Do we have 2 segments (table.column)?
-				// If so, we add the table prefix to the column name in 1st segment
-				else
-				{
-					$i = 0;
-				}
-
-				// This flag is set when the supplied $item does not contain a field name.
-				// This can happen when this function is being called from a JOIN.
-				if ($field_exists == FALSE)
-				{
-					$i++;
-				}
-
-				// Verify table prefix and replace if necessary
-				if ($this->swap_pre != '' && strncmp($parts[$i], $this->swap_pre, strlen($this->swap_pre)) === 0)
-				{
-					$parts[$i] = preg_replace("/^".$this->swap_pre."(\S+?)/", $this->dbprefix."\\1", $parts[$i]);
-				}
-
-				// We only add the table prefix if it does not already exist
-				if (substr($parts[$i], 0, strlen($this->dbprefix)) != $this->dbprefix)
-				{
-					$parts[$i] = $this->dbprefix.$parts[$i];
-				}
-
-				// Put the parts back together
-				$item = implode('.', $parts);
-			}
-
-			if ($protect_identifiers === TRUE)
-			{
-				$item = $this->_escape_identifiers($item);
-			}
-
-			return $item.$alias;
-		}
-
-		// Is there a table prefix?  If not, no need to insert it
-		if ($this->dbprefix != '')
-		{
-			// Verify table prefix and replace if necessary
-			if ($this->swap_pre != '' && strncmp($item, $this->swap_pre, strlen($this->swap_pre)) === 0)
-			{
-				$item = preg_replace("/^".$this->swap_pre."(\S+?)/", $this->dbprefix."\\1", $item);
-			}
-
-			// Do we prefix an item with no segments?
-			if ($prefix_single == TRUE AND substr($item, 0, strlen($this->dbprefix)) != $this->dbprefix)
-			{
-				$item = $this->dbprefix.$item;
-			}
-		}
-
-		if ($protect_identifiers === TRUE AND ! in_array($item, $this->_reserved_identifiers))
-		{
-			$item = $this->_escape_identifiers($item);
-		}
-
-		return $item.$alias;
-	}
-
-
 }
-
 
 /* End of file DB_driver.php */
 /* Location: ./system/database/DB_driver.php */

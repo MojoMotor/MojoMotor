@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -28,8 +29,23 @@
  */
 class CI_Hooks {
 
+	/**
+	 * Determines wether hooks are enabled
+	 *
+	 * @var bool
+	 */
 	var $enabled		= FALSE;
+	/**
+	 * List of all hooks set in config/hooks.php
+	 *
+	 * @var array
+	 */
 	var $hooks			= array();
+	/**
+	 * Determines wether hook is in progress, used to prevent infinte loops
+	 *
+	 * @var bool
+	 */
 	var $in_progress	= FALSE;
 
 	/**
@@ -65,7 +81,15 @@ class CI_Hooks {
 		// Grab the "hooks" definition file.
 		// If there are no hooks, we're done.
 
-		@include(APPPATH.'config/hooks.php');
+		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/hooks.php'))
+		{
+		    include(APPPATH.'config/'.ENVIRONMENT.'/hooks.php');
+		}
+		elseif (is_file(APPPATH.'config/hooks.php'))
+		{
+			include(APPPATH.'config/hooks.php');
+		}
+
 
 		if ( ! isset($hook) OR ! is_array($hook))
 		{

@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -465,7 +466,6 @@ class CI_FTP {
 			return FALSE;
 		}
 
-		// Permissions can only be set when running PHP 5
 		if ( ! function_exists('ftp_chmod'))
 		{
 			if ($this->debug == TRUE)

@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -28,12 +29,54 @@
  */
 class CI_Router {
 
+	/**
+	 * Config class
+	 *
+	 * @var object
+	 * @access public
+	 */
 	var $config;
-	var $uri;
+	/**
+	 * List of routes
+	 *
+	 * @var array
+	 * @access public
+	 */
 	var $routes			= array();
+	/**
+	 * List of error routes
+	 *
+	 * @var array
+	 * @access public
+	 */
+	var $error_routes	= array();
+	/**
+	 * Current class name
+	 *
+	 * @var string
+	 * @access public
+	 */
 	var $class			= '';
+	/**
+	 * Current method name
+	 *
+	 * @var string
+	 * @access public
+	 */
 	var $method			= 'index';
+	/**
+	 * Sub-directory that contains the requested controller class
+	 *
+	 * @var string
+	 * @access public
+	 */
 	var $directory		= '';
+	/**
+	 * Default controller (and method if specific)
+	 *
+	 * @var string
+	 * @access public
+	 */
 	var $default_controller;
 
 	/**
@@ -87,7 +130,15 @@ class CI_Router {
 		}
 
 		// Load the routes.php file.
-		@include(APPPATH.'config/routes.php');
+		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/routes.php'))
+		{
+			include(APPPATH.'config/'.ENVIRONMENT.'/routes.php');
+		}
+		elseif (is_file(APPPATH.'config/routes.php'))
+		{
+			include(APPPATH.'config/routes.php');
+		}
+
 		$this->routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;
 		unset($route);
 
@@ -236,7 +287,20 @@ class CI_Router {
 				// Does the requested controller exist in the sub-folder?
 				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].'.php'))
 				{
-					show_404($this->fetch_directory().$segments[0]);
+					if ( ! empty($this->routes['404_override']))
+					{
+						$x = explode('/', $this->routes['404_override']);
+
+						$this->set_directory('');
+						$this->set_class($x[0]);
+						$this->set_method(isset($x[1]) ? $x[1] : 'index');
+
+						return $x;
+					}
+					else
+					{
+						show_404($this->fetch_directory().$segments[0]);
+					}
 				}
 			}
 			else
@@ -270,18 +334,16 @@ class CI_Router {
 
 		// If we've gotten this far it means that the URI does not correlate to a valid
 		// controller class.  We will now see if there is an override
-		if (isset($this->routes['404_override']) AND $this->routes['404_override'] != '')
+		if ( ! empty($this->routes['404_override']))
 		{
-			if (strpos($this->routes['404_override'], '/') !== FALSE)
-			{
-				$x = explode('/', $this->routes['404_override']);
+			$x = explode('/', $this->routes['404_override']);
 
-				$this->set_class($x[0]);
-				$this->set_method($x[1]);
+			$this->set_class($x[0]);
+			$this->set_method(isset($x[1]) ? $x[1] : 'index');
 
-				return $x;
-			}
+			return $x;
 		}
+
 
 		// Nothing else to do at this point but show a 404
 		show_404($segments[0]);

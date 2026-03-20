@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2006 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -37,7 +38,7 @@ class CI_Driver_Library {
 	// subsequents calls will go straight to the proper child.
 	function __get($child)
 	{
-		if (! isset($this->lib_name))
+		if ( ! isset($this->lib_name))
 		{
 			$this->lib_name = get_class($this);
 		}
@@ -45,7 +46,11 @@ class CI_Driver_Library {
 		// The class will be prefixed with the parent lib
 		$child_class = $this->lib_name.'_'.$child;
 
-		if (in_array(strtolower($child_class), array_map('strtolower', $this->valid_drivers)))
+		// Remove the CI_ prefix and lowercase
+		$lib_name = ucfirst(strtolower(str_replace('CI_', '', $this->lib_name)));
+		$driver_name = strtolower(str_replace('CI_', '', $child_class));
+
+		if (in_array($driver_name, array_map('strtolower', $this->valid_drivers)))
 		{
 			// check and see if the driver is in a separate file
 			if ( ! class_exists($child_class))
@@ -53,19 +58,15 @@ class CI_Driver_Library {
 				// check application path first
 				foreach (get_instance()->load->get_package_paths(TRUE) as $path)
 				{
-					// and check for case sensitivity of both the parent and child libs
-					foreach (array(ucfirst($this->lib_name), strtolower($this->lib_name)) as $lib)
+					// loves me some nesting!
+					foreach (array(ucfirst($driver_name), $driver_name) as $class)
 					{
-						// loves me some nesting!
-						foreach (array(ucfirst($child_class), strtolower($child_class)) as $class)
-						{
-							$filepath = $path.'libraries/'.$this->lib_name.'/drivers/'.$child_class.'.php';
+						$filepath = $path.'libraries/'.$lib_name.'/drivers/'.$class.'.php';
 
-							if (file_exists($filepath))
-							{
-								include_once $filepath;
-								break;
-							}
+						if (file_exists($filepath))
+						{
+							include_once $filepath;
+							break;
 						}
 					}
 				}
@@ -144,7 +145,7 @@ class CI_Driver {
 				}
 			}
 
-			foreach($r->getProperties() as $prop)
+			foreach ($r->getProperties() as $prop)
 			{
 				if ($prop->isPublic())
 				{
@@ -179,7 +180,7 @@ class CI_Driver {
 			return call_user_func_array(array($this->parent, $method), $args);
 		}
 
-		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		$trace = debug_backtrace();
 		_exception_handler(E_ERROR, "No such method '{$method}'", $trace[1]['file'], $trace[1]['line']);
 		exit;
 	}
@@ -220,8 +221,6 @@ class CI_Driver {
 			$this->parent->$var = $val;
 		}
 	}
-
-	// --------------------------------------------------------------------
 
 }
 // END CI_Driver CLASS

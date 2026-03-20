@@ -1,5 +1,5 @@
 {
-    "timestamp_utc": "2026-03-06T03:08:17+00:00",
+    "timestamp_utc": "2026-03-20T00:29:30+00:00",
     "base_url": "http://127.0.0.1:8080",
     "checks": [
         {
@@ -8,7 +8,7 @@
             "status": 200,
             "pass": true,
             "fatal_detected": false,
-            "snippet": ""
+            "snippet": "<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\" /> <meta name=\"robots\" contents=\"noindex, nofollow\" /> <title>The publishing engine that does less</title> <link rel=\"stylesheet\" href=\"http://127.0.0.1:8080/"
         },
         {
             "path": "/setup",
@@ -16,27 +16,27 @@
             "status": 200,
             "pass": true,
             "fatal_detected": false,
-            "snippet": ""
+            "snippet": "<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\" /> <meta name=\"robots\" contents=\"noindex, nofollow\" /> <title>License Agreement</title> <link rel=\"stylesheet\" href=\"http://127.0.0.1:8080/index.php/assets/cs"
         },
         {
             "path": "/index.php/admin/login",
             "url": "http://127.0.0.1:8080/index.php/admin/login",
-            "status": 200,
-            "pass": true,
+            "status": 500,
+            "pass": false,
             "fatal_detected": false,
-            "snippet": ""
+            "snippet": "<html> <head> <title>Database Error</title> <style type=\"text/css\"> body { background-color: #fff; margin: 40px; font-family: Lucida Grande, Verdana, Sans-serif; font-size: 12px; color: #000; } #content { border: #999 1p"
         },
         {
             "path": "/index.php/page/content",
             "url": "http://127.0.0.1:8080/index.php/page/content",
-            "status": 200,
-            "pass": true,
+            "status": 500,
+            "pass": false,
             "fatal_detected": false,
-            "snippet": ""
+            "snippet": "<html> <head> <title>Database Error</title> <style type=\"text/css\"> body { background-color: #fff; margin: 40px; font-family: Lucida Grande, Verdana, Sans-serif; font-size: 12px; color: #000; } #content { border: #999 1p"
         }
     ],
     "summary": {
-        "passed": 4,
+        "passed": 2,
         "total": 4,
         "first_fatal": null
     }
