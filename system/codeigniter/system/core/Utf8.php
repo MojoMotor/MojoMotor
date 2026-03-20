@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 2.0
@@ -34,7 +35,7 @@ class CI_Utf8 {
 	 * Determines if UTF-8 support is to be enabled
 	 *
 	 */
-	public function __construct()
+	function __construct()
 	{
 		log_message('debug', "Utf8 Class Initialized");
 
@@ -43,6 +44,7 @@ class CI_Utf8 {
 		if (
 			preg_match('/./u', 'é') === 1					// PCRE must support UTF-8
 			AND function_exists('iconv')					// iconv must be installed
+			AND ini_get('mbstring.func_overload') != 1		// Multibyte string function overloading cannot be enabled
 			AND $CFG->item('charset') == 'UTF-8'			// Application charset must be UTF-8
 			)
 		{
@@ -77,10 +79,11 @@ class CI_Utf8 {
 	 *
 	 * Ensures strings are UTF-8
 	 *
+	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
-	public function clean_string($str)
+	function clean_string($str)
 	{
 		if ($this->_is_ascii($str) === FALSE)
 		{
@@ -99,10 +102,11 @@ class CI_Utf8 {
 	 * line feeds, and carriage returns, as all others can cause
 	 * problems in XML
 	 *
+	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
-	public function safe_ascii_for_xml($str)
+	function safe_ascii_for_xml($str)
 	{
 		return remove_invisible_characters($str, FALSE);
 	}
@@ -114,11 +118,12 @@ class CI_Utf8 {
 	 *
 	 * Attempts to convert a string to UTF-8
 	 *
+	 * @access	public
 	 * @param	string
 	 * @param	string	- input encoding
 	 * @return	string
 	 */
-	public function convert_to_utf8($str, $encoding)
+	function convert_to_utf8($str, $encoding)
 	{
 		if (function_exists('iconv'))
 		{
@@ -143,10 +148,11 @@ class CI_Utf8 {
 	 *
 	 * Tests if a string is standard 7-bit ASCII or not
 	 *
+	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
-	public function _is_ascii($str)
+	function _is_ascii($str)
 	{
 		return (preg_match('/[^\x00-\x7F]/S', $str) == 0);
 	}

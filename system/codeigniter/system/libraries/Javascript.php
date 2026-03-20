@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -54,7 +55,7 @@ class CI_Javascript {
 		log_message('debug', "Javascript Class Initialized and loaded.  Driver used: $js_library_driver");
 	}
 
-	// --------------------------------------------------------------------
+	// --------------------------------------------------------------------	
 	// Event Code
 	// --------------------------------------------------------------------
 
@@ -172,7 +173,7 @@ class CI_Javascript {
 	 * @param	string	- Javascript code for mouse out
 	 * @return	string
 	 */
-	function hover($element = 'this', $over = '', $out = '')
+	function hover($element = 'this', $over, $out)
 	{
 		return $this->js->__hover($element, $over, $out);
 	}
@@ -380,7 +381,7 @@ class CI_Javascript {
 		return $this->js->_unload($element, $js);
 	}
 
-	// --------------------------------------------------------------------
+	// --------------------------------------------------------------------	
 	// Effects
 	// --------------------------------------------------------------------
 
@@ -687,7 +688,7 @@ class CI_Javascript {
 
 		return $str;
 	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -857,8 +858,7 @@ class CI_Javascript {
 		}
 		elseif (is_string($result) OR $is_key)
 		{
-			return '"'.str_replace(array('\\', "\t", "\n", "\r", '"', '/'), array('\\\\', '\\t', '\\n', "\\r", '\"', '\/'), $result).'"';
-
+			return '"'.str_replace(array('\\', "\t", "\n", "\r", '"', '/'), array('\\\\', '\\t', '\\n', "\\r", '\"', '\/'), $result).'"';			
 		}
 		elseif (is_scalar($result))
 		{
