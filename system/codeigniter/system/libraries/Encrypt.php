@@ -354,7 +354,7 @@ class CI_Encrypt {
 		$encrypt = 'mcrypt_encrypt';
 
 		$init_size = $get_iv_size($this->_get_cipher(), $this->_get_mode());
-		$init_vect = $create_iv($init_size, MCRYPT_DEV_URANDOM);
+		$init_vect = $create_iv($init_size, MCRYPT_DEV_URANDOM); // phpcs:ignore PHPCompatibility.Constants.RemovedConstants.mcrypt_dev_urandomDeprecatedRemoved
 
 		return $this->_add_cipher_noise($init_vect.$encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), $key);
 	}
@@ -589,7 +589,7 @@ class CI_Encrypt {
 	{
 		if ($this->_mcrypt_cipher == '')
 		{
-			$this->_mcrypt_cipher = MCRYPT_RIJNDAEL_256;
+			$this->_mcrypt_cipher = MCRYPT_RIJNDAEL_256; // phpcs:ignore PHPCompatibility.Constants.RemovedConstants.mcrypt_rijndael_256DeprecatedRemoved
 		}
 
 		return $this->_mcrypt_cipher;
@@ -620,7 +620,7 @@ class CI_Encrypt {
 	{
 		if ($this->_mcrypt_mode == '')
 		{
-			$this->_mcrypt_mode = MCRYPT_MODE_CBC;
+			$this->_mcrypt_mode = MCRYPT_MODE_CBC; // phpcs:ignore PHPCompatibility.Constants.RemovedConstants.mcrypt_mode_cbcDeprecatedRemoved
 		}
 
 		return $this->_mcrypt_mode;

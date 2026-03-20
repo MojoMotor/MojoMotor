@@ -145,7 +145,8 @@ When upgrading CI in the future, re-apply these patches to the new base.
 - CI 2.2.6 already has explicit property declarations. No additional patch needed.
 
 ### libraries/Table.php
-- CI 2.2.6 already has `var $temp = NULL;` property declaration. No patch needed.
+- Added explicit `var $temp` property declaration. Used by `_compile_template()` as
+  temporary merge buffer; CI 2.2.6 omits the declaration despite the instance write.
 
 ### libraries/Upload.php
 - CI 2.2.6 already has explicit property declarations. No additional patch needed.
@@ -159,6 +160,11 @@ When upgrading CI in the future, re-apply these patches to the new base.
 - Replaced `${err}` string interpolation with `{$err}` (PHP 8.2 syntax).
 - Replaced `each()` calls with `foreach` / `current()`.
 - File copied wholesale from patched 2.0.1 baseline.
+
+### helpers/captcha_helper.php
+- Replaced `mcrypt_create_iv()` / `MCRYPT_DEV_URANDOM` (removed in PHP 7.2) with
+  `random_bytes()` as the primary random-byte source. `openssl_random_pseudo_bytes()`
+  retained as a fallback for any PHP < 7 environment.
 
 ### helpers/text_helper.php
 - Replaced `preg_replace()` with `/e` modifier in `word_censor()` with

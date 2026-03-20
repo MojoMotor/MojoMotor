@@ -37,6 +37,7 @@ class CI_Table {
 	var $newline			= "\n";
 	var $empty_cells		= "";
 	var	$function			= FALSE;
+	var $temp				= NULL;
 
 	public function __construct()
 	{
