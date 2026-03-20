@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.3.1
@@ -33,7 +34,6 @@ class CI_Table {
 	var $auto_heading		= TRUE;
 	var $caption			= NULL;
 	var $template			= NULL;
-	var $temp				= NULL;
 	var $newline			= "\n";
 	var $empty_cells		= "";
 	var	$function			= FALSE;
@@ -109,7 +109,7 @@ class CI_Table {
 		}
 
 		$new = array();
-		while(count($array) > 0)
+		while (count($array) > 0)
 		{
 			$temp = array_splice($array, 0, $col_limit);
 
@@ -281,7 +281,7 @@ class CI_Table {
 			$out .= $this->template['heading_row_start'];
 			$out .= $this->newline;
 
-			foreach($this->heading as $heading)
+			foreach ($this->heading as $heading)
 			{
 				$temp = $this->template['heading_cell_start'];
 
@@ -311,7 +311,7 @@ class CI_Table {
 			$out .= $this->newline;
 
 			$i = 1;
-			foreach($this->rows as $row)
+			foreach ($this->rows as $row)
 			{
 				if ( ! is_array($row))
 				{
@@ -324,7 +324,7 @@ class CI_Table {
 				$out .= $this->template['row_'.$name.'start'];
 				$out .= $this->newline;
 
-				foreach($row as $cell)
+				foreach ($row as $cell)
 				{
 					$temp = $this->template['cell_'.$name.'start'];
 
@@ -347,7 +347,7 @@ class CI_Table {
 					{
 						if ($function !== FALSE && is_callable($function))
 						{
-							$out .= $function($cell);
+							$out .= call_user_func($function, $cell);
 						}
 						else
 						{

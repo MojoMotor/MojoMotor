@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -30,8 +31,21 @@ class CI_Exceptions {
 	var $message;
 	var $filename;
 	var $line;
+
+	/**
+	 * Nesting level of the output buffering mechanism
+	 *
+	 * @var int
+	 * @access public
+	 */
 	var $ob_level;
 
+	/**
+	 * List if available error levels
+	 *
+	 * @var array
+	 * @access public
+	 */
 	var $levels = array(
 						E_ERROR				=>	'Error',
 						E_WARNING			=>	'Warning',
@@ -83,7 +97,8 @@ class CI_Exceptions {
 	 * 404 Page Not Found Handler
 	 *
 	 * @access	private
-	 * @param	string
+	 * @param	string	the page
+	 * @param 	bool	log error yes/no
 	 * @return	string
 	 */
 	function show_404($page = '', $log_error = TRUE)
@@ -114,6 +129,7 @@ class CI_Exceptions {
 	 * @param	string	the heading
 	 * @param	string	the message
 	 * @param	string	the template name
+	 * @param 	int		the status code
 	 * @return	string
 	 */
 	function show_error($heading, $message, $template = 'error_general', $status_code = 500)

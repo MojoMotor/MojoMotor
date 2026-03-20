@@ -1,12 +1,13 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * Code Igniter
+ * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -100,7 +101,7 @@ class CI_DB_forge {
 	{
 		if (is_array($key))
 		{
-			foreach($key as $one)
+			foreach ($key as $one)
 			{
 				$this->add_key($one, $primary);
 			}
@@ -193,12 +194,6 @@ class CI_DB_forge {
 
 		$sql = $this->_create_table($this->db->dbprefix.$table, $this->fields, $this->primary_keys, $this->keys, $if_not_exists);
 
-		// Update the db data cache
-		if ( ! array_search($this->db->dbprefix.$table, $this->db->list_tables()))
-		{
-			$this->db->data_cache['table_names'][] = $this->db->dbprefix.$table;
-		}
-
 		$this->_reset();
 		return $this->db->query($sql);
 	}
@@ -241,7 +236,7 @@ class CI_DB_forge {
 			show_error('A table name is required for that operation.');
 		}
 
-		$sql = $this->_rename_table($table_name, $new_table_name);
+		$sql = $this->_rename_table($this->db->dbprefix.$table_name, $this->db->dbprefix.$new_table_name);
 		return $this->db->query($sql);
 	}
 
@@ -340,6 +335,12 @@ class CI_DB_forge {
 
 		foreach ($field as $k => $v)
 		{
+			// If no name provided, use the current name
+			if ( ! isset($field[$k]['name']))
+			{
+				$field[$k]['name'] = $k;
+			}
+
 			$this->add_field(array($k => $field[$k]));
 
 			if (count($this->fields) == 0)

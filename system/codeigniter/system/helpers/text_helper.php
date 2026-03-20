@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -308,15 +309,6 @@ if ( ! function_exists('highlight_code'))
 		// All the magic happens here, baby!
 		$str = highlight_string($str, TRUE);
 
-		// Prior to PHP 5, the highligh function used icky <font> tags
-		// so we'll replace them with <span> tags.
-
-		if (abs(PHP_VERSION) < 5)
-		{
-			$str = str_replace(array('<font ', '</font>'), array('<span ', '</span>'), $str);
-			$str = preg_replace('#color="(.*?)"#', 'style="color: \\1"', $str);
-		}
-
 		// Remove our artificially added PHP, and the syntax highlighting that came with it
 		$str = preg_replace('/<span style="color: #([A-Z0-9]+)">&lt;\?php(&nbsp;| )/i', '<span style="color: #$1">', $str);
 		$str = preg_replace('/(<span style="color: #[A-Z0-9]+">.*?)\?&gt;<\/span>\n<\/span>\n<\/code>/is', "$1</span>\n</span>\n</code>", $str);
@@ -373,30 +365,23 @@ if ( ! function_exists('highlight_phrase'))
  */
 if ( ! function_exists('convert_accented_characters'))
 {
-	function convert_accented_characters($match)
+	function convert_accented_characters($str)
 	{
-		if ( ! file_exists(APPPATH.'config/foreign_chars.php'))
+		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
 		{
-			return $match;
+			include(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php');
 		}
-
-		include APPPATH.'config/foreign_chars.php';
+		elseif (is_file(APPPATH.'config/foreign_chars.php'))
+		{
+			include(APPPATH.'config/foreign_chars.php');
+		}
 
 		if ( ! isset($foreign_characters))
 		{
-			return $match;
+			return $str;
 		}
 
-		$ord = ord($match['1']);
-
-		if (isset($foreign_characters[$ord]))
-		{
-			return $foreign_characters[$ord];
-		}
-		else
-		{
-			return $match['1'];
-		}
+		return preg_replace(array_keys($foreign_characters), array_values($foreign_characters), $str);
 	}
 }
 
@@ -461,7 +446,7 @@ if ( ! function_exists('word_wrap'))
 			}
 
 			$temp = '';
-			while((strlen($line)) > $charlim)
+			while ((strlen($line)) > $charlim)
 			{
 				// If the over-length word is a URL we won't wrap it
 				if (preg_match("!\[url.+\]|://|wwww.!", $line))

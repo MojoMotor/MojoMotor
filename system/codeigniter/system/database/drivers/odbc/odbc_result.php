@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -188,7 +189,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 */
 	function _odbc_fetch_object(& $odbc_result) {
 		$rs = array();
-		$rs_obj = false;
+		$rs_obj = FALSE;
 		if (odbc_fetch_into($odbc_result, $rs)) {
 			foreach ($rs as $k=>$v) {
 				$field_name= odbc_field_name($odbc_result, $k+1);
@@ -210,7 +211,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 */
 	function _odbc_fetch_array(& $odbc_result) {
 		$rs = array();
-		$rs_assoc = false;
+		$rs_assoc = FALSE;
 		if (odbc_fetch_into($odbc_result, $rs)) {
 			$rs_assoc=array();
 			foreach ($rs as $k=>$v) {

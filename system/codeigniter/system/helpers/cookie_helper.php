@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -44,11 +45,11 @@
  */
 if ( ! function_exists('set_cookie'))
 {
-	function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '')
+	function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE)
 	{
 		// Set the config file options
 		$CI =& get_instance();
-		$CI->input->set_cookie($name, $value, $expire, $domain, $path, $prefix);
+		$CI->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure);
 	}
 }
 

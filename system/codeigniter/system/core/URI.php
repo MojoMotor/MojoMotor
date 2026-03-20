@@ -6,7 +6,8 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc.
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -28,11 +29,34 @@
  */
 class CI_URI {
 
-	var $config;
-	var $uri_string;
-
+	/**
+	 * List of cached uri segments
+	 *
+	 * @var array
+	 * @access public
+	 */
 	var	$keyval			= array();
+	/**
+	 * Current uri string
+	 *
+	 * @var string
+	 * @access public
+	 */
+	var $uri_string;
+	/**
+	 * List of uri segments
+	 *
+	 * @var array
+	 * @access public
+	 */
 	var $segments		= array();
+	/**
+	 * Re-indexed list of uri segments
+	 * Starts at 1 instead of 0
+	 *
+	 * @var array
+	 * @access public
+	 */
 	var $rsegments		= array();
 
 	/**
@@ -63,6 +87,13 @@ class CI_URI {
 	{
 		if (strtoupper($this->config->item('uri_protocol')) == 'AUTO')
 		{
+			// Is the request coming from the command line?
+			if (php_sapi_name() == 'cli' or defined('STDIN'))
+			{
+				$this->_set_uri_string($this->_parse_cli_args());
+				return;
+			}
+
 			// Let's try the REQUEST_URI first, this will work in most situations
 			if ($uri = $this->_detect_uri())
 			{
@@ -106,6 +137,11 @@ class CI_URI {
 			$this->_set_uri_string($this->_detect_uri());
 			return;
 		}
+		elseif ($uri == 'CLI')
+		{
+			$this->_set_uri_string($this->_parse_cli_args());
+			return;
+		}
 
 		$path = (isset($_SERVER[$uri])) ? $_SERVER[$uri] : @getenv($uri);
 		$this->_set_uri_string($path);
@@ -117,6 +153,7 @@ class CI_URI {
 	 * Set the URI String
 	 *
 	 * @access	public
+	 * @param 	string
 	 * @return	string
 	 */
 	function _set_uri_string($str)
@@ -139,7 +176,7 @@ class CI_URI {
 	 * @access	private
 	 * @return	string
 	 */
-	protected function _detect_uri()
+	private function _detect_uri()
 	{
 		if ( ! isset($_SERVER['REQUEST_URI']) OR ! isset($_SERVER['SCRIPT_NAME']))
 		{
@@ -147,7 +184,6 @@ class CI_URI {
 		}
 
 		$uri = $_SERVER['REQUEST_URI'];
-
 		if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
 		{
 			$uri = substr($uri, strlen($_SERVER['SCRIPT_NAME']));
@@ -163,10 +199,8 @@ class CI_URI {
 		{
 			$uri = substr($uri, 2);
 		}
-
 		$parts = preg_split('#\?#i', $uri, 2);
 		$uri = $parts[0];
-
 		if (isset($parts[1]))
 		{
 			$_SERVER['QUERY_STRING'] = $parts[1];
@@ -187,6 +221,23 @@ class CI_URI {
 
 		// Do some final cleaning of the URI and return it
 		return str_replace(array('//', '../'), '/', trim($uri, '/'));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Parse cli arguments
+	 *
+	 * Take each command line argument and assume it is a URI segment.
+	 *
+	 * @access	private
+	 * @return	string
+	 */
+	private function _parse_cli_args()
+	{
+		$args = array_slice($_SERVER['argv'], 1);
+
+		return $args ? '/' . implode('/', $args) : '';
 	}
 
 	// --------------------------------------------------------------------
@@ -244,7 +295,7 @@ class CI_URI {
 	 */
 	function _explode_segments()
 	{
-		foreach(explode("/", preg_replace("|/*(.+?)/*$|", "\\1", $this->uri_string)) as $val)
+		foreach (explode("/", preg_replace("|/*(.+?)/*$|", "\\1", $this->uri_string)) as $val)
 		{
 			// Filter segments for security
 			$val = trim($this->_filter_uri($val));
@@ -341,6 +392,11 @@ class CI_URI {
 	}
 	/**
 	 * Identical to above only it uses the re-routed segment array
+	 *
+	 * @access 	public
+	 * @param 	integer	the starting segment number
+	 * @param 	array	an array of default values
+	 * @return 	array
 	 *
 	 */
 	function ruri_to_assoc($n = 3, $default = array())
@@ -578,6 +634,7 @@ class CI_URI {
 		return $this->uri_string;
 	}
 
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -588,7 +645,7 @@ class CI_URI {
 	 */
 	function ruri_string()
 	{
-		return '/'.implode('/', $this->rsegment_array()).'/';
+		return '/'.implode('/', $this->rsegment_array());
 	}
 
 }
